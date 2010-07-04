@@ -2,7 +2,7 @@
 <addon id="script.xbmc.subtitles"
        name="XBMC Subtitles"
        version="1.7.5"
-       provider-name="Amet">
+       provider-name="Amet, mr_blobby">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
   </requires>
