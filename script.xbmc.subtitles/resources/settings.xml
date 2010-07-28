@@ -15,7 +15,8 @@
       <setting id="Undertexter" type="bool" label="- Undertexter.se (Swedish and English subs only)" default="false"/>
       <setting id="Ondertitel" type="bool" label="- Ondertitel.com (Movies and Dutch subs only)" default="false"/>
       <setting id="Bierdopje" type="bool" label="- Bierdopje.com (TV Shows and Dutch/English subs only)" default="false"/>
-      <setting id="defservice" type="labelenum" label="30112" default="Sublight" values="Sublight|Podnapisi|OpenSubtitles|Subscene|Undertexter|Ondertitel|Bierdopje" />
+      <setting id="Napiprojekt" type="bool" label="- Napiprojekt.pl (Polish/English subs only)" default="false"/>
+      <setting id="defservice" type="labelenum" label="30112" default="Sublight" values="Sublight|Podnapisi|OpenSubtitles|Subscene|Undertexter|Ondertitel|Bierdopje|Napiprojekt" />
     </category>
     <category label="30106">
       <setting id="subfolder" type="bool" label="30107" default="true" />
@@ -23,5 +24,6 @@
       <setting id="searchstr" type="bool" label="30110" default="false"/>
       <setting id="fil_name" type="bool" label="30118" default="false"/>
       <setting id="par_folder" type="bool" label="30119" default="false"/>
+      <setting id="label_colour" type="labelenum" label="30120" default="Blue" values="Blue|Red|Green|Grey|White|Yellow|Orange" />
     </category>
 </settings>
