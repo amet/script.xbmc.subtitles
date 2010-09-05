@@ -458,8 +458,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
 ###-------------------------- "Esc" , "Back" button  -------------################
         
-    def onAction( self, action ):
-        if ( action.getButtonCode() in CANCEL_DIALOG):
-            self.exit_script()
+def onAction( self, action ):
+    if ( action.getButtonCode() in CANCEL_DIALOG):
+        self.exit_script()
 
 
