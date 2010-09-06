@@ -68,8 +68,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.episode   = str(xbmc.getInfoLabel("VideoPlayer.Episode"))# Episode        
         if self.episode.lower().find("s") > -1:                       # Check if season is "Special"             
             self.season = "0"                                         #
-            self.episode.replace("s","")                              #
-            self.episode.replace("S","")                              #
+            self.episode = self.episode[-1:]                          #
         
         self.tvshow    = xbmc.getInfoLabel("VideoPlayer.TVshowtitle") # Show
         self.title     = unicodedata.normalize('NFKD', 
@@ -235,7 +234,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.subtitles_list = []
         self.getControl( SUBTITLES_LIST ).reset()
         self.getControl( LOADING_IMAGE ).setImage( xbmc.translatePath( os.path.join( SERVICE_DIR, self.service, "logo.png") ) )
-        #self.getControl( STATUS_LABEL ).setLabel( _( 635 ) )    
     
         exec ( "from services.%s import service as Service" % (self.service))
         self.Service = Service
@@ -255,10 +253,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
             if errno == socket.timeout:
                 msg = _( 656 )
             else:
-                msg = _( 653 ) + ": " + str(errstr[1])
+                msg =  "%s: %s" % ( _( 653 ),str(errstr[1]), )
         except:
             errno, errstr = sys.exc_info()[:2]
-            msg = "Error:" + " " + str(errstr)
+            msg = "Error: %s" % ( str(errstr), )
 
         socket.setdefaulttimeout(None)
 

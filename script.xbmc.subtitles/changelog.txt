@@ -1,3 +1,6 @@
+1.8.4
+- revorked OpenSubtitles search function, it should be much faster now
+
 1.8.3
 - reverted: "close script with back button". apple remote has issues with this. 
 

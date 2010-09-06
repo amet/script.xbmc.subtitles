@@ -70,7 +70,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     
     xbmc.output("Search by hash and name %s" % (os.path.basename( file_original_path ),),level=xbmc.LOGDEBUG )
 
-    subtitles_list = osdb_server.searchsubtitles( OS_search_string, lang1, lang2, lang3, hash_search, hashTry, file_size  )
+    subtitles_list, msg = osdb_server.searchsubtitles( OS_search_string, lang1, lang2, lang3, hash_search, hashTry, file_size  )
         
     return subtitles_list, "", msg #standard output
     

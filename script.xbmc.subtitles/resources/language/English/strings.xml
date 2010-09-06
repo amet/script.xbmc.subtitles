@@ -74,7 +74,7 @@
     <string id="752">Version %s of %s is available</string>
     <string id="753">You need rev%s and higher to run this script</string>
     <string id="754">Your XBMC is rev%i</string>
-
+    <string id="755">Server is overloaded, please try again later</string>
       <!-- 
    * Script Settings
    -->
