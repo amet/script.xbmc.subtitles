@@ -95,7 +95,9 @@ class OSDBServer:
         try:        
             search_url = BASE_URL_HASH % (language,size, _hash,)
             result = self.get_results( search_url )
-            if result.find("error 500"): 
+            test = True
+            if result.find('<?xml version=') < 0: 
+                print result.find('<?xml version=')
                 msg = _( 755 )
             else:
                 xmldoc = minidom.parseString(result)
@@ -107,7 +109,7 @@ class OSDBServer:
 
                 search_url = BASE_URL_NAME % (toOpenSubtitlesId(lang1),srch_string,)
                 result = self.get_results( search_url )
-                if result.find("error 500"):
+                if result.find('<?xml version=') < 0:
                     msg = _( 755 )
                 else:
                     xmldoc = minidom.parseString(result)
@@ -115,7 +117,7 @@ class OSDBServer:
                     
                     if search_url1 != None :
                         result = self.get_results( search_url1 )
-                        if result.find("error 500"):
+                        if result.find('<?xml version=') < 0:
                             msg = _( 755 )
                         else:
                             xmldoc = minidom.parseString(result)
@@ -123,7 +125,7 @@ class OSDBServer:
                     
                     if search_url2 != None :
                         result = self.get_results( search_url2 )
-                        if result.find("error 500"):
+                        if result.find('<?xml version=') < 0:
                             msg = _( 755 )
                         else:
                             xmldoc = minidom.parseString(result)
