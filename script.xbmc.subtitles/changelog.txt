@@ -1,3 +1,12 @@
+1.8.7
+- support for whole season subs zip, usually found on OpenSubtitles.org.
+
+1.8.6
+- cosmetics
+
+1.8.5
+- cosmetics
+
 1.8.4
 - revorked OpenSubtitles search function, it should be much faster now
 

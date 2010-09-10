@@ -36,12 +36,6 @@ class OSDBServer:
     def sortsubtitles(self, subtitle, hashed, url_base):
 
         filename = movie = lang_name = subtitle_id = lang_id = link = ""
-#        movie = ""
-#        lang_name = ""
-#        subtitle_id = ""
-#        lang_id = ""
-#        flag_image = ""
-#        link = ""
         flag_image = "-.gif"
         
         if subtitle.getElementsByTagName("releasename")[0].firstChild:
@@ -92,12 +86,11 @@ class OSDBServer:
         if lang3 != lang1 and lang3 != lang2:
             language += "," + toOpenSubtitlesId(lang3)
             search_url2 = BASE_URL_NAME % (toOpenSubtitlesId(lang3),srch_string,)          
-        try:        
+        try:
             search_url = BASE_URL_HASH % (language,size, _hash,)
             result = self.get_results( search_url )
             test = True
-            if result.find('<?xml version=') < 0: 
-                print result.find('<?xml version=')
+            if result.find('<?xml version=') < 0:
                 msg = _( 755 )
             else:
                 xmldoc = minidom.parseString(result)

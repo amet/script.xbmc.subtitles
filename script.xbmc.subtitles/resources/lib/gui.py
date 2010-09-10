@@ -165,7 +165,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         service_list = []
         standard_service_list  = ['OpenSubtitles', 'Podnapisi', 'Sublight', 'Bierdopje', 'Subscene', 'Ondertitel', 'Undertexter', 'Napiprojekt', 'SubtitleSource', 'Titlovi']
         service = ""
-
+ 
         for name in os.listdir(SERVICE_DIR):
            if not (name.startswith('.')) and not (name.startswith('_')):
               service_list.append(name)
@@ -305,7 +305,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
             if (__settings__.getSetting( "lang_to_end" ) == "true"):
               file_name = "%s.%s%s" % ( sub_name, sub_lang, sub_ext )
             else:
-              file_name = "%s%s" % ( sub_name, sub_ext )
+              file_name = "%s%s" % ( sub_name, sub_ext )   
             file_path = os.path.join(self.sub_folder, file_name)
             shutil.copyfile(file, file_path)    
             xbmc.Player().setSubtitles(file_path)
@@ -322,30 +322,36 @@ class GUI( xbmcgui.WindowXMLDialog ):
         if len(files) < 1 :
             self.getControl( STATUS_LABEL ).setLabel( _( 654 ) )
             self.list_services()
-        else :            
+        else :    
             self.getControl( STATUS_LABEL ).setLabel(  _( 652 ) )
             un.extract( zip_subs, self.tmp_sub_dir )
-            subtitle_set = False 
+            subtitle_set = False
+            movie_sub = False
             for zip_entry in files:
                 sub_ext  = os.path.splitext( zip_entry )[1]
                 sub_name = os.path.splitext( sub_filename )[0]
                 file_name = "%s.%s%s" % ( sub_name, subtitle_lang, sub_ext )   
                 file_path = os.path.join(self.sub_folder, file_name)
                 subtitle_file = os.path.join(self.tmp_sub_dir, zip_entry)
-                try:
-                    shutil.copy(subtitle_file, file_path)
-                    subtitle_set = True
-                except :
-                    import filecmp
+                if len(self.tvshow) > 0:
+                    title, season, episode = regex_tvshow(False, zip_entry)
+                else:
+                    movie_sub = True    
+                if movie_sub or ( len(files) < 2 ) or ( int(episode) == int(self.episode) ):
                     try:
-                        if filecmp.cmp(subtitle_file, file_path):
-                            subtitle_set = True
-                    except:
-                        dialog = xbmcgui.Dialog()
-                        selected = dialog.yesno( __scriptname__ , _( 748 ), _( 749 ), _( 750 ) )
-                        if selected == 1:
-                            __settings__.openSettings()                                                                         
-                break
+                        shutil.copy(subtitle_file, file_path)
+                        subtitle_set = True
+                    except :
+                        import filecmp
+                        try:
+                            if filecmp.cmp(subtitle_file, file_path):
+                                subtitle_set = True
+                        except:
+                            dialog = xbmcgui.Dialog()
+                            selected = dialog.yesno( __scriptname__ , _( 748 ), _( 749 ), _( 750 ) )
+                            if selected == 1:
+                                __settings__.openSettings()                                                                         
+                    break
 
         self.rem_files((xbmc.translatePath(self.tmp_sub_dir)))
         if subtitle_set :
