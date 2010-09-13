@@ -327,6 +327,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
             un.extract( zip_subs, self.tmp_sub_dir )
             subtitle_set = False
             movie_sub = False
+            episode = 0
             for zip_entry in files:
                 sub_ext  = os.path.splitext( zip_entry )[1]
                 sub_name = os.path.splitext( sub_filename )[0]
