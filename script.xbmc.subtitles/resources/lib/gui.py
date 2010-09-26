@@ -146,7 +146,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
           self.rem_files(self.tmp_sub_dir)
         
         self.getControl( 111 ).setVisible( False ) # check for existing subtitles and set to "True" if found
-        sub_exts = ["srt", "sub", "txt"]
+        sub_exts = ["srt", "sub", "txt", "smi", "ssa", "ass" ]
         br = 0
         for i in range(3):
           for sub_ext in sub_exts:
@@ -318,7 +318,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         un = unzip.unzip()
         files = un.get_file_list( zip_subs )
         sub_filename = os.path.basename( self.file_original_path )
-        exts = [".srt", ".sub", ".txt"]
+        exts = [".srt", ".sub", ".txt", ".smi", ".ssa", ".ass" ]
         if len(files) < 1 :
             self.getControl( STATUS_LABEL ).setLabel( _( 654 ) )
             self.list_services()
@@ -380,7 +380,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
                     subtitle_set = True
             except:
                 dialog = xbmcgui.Dialog()
-                selected = dialog.yesno( __scriptname__ , _( 748 ), "", _( 750 ) )
+                selected = dialog.yesno( __scriptname__ , _( 748 ), _( 750 ),"" )
                 if selected == 1:
                     file_path = subtitle_file
                     subtitle_set = True
@@ -390,7 +390,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
             
             
-###-------------------------- Reset Sub List  -------------################
+###-------------------------- List Available Services  -------------################
 
     def list_services( self ):
         
