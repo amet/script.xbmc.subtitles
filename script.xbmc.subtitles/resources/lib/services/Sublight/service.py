@@ -371,7 +371,9 @@ class SublightWebService :
                 downloads     = xmlUtils.getText( subtitleNode, "Downloads" )
                 isLinked      = xmlUtils.getText( subtitleNode, "IsLinked" )
                 rate          = float(xmlUtils.getText( subtitleNode, "Rate" ))
-
+                
+                if language == "SerbianLatin": language = "Serbian"
+                
                 if isLinked == "true":
                     linked = True
                 else:
