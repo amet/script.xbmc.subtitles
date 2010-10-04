@@ -21,7 +21,8 @@
       <setting id="Ondertitel" type="bool" label="- Ondertitel.com (Movies and Dutch subs only)" default="false"/>
       <setting id="Bierdopje" type="bool" label="- Bierdopje.com (TV Shows and Dutch/English subs only)" default="false"/>
       <setting id="Napiprojekt" type="bool" label="- Napiprojekt.pl (Polish/English subs only)" default="false"/>         
-      <setting id="Titlovi" type="bool" label="- Titlovi.com" default="false"/>      
+      <setting id="Titlovi" type="bool" label="- Titlovi.com" default="false"/> 
+      <setting id="Titulky" type="bool" label="- Titulky.com" default="false"/>       
     </category>
     <category label="30106">
       <setting id="subfolder" type="bool" label="30107" default="true" />
