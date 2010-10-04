@@ -106,7 +106,8 @@ def toOpenSubtitles_two( id ):
     "English"             : "en",
     "Esperanto"           : "eo",
     "Estonian"            : "et",
-    "Farsi"               : "fo",
+    "Farsi"               : "fa",
+    "Persian"             : "fa",
     "Finnish"             : "fi",
     "French"              : "fr",
     "Galician"            : "gl",
@@ -196,7 +197,8 @@ def onetotwo(id):
     "44"                  :  "th",
     "30"                  :  "tr",
     "46"                  :  "uk",
-    "51"                  :  "vi"
+    "51"                  :  "vi",
+    "52"                  :  "fa"
   }
   return languages[ id ]
         
@@ -220,6 +222,7 @@ def twotoone(id):
     "et"                  :  "20",
     "fi"                  :  "31",
     "fr"                  :  "8",
+    "fa"                  :  "52",
     "de"                  :  "5",
     "el"                  :  "16",
     "he"                  :  "22",
@@ -397,6 +400,7 @@ def toSublightLanguage(id):
     "pol"                 : "Polish",
     "por"                 : "Portuguese",
     "pob"                 : "PortugueseBrazil",
+    "per"                 : "Persian",
     "rum"                 : "Romanian",
     "rus"                 : "Russian",
     "scc"                 : "SerbianLatin",
@@ -427,6 +431,7 @@ def twotofull(id):
     "et"                  :  "Estonian",
     "fi"                  :  "Finnish",
     "fr"                  :  "French",
+    "fa"                  :  "Farsi",
     "de"                  :  "German",
     "el"                  :  "Greek",
     "he"                  :  "Hebrew",

@@ -27,6 +27,9 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     language1 = lang1 
     language2 = lang2
     language3 = lang3
+    if language1 == "Farsi" : language1 = "Persian"
+    if language2 == "Farsi" : language2 = "Persian"
+    if language3 == "Farsi" : language3 = "Persian"
     sublightWebService = SublightWebService()
     session_id = sublightWebService.LogInAnonymous()
 
@@ -63,14 +66,12 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
     ticket_id, download_wait = sublightWebService.GetDownloadTicket(session_id, subtitle_id)
     
     if ticket_id != "" :
-        print "Download Wait " + str(download_wait)
         icon =  os.path.join(os.getcwd(),"icon.png")
         if download_wait > 0 :
             delay = int(download_wait)
             for i in range (int(download_wait)):
               line2 = "download will start in %i seconds" % (delay,)
               xbmc.executebuiltin("XBMC.Notification(%s,%s,1000,%s)" % (__scriptname__,line2,icon))
-              print delay
               delay -= 1
               time.sleep(1)
 

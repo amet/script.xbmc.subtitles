@@ -90,10 +90,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
                 self.title = self.title  
         else:
             self.year = ""
-        self.language_1 = toScriptLang(__settings__.getSetting( "Language1" ))  # Full language 1
-        self.language_2 = toScriptLang(__settings__.getSetting( "Language2" ))  # Full language 2  
-        self.language_3 = toScriptLang(__settings__.getSetting( "Language3" ))  # Full language 2
-        
+        self.language_1 = __settings__.getSetting( "Lang1" )                    # Full language 1
+        self.language_2 = __settings__.getSetting( "Lang2" )                    # Full language 2  
+        self.language_3 = __settings__.getSetting( "Lang3" )                    # Full language 3
+       
         label_colour = __settings__.getSetting( "label_colour" )                # Service Label Colour 
         if label_colour == "Blue":
           self.label_colour = "0084ff"
@@ -163,7 +163,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         def_movie_service = __settings__.getSetting( "defmovieservice")
         def_tv_service = __settings__.getSetting( "deftvservice")
         service_list = []
-        standard_service_list  = ['OpenSubtitles', 'Podnapisi', 'Sublight', 'Bierdopje', 'Subscene', 'Ondertitel', 'Undertexter', 'Napiprojekt', 'SubtitleSource', 'Titlovi']
+        standard_service_list  = ['OpenSubtitles', 'Podnapisi', 'Sublight', 'Bierdopje', 'Subscene', 'Ondertitel', 'Undertexter', 'Napiprojekt', 'Titlovi', 'LegendasTV']
         service = ""
  
         for name in os.listdir(SERVICE_DIR):
@@ -472,14 +472,22 @@ class GUI( xbmcgui.WindowXMLDialog ):
 ###-------------------------- Remove temp files  -------------################        
 
     def rem_files( self, directory):
-       try:
-           for root, dirs, files in os.walk(directory, topdown=False):
-               for items in dirs:
-                   shutil.rmtree(os.path.join(root, items), ignore_errors=True, onerror=None)      
-               for name in files:
-                   os.remove(os.path.join(root, name))
-       except:
-           pass
+      try:
+        for root, dirs, files in os.walk(directory, topdown=False):
+          for items in dirs:
+            shutil.rmtree(os.path.join(root, items), ignore_errors=True, onerror=None)
+          for name in files:
+            os.remove(os.path.join(root, name))
+      except:
+        try:
+          for root, dirs, files in os.walk(directory, topdown=False):
+            for items in dirs:
+              shutil.rmtree(os.path.join(root, items).decode("utf-8"), ignore_errors=True, onerror=None)
+            for name in files:
+              os.remove(os.path.join(root, name).decode("utf-8"))
+        except:
+          pass 
+       
 
 ###-------------------------- On Focus  -------------################
  
