@@ -1,3 +1,6 @@
+1.9.3
+- changed logging method
+
 1.9.2
 - added: Farsi support
 

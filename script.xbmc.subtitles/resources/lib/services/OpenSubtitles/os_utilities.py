@@ -63,7 +63,7 @@ class OSDBServer:
         
     def get_results ( self, search_url ):
         socket = urllib.urlopen( search_url )
-        xbmc.output( "OpenSubtitles Search url [ %s ]" % (search_url,),level=xbmc.LOGDEBUG )
+        log( __name__ , "Search url [ %s ]" % (search_url,))
         result = socket.read()
         socket.close()
         return result                
