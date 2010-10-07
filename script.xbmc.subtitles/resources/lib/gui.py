@@ -117,7 +117,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.set_temp = temp
 
         self.mansearch =  __settings__.getSetting( "searchstr" ) == "true"      # Manual search string??
-        
+        self.parsearch =  __settings__.getSetting( "par_folder" ) == "true"     # Parent folder as search string
         self.rar = rar                                                          # rar archive?
 
         if (__settings__.getSetting( "fil_name" ) == "true"):                   # Display Movie name or search string
@@ -130,12 +130,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
           else:
             self.file_name = "%s (%s)" % (self.title, str(self.year),)    
           
-        if (__settings__.getSetting( "par_folder" ) == "true"):
-          self.man_search_label = _( 747 )
-          self.parent_folder_search = True
-        else:
-          self.man_search_label = _( 612 ) 
-          self.parent_folder_search = False
           
         self.tmp_sub_dir = xbmc.translatePath("special://temp/sub_tmp")
         
@@ -211,7 +205,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
             log( __name__ ,"Movie/Episode Title: [%s]"   % self.title)
             log( __name__ ,"Subtitle Folder: [%s]"       % self.sub_folder)
             log( __name__ ,"Languages: [%s] [%s] [%s]"   % (self.language_1, self.language_2, self.language_3,))
-            log( __name__ ,"Parent Folder Search: [%s]"  % self.parent_folder_search)
+            log( __name__ ,"Parent Folder Search: [%s]"  % self.parsearch)
             try:
                 self.Search_Subtitles()
             except:
@@ -419,22 +413,26 @@ class GUI( xbmcgui.WindowXMLDialog ):
               self.getControl( SUBTITLES_LIST ).addItem( listitem )
         
         if self.mansearch :
-            label2 = "[COLOR=FF00FF00]%s[/COLOR]" % (  self.man_search_label )
+            label2 = "[COLOR=FF00FF00]%s[/COLOR]" % (  _( 612 ) )
             listitem = xbmcgui.ListItem( label,label2 )
             self.list.append("Man")
             self.getControl( SUBTITLES_LIST ).addItem( listitem ) 
 
-
+        if self.parsearch :
+            label2 = "[COLOR=FF00FF00]%s[/COLOR]" % (  _( 747 ) )
+            listitem = xbmcgui.ListItem( label,label2 )
+            self.list.append("Par")
+            self.getControl( SUBTITLES_LIST ).addItem( listitem )
 
 ###-------------------------- Manual search Keyboard  -------------################
 
 
-    def keyboard(self):
+    def keyboard(self, parent):
         dir, self.year = xbmc.getCleanMovieTitle(os.path.split(os.path.split(self.file_original_path)[0])[1])
         if self.rar:
             tmp_dir = os.path.split(os.path.split(os.path.split(self.file_original_path)[0])[0])[1]
             dir, self.year = xbmc.getCleanMovieTitle( tmp_dir )
-        if not self.parent_folder_search:
+        if not parent:
             kb = xbmc.Keyboard("%s ()" % (dir,), _( 751 ), False)
             text = self.file_name
             kb.doModal()
@@ -443,7 +441,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         else:
             self.title = dir   
         
-        log( __name__ ,"Manual/Keyboard Entry: Title:[%s], Year: [%s]" % (self.title, self.year,), level=xbmc.LOGDEBUG )
+        log( __name__ ,"Manual/Keyboard Entry: Title:[%s], Year: [%s]" % (self.title, self.year,))
         if self.year != "" :
             self.file_name = "%s (%s)" % (self.file_name, str(self.year),)
         else:
@@ -469,8 +467,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
             self.Download_Subtitles( int(selection) )
         else:
             if selection == "Man":
-              self.keyboard()
-            else:
+              self.keyboard(False)
+            elif selection == "Par":
+              self.keyboard(True)
+            else:  
               self.service = selection
               self.Search_Subtitles()
                                                                                                                                    

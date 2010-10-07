@@ -1,3 +1,6 @@
+1.9.4
+- fixed: search using parent folder is showing correctly now
+
 1.9.3
 - changed logging method
 
