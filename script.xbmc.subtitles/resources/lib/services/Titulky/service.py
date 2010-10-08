@@ -31,7 +31,7 @@ import urllib2,urllib,re,cookielib
 
 """
 
-subtitle_pattern='..<tr class=\"row[12]\">\s+?<td?[= \w\"]+><a href=\"[\w-]+-(?P<id>\d+).htm\"[ ]?>(?P<title>[\w ]*)</a></td>\s+?<td?[= \w\"]+>(<a?[= \w\"]+title=\"(?P<sync>[\w.\d \(\)\]\[-]+)\"><img?[= \w\\./"]+></a>)?</td>\s+?<td?[= \w\"]+>(?P<tvshow>[\w\;\&]+)</td>\s+<td?[= \w\"]+>(?P<year>\d+)</td>\s+<td?[= \w\"]+>[\w\;\&\.\d]+</td>\s+<td?[= \w\"]+>(?P<downloads>\d+)</td>\s+<td?[= \w\"]+>(?P<lang>\w{2})</td>'
+subtitle_pattern='..<tr class=\"row[12]\">\s+?<td?[= \w\"]+><a href=\"[\w-]+-(?P<id>\d+).htm\"[ ]?>(?P<title>[\w\- ]*)</a></td>\s+?<td?[= \w\"]+>(<a?[= \w\"]+title=\"(?P<sync>[,\{\}\w.\d \(\)\]\[-]+)\"><img?[= \w\\./"]+></a>)?</td>\s+?<td?[= \w\"]+>(?P<tvshow>[\w\;\&]+)</td>\s+<td?[= \w\"]+>(?P<year>\d+)</td>\s+<td?[= \w\"]+>[\w\;\&\.\d]+</td>\s+<td?[= \w\"]+>(?P<downloads>\d+)</td>\s+<td?[= \w\"]+>(?P<lang>\w{2})</td>'
 
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ): #standard input
     print 'path '+file_original_path
@@ -46,21 +46,16 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     print 'lang2 '+lang2
     print 'lang3 '+lang3
     session_id = "000000000000000022020"
-    subtitles_list = []      
-    subtitles_list.append( { "title" : 'titulek', "year" : '2010', "filename" : 'soubor.srt', "language_name" : 'Czech', "ID" : 'ID', "mediaType" : 'mediaType', "numberOfDiscs" : '2', "downloads" : 'downloads', "sync" : True, "rating" :'10', "language_flag":'image.jpg' } )            
-    subtitles_list.append( { "title" : 'titulek', "year" : '2010', "filename" : 'soubor2.srt', "language_name" : 'Czech', "ID" : 'ID', "mediaType" : 'mediaType', "numberOfDiscs" : '1', "downloads" : 'downloads', "sync" : False, "rating" :'10', "language_flag":'image.jpg' } )                
-
+    client = TitulkyClient()
+    
+    subtitles_list = client.search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 )   
     return subtitles_list, session_id, ""  #standard output
 
 
 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
 
-
-    subtitle_id   =                          subtitles_list[pos][ "ID" ]
-    language      =                          subtitles_list[pos][ "language_name" ]
-
-    print subtitles_list
+    subtitle_id   =                          subtitles_list[pos][ 'ID' ]
     print pos
     print zip_subs
     print tmp_sub_dir
@@ -69,22 +64,40 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
     print subtitle_id
     print language
     return True,language, "" #standard output
-    
+
+def lang_titulky2xbmclang(lang):
+	if lang == 'CZ': return 'Czech'
+	if lang == 'SK': return 'Slovak'
+	return 'English'
+
+def lang2_opensubtitles(lang):
+	lang = lang_titulky2xbmclang(lang)
+	from utilities import  toOpenSubtitles_two
+	return toOpenSubtitles_two(lang)
+#	return 'cs'	    
 class TitulkyClient(object):
+	
 	def __init__(self):
 		opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookielib.LWPCookieJar()))
 		opener.version = 'User-Agent=Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)'
 		urllib2.install_opener(opener)
 	
 	def search_subtitles(self, file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ):
-		url = 'http://www.titulky.com?'+urllib.urlencode({'Fulltext':title,'FindUser':''})
+		url = 'http://www.titulky.com/index.php?'+urllib.urlencode({'Fulltext':title,'FindUser':''})
 		req = urllib2.Request(url)
-		response = urllib2.urlopen(req)
+		print 'opening url '+url
+		response = urllib2.urlopen(url)
 		content = response.read()
 		response.close()
 		subtitles_list = []
 		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL):
-			print matches.group('id') +' ' +matches.group('title')+' '+ str(matches.group('sync'))+' '+ matches.group('tvshow')+' '+ matches.group('year')+' '+ matches.group('downloads')+' '+ matches.group('lang')
+			print matches.group('id') +' ' +matches.group('title')+' '+ str(matches.group('sync'))+' '+ matches.group('tvshow')+' '+ matches.group('year')+' '+ matches.group('downloads')+' '+ matches.group('lang')			
+			file_name = matches.group('sync')
+			if file_name == None: # if no sync info is found, just use title instead of None
+				file_name = matches.group('title') 
+			flag_image = "flags/%s.gif" % (lang2_opensubtitles(matches.group('lang')))
+			subtitles_list.append( { 'title' : matches.group('title'), 'year' : matches.group('year'), "filename" : file_name, 'language_name' : lang_titulky2xbmclang(matches.group('lang')), 'ID' : matches.group('id'), "mediaType" : 'mediaType', "numberOfDiscs" : '2', "downloads" : matches.group('downloads'), "sync" : False, "rating" :'0', "language_flag":flag_image } )
+		return subtitles_list
 			
-#client = TitulkyClient()
-#client.search_subtitles('','Pulp Fiction','','','','','','','','','')
+client = TitulkyClient()
+client.search_subtitles('','Kick-Ass','','','','','','','','','')
