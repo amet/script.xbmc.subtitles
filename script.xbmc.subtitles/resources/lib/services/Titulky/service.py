@@ -4,14 +4,14 @@
 
 import sys
 import os
-import xmlrpclib
+import xbmc
 
-import time
+import time,calendar
 import array
 import urllib2,urllib,re,cookielib
 
-#_ = sys.modules[ "__main__" ].__language__
-#__scriptname__ = sys.modules[ "__main__" ].__scriptname__
+_ = sys.modules[ "__main__" ].__language__
+__scriptname__ = sys.modules[ "__main__" ].__scriptname__
 
 """
             <tr class="row2">
@@ -33,6 +33,15 @@ import urllib2,urllib,re,cookielib
 
 subtitle_pattern='..<tr class=\"row[12]\">\s+?<td?[= \w\"]+><a href=\"[\w-]+-(?P<id>\d+).htm\"[ ]?>(?P<title>[\w\- ]*)</a></td>\s+?<td?[= \w\"]+>(<a?[= \w\"]+title=\"(?P<sync>[,\{\}\w.\d \(\)\]\[-]+)\"><img?[= \w\\./"]+></a>)?</td>\s+?<td?[= \w\"]+>(?P<tvshow>[\w\;\&]+)</td>\s+<td?[= \w\"]+>(?P<year>\d+)</td>\s+<td?[= \w\"]+>[\w\;\&\.\d]+</td>\s+<td?[= \w\"]+>(?P<downloads>\d+)</td>\s+<td?[= \w\"]+>(?P<lang>\w{2})</td>'
 
+control_image_pattern='(secode.php\?[\w\d=]+)'
+
+countdown_pattern='CountDown\((\d+)\)'
+
+"""
+<a rel="nofollow" id="downlink" href="/idown.php?id=48504441">www.titulky.com/idown.php?id=48504441</a>
+"""
+
+sublink_pattern='<a?[= \w\"]+href="([\w\.\?\d=/]+)\"'
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ): #standard input
     print 'path '+file_original_path
     print 'title '+title
@@ -45,7 +54,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     print 'lang1 '+lang1
     print 'lang2 '+lang2
     print 'lang3 '+lang3
-    session_id = "000000000000000022020"
+    session_id = "0"
     client = TitulkyClient()
     
     subtitles_list = client.search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 )   
@@ -55,15 +64,38 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
 
-    subtitle_id   =                          subtitles_list[pos][ 'ID' ]
+    subtitle_id =  subtitles_list[pos][ 'ID' ]
     print pos
     print zip_subs
     print tmp_sub_dir
     print sub_folder
     print session_id
     print subtitle_id
-    print language
-    return True,language, "" #standard output
+    icon =  os.path.join(os.getcwd(),'icon.png')
+    client = TitulkyClient()
+    content = client.get_subtitle_page(subtitle_id)
+    control_img = client.get_control_image(content)
+    if not control_img == None:
+		# subtitle limit was reached .. we need to ask user to rewrite image code :(
+		img = client.get_file(control_img)
+		img_file = open(tmp_sub_dir+'/image.png','w')
+		img_file.write(img)
+		img_file.close()
+    if None == None:
+		print 'error !!!'
+		return 
+    delay = wait_time
+    for i in range(wait_time+1):
+		line2 = "download will start in %i seconds" % (delay,)
+		xbmc.executebuiltin("XBMC.Notification(%s,%s,1000,%s)" % (__scriptname__,line2,icon))
+		delay -= 1
+		time.sleep(1)
+    zip_file = open(zip_subs,'wb')
+    data = client.get_file(link)
+    print data
+    zip_file.write(data)
+    zip_file.close()
+    return True,subtitles_list[pos]['language_name'], "" #standard output
 
 def lang_titulky2xbmclang(lang):
 	if lang == 'CZ': return 'Czech'
@@ -78,15 +110,16 @@ def lang2_opensubtitles(lang):
 class TitulkyClient(object):
 	
 	def __init__(self):
+		self.server_url = 'http://titulky.com'
 		opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookielib.LWPCookieJar()))
 		opener.version = 'User-Agent=Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)'
 		urllib2.install_opener(opener)
 	
 	def search_subtitles(self, file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ):
-		url = 'http://www.titulky.com/index.php?'+urllib.urlencode({'Fulltext':title,'FindUser':''})
+		url = self.server_url+'/index.php?'+urllib.urlencode({'Fulltext':title,'FindUser':''})
 		req = urllib2.Request(url)
 		print 'opening url '+url
-		response = urllib2.urlopen(url)
+		response = urllib2.urlopen(req)
 		content = response.read()
 		response.close()
 		subtitles_list = []
@@ -98,6 +131,46 @@ class TitulkyClient(object):
 			flag_image = "flags/%s.gif" % (lang2_opensubtitles(matches.group('lang')))
 			subtitles_list.append( { 'title' : matches.group('title'), 'year' : matches.group('year'), "filename" : file_name, 'language_name' : lang_titulky2xbmclang(matches.group('lang')), 'ID' : matches.group('id'), "mediaType" : 'mediaType', "numberOfDiscs" : '2', "downloads" : matches.group('downloads'), "sync" : False, "rating" :'0', "language_flag":flag_image } )
 		return subtitles_list
+	
+	def get_waittime(self,content):
+		for matches in re.finditer(countdown_pattern, content, re.IGNORECASE | re.DOTALL):
+			return int(matches.group(1))
+
+	def get_link(self,content):
+		for matches in re.finditer(sublink_pattern, content, re.IGNORECASE | re.DOTALL):
+			return str(matches.group(1))				
+
+	def get_control_image(self,content):
+		for matches in re.finditer(control_image_pattern, content, re.IGNORECASE | re.DOTALL):
+			return '/'+str(matches.group(1))
+		return None
+
+	def get_file(self,link):
+		url = self.server_url+link
+		print 'getting file ' + url
+		req = urllib2.Request(url)
+		response = urllib2.urlopen(req)
+		content = response.read()
+		print 'got it'
+		response.close()
+		return content
+
+
+	def get_subtitle_page(self,id):
+		timestamp = str(time.gmtime())
+		url = self.server_url+'/idown.php?'+urllib.urlencode({'R':timestamp,'titulky':id,'histstamp':'','zip':'z'})
+		req = urllib2.Request(url)
+		print 'opening url '+url
+		response = urllib2.urlopen(req)
+		content = response.read()
+		print 'done'
+		print content
+		response.close()
+		return content
+		
+
+		
 			
-client = TitulkyClient()
-client.search_subtitles('','Kick-Ass','','','','','','','','','')
+#client = TitulkyClient()
+#client.search_subtitles('','Kick-Ass','','','','','','','','','')
+#print client.get_subtitle_link('12576')
