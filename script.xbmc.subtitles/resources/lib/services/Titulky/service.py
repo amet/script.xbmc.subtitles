@@ -43,21 +43,26 @@ countdown_pattern='CountDown\((\d+)\)'
 
 sublink_pattern='<a?[= \w\"]+href="([\w\.\?\d=/]+)\"'
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ): #standard input
-    print 'path '+file_original_path
-    print 'title '+title
-    print 'tvshow '+tvshow
-    print 'year '+year
-    print 'season '+season
-    print 'episode'+episode
-    print 'set_temp '+str(set_temp)
-    print 'rar '+str(rar)
-    print 'lang1 '+lang1
-    print 'lang2 '+lang2
-    print 'lang3 '+lang3
-    session_id = "0"
-    client = TitulkyClient()    
-    subtitles_list = client.search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 )   
-    return subtitles_list, session_id, ""  #standard output
+	# need to filter titles like <Localized movie name> (<Movie name>)
+	br_index = title.find('(')
+	if br_index > -1:
+		title = title[:br_index]
+	title = title.strip()
+#   print 'path '+file_original_path
+#    print 'title '+title
+#    print 'tvshow '+tvshow
+#   print 'year '+year
+#   print 'season '+season
+#    print 'episode'+episode
+#    print 'set_temp '+str(set_temp)
+#    print 'rar '+str(rar)
+#    print 'lang1 '+lang1
+#    print 'lang2 '+lang2
+#    print 'lang3 '+lang3
+	session_id = "0"
+	client = TitulkyClient()    
+	subtitles_list = client.search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 )   
+	return subtitles_list, session_id, ""  #standard output
 
 
 
@@ -140,12 +145,7 @@ class TitulkyClient(object):
 		opener.version = 'User-Agent=Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)'
 		urllib2.install_opener(opener)
 	
-	def search_subtitles(self, file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ):
-		# need to filter titles like <Localized movie name> (<Movie name>)
-		br_index = title.find('(')
-		if br_index > -1:
-			title = title[:br_index]
-		title = title.strip()	
+	def search_subtitles(self, file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ):	
 		url = self.server_url+'/index.php?'+urllib.urlencode({'Fulltext':title,'FindUser':''})
 		req = urllib2.Request(url)
 		log(__name__,'Opening %s' % (url))
