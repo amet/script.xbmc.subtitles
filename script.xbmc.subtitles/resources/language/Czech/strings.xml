@@ -76,10 +76,9 @@
     <string id="754">Vaše revize XBMC je %i</string>
     <string id="755">Server je přetížen, zkuste to prosím později</string>
     <string id="756">Přihlášení selhalo. Zkontroluje nastavení.</string>
-    <string id="757">Stahování začne za %i sekund</string>
-    <string id="758">Server vyžaduje opsat kontrolní kód z obrázku</string>
-    <string id="759">Kontrolní kód se objeví v oznamovací oblasti</string> 
-    <string id="760">Vložte kontrolní kód</string> 
+    <string id="757">Server vyžaduje opsat kontrolní kód z obrázku</string>
+    <string id="758">Kontrolní kód se objeví v oznamovací oblasti</string> 
+    <string id="759">Vložte kontrolní kód</string> 
       <!-- 
    * Script Settings
    -->

@@ -89,10 +89,10 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 		img_file.write(img)
 		img_file.close()
 		dialog = xbmcgui.Dialog()
-		dialog.ok(__scriptname__,_( 758 ),_( 759 ))		
+		dialog.ok(__scriptname__,_( 757 ),_( 758 ))		
 		log(__name__,'Notifying user for 10s')
 		xbmc.executebuiltin("XBMC.Notification(%s,%s,10000,%s)" % (__scriptname__,'',os.path.join(tmp_sub_dir,'image.png')))		
-		kb = xbmc.Keyboard('',_( 760 ),False)
+		kb = xbmc.Keyboard('',_( 759 ),False)
 		kb.doModal()
 		if kb.isConfirmed():
 			code = kb.getText()
@@ -111,7 +111,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 	delay = wait_time
 	icon =  os.path.join(os.getcwd(),'icon.png')
 	for i in range(wait_time+1):
-		line2 = _( 757 ) % (delay,)
+		line2 = 'Download will start in %i seconds' % (delay,)
 		xbmc.executebuiltin("XBMC.Notification(%s,%s,1000,%s)" % (__scriptname__,line2,icon))
 		delay -= 1
 		time.sleep(1)
