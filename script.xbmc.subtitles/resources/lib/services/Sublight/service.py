@@ -5,7 +5,7 @@
 import sys
 import os
 import xmlrpclib
-from utilities import  toOpenSubtitles_two
+from utilities import  toOpenSubtitles_two, log
 import md5
 import time
 import array
@@ -30,13 +30,16 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     if language1 == "Farsi" : language1 = "Persian"
     if language2 == "Farsi" : language2 = "Persian"
     if language3 == "Farsi" : language3 = "Persian"
+    if language1 == "Portuguese (Brazil)" : language1 = "PortugueseBrazil"
+    if language2 == "Portuguese (Brazil)" : language2 = "PortugueseBrazil"
+    if language3 == "Portuguese (Brazil)" : language3 = "PortugueseBrazil"
     sublightWebService = SublightWebService()
     session_id = sublightWebService.LogInAnonymous()
 
-    if not set_temp :
-        video_hash = calculateVideoHash(file_original_path)
-    if video_hash == "":
-        video_hash = "0000000000000000000000000000000000000000000000000000"
+    try:
+      video_hash = calculateVideoHash(file_original_path)
+    except:
+      video_hash = "0000000000000000000000000000000000000000000000000000"
 
     subtitles_list = []
     
@@ -50,7 +53,13 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 
     year = str(year)
             
-    xbmc.output("Sublight Hash [%s]\nSublight Language 1: [%s], Language 2: [%s], Language 3: [%s]\nSublight Search Title:[%s] , Season:[%s] , Episode:[%s] Year:[%s]" % (str(video_hash),language1 ,language2 , language3,movie_title,season,episode,year,), level=xbmc.LOGDEBUG )
+    log( __name__ ,"Sublight Hash [%s]"                                   % str(video_hash) )
+    log( __name__ ,"Language 1: [%s], Language 2: [%s], Language 3: [%s]" % (language1 ,language2 , language3,) )
+    log( __name__ ,"Search Title:[%s]"                                    % movie_title )
+    log( __name__ ,"Season:[%s]"                                          % season )
+    log( __name__ ,"Episode:[%s]"                                         % episode )
+    log( __name__ ,"Year:[%s]"                                            % year )
+    
     subtitles_list = sublightWebService.SearchSubtitles(session_id, video_hash, movie_title, year,season, episode, language2, language1, language3 )
 
     return subtitles_list, session_id, ""  #standard output
@@ -233,7 +242,7 @@ class SublightWebService :
             h.close()
             
             ##if r.status != 200:
-               ## LOG( LOG_INFO,'Error connecting: %s, %s' % (r.status, r.reason))
+               ## log( __name__ , LOG_INFO,'Error connecting: %s, %s' % (r.status, r.reason))
             return d
     
     #

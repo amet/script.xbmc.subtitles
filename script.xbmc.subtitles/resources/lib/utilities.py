@@ -4,7 +4,14 @@ import xbmc
 import re
 import struct
 
+__scriptname__ = sys.modules[ "__main__" ].__scriptname__
 
+###-------------------------  Log  ------------------###############
+   
+def log(module,msg):
+  xbmc.output("### [%s-%s] - %s" % (__scriptname__,module,msg,),level=xbmc.LOGDEBUG ) 
+
+###-------------------------  Hash  -----------------###############
 def hashFile(name): 
     try: 
       longlongformat = 'q'  # long long 
@@ -133,6 +140,7 @@ def toOpenSubtitles_two( id ):
     "Polish"              : "pl",
     "Portuguese"          : "pt",
     "PortugueseBrazil"    : "pb",
+    "Portuguese (Brazil)" : "pb",
     "Brazilian"           : "pb",
     "Romanian"            : "ro",
     "Russian"             : "ru",
@@ -297,6 +305,7 @@ def toOpenSubtitlesId( id ):
     "Polish"              : "pol",
     "Portuguese"          : "por",
     "PortugueseBrazil"    : "pob",
+    "Portuguese (Brazil)" : "pob",
     "Romanian"            : "rum",
     "Russian"             : "rus",
     "SerbianLatin"        : "scc",
