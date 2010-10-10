@@ -6,7 +6,6 @@ import sys
 import os
 import xmlrpclib
 from utilities import  toOpenSubtitles_two, log
-import md5
 import time
 import array
 import httplib
@@ -15,6 +14,13 @@ import xml.dom.minidom
 import xml.sax.saxutils as SaxUtils
 import base64
 import gui
+
+try:
+  #Python 2.6 +
+  from hashlib import md5
+except ImportError:
+  #Python 2.5 and earlier
+  from md5 import new as md5
 
 _ = sys.modules[ "__main__" ].__language__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
@@ -191,7 +197,7 @@ def calculateVideoHash(filename, isPlaying = True):
     buffer = f.read( 5 * 1024 * 1024 )
     f.close()
     
-    md5hash = md5.new()
+    md5hash = md5()
     md5hash.update(buffer)
     
     array_md5 = array.array('B')
