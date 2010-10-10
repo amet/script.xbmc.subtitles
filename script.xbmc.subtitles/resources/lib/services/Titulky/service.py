@@ -78,13 +78,13 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 	if not control_img == None:
 		log(__name__,'Found control image :(, asking user for input')
 		# subtitle limit was reached .. we need to ask user to rewrite image code :(
-		dialog = xbmcgui.Dialog()
-		dialog.ok(__scriptname__,_( 758 ),_( 759 ))
 		log(__name__,'Download control image')
 		img = client.get_file(control_img)
 		img_file = open(os.path.join(tmp_sub_dir,'image.png'),'w')
 		img_file.write(img)
 		img_file.close()
+		dialog = xbmcgui.Dialog()
+		dialog.ok(__scriptname__,_( 758 ),_( 759 ))		
 		log(__name__,'Notifying user for 10s')
 		xbmc.executebuiltin("XBMC.Notification(%s,%s,10000,%s)" % (__scriptname__,'',os.path.join(tmp_sub_dir,'image.png')))		
 		kb = xbmc.Keyboard('',_( 760 ),False)
