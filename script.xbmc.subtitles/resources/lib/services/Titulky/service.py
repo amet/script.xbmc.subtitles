@@ -141,6 +141,11 @@ class TitulkyClient(object):
 		urllib2.install_opener(opener)
 	
 	def search_subtitles(self, file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ):
+		# need to filter titles like <Localized movie name> (<Movie name>)
+		br_index = title.find('(')
+		if br_index > -1:
+			title = title[:br_index]
+		title = title.strip()	
 		url = self.server_url+'/index.php?'+urllib.urlencode({'Fulltext':title,'FindUser':''})
 		req = urllib2.Request(url)
 		log(__name__,'Opening %s' % (url))
