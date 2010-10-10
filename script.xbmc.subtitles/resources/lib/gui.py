@@ -115,6 +115,9 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.file_original_path = urllib.unquote ( movieFullPath )              # Movie Path
         
         self.set_temp = temp
+        
+        if __settings__.getSetting( "disable_hash_search" ) == "true":
+           self.set_temp = True
 
         self.mansearch =  __settings__.getSetting( "searchstr" ) == "true"      # Manual search string??
         self.parsearch =  __settings__.getSetting( "par_folder" ) == "true"     # Parent folder as search string
@@ -131,7 +134,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
             self.file_name = "%s (%s)" % (self.title, str(self.year),)    
           
           
-        self.tmp_sub_dir = xbmc.translatePath("special://temp/sub_tmp")
+        self.tmp_sub_dir = os.path.join( xbmc.translatePath( "special://profile/" ), "addon_data", os.path.basename( os.getcwd() ),"sub_tmp" )
         
         
         if not self.tmp_sub_dir.endswith(':') and not os.path.exists(self.tmp_sub_dir):
@@ -293,7 +296,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
     def Download_Subtitles( self, pos ):
         self.getControl( STATUS_LABEL ).setLabel(  _( 649 ) )
-        zip_subs = "special://temp/sub_tmp/zipsubs.zip"
+        zip_subs = os.path.join( self.tmp_sub_dir, "zipsubs.zip")
         zipped, language, file = self.Service.download_subtitles(self.subtitles_list, pos, zip_subs, self.tmp_sub_dir, self.sub_folder,self.session_id)
         sub_lang = str(toOpenSubtitles_two(language))
 

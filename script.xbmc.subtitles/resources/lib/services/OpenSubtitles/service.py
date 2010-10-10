@@ -59,12 +59,14 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
         file_size = "000000000"
         hashTry = "000000000000"
     else:
-        hashTry = timeout(set_filehash, args=(file_original_path, rar), timeout_duration=5)
-        try: file_size = os.path.getsize( file_original_path ) 
-        except: file_size = "000000000" 
-        if file_size != "" and hashTry != "":
+        try:
+          hashTry = timeout(set_filehash, args=(file_original_path, rar), timeout_duration=5)
+          file_size = os.path.getsize( file_original_path )
           hash_search = True
-    
+        except: 
+          file_size = ""
+          hashTry = ""
+          hash_search = False 
     
     log( __name__ ,"File Size [%s]" % file_size)
     log( __name__ ,"File Hash [%s]" % hashTry)

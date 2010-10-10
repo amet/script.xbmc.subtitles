@@ -36,10 +36,10 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     sublightWebService = SublightWebService()
     session_id = sublightWebService.LogInAnonymous()
 
-    if not set_temp :
-        video_hash = calculateVideoHash(file_original_path)
-    if video_hash == "":
-        video_hash = "0000000000000000000000000000000000000000000000000000"
+    try:
+      video_hash = calculateVideoHash(file_original_path)
+    except:
+      video_hash = "0000000000000000000000000000000000000000000000000000"
 
     subtitles_list = []
     
