@@ -64,12 +64,12 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
 
 	subtitle_id =  subtitles_list[pos][ 'ID' ]
-	print pos
-	print zip_subs
-	print tmp_sub_dir
-	print sub_folder
-	print session_id
-	print subtitle_id
+#	print pos
+#	print zip_subs
+#	print tmp_sub_dir
+#	print sub_folder
+#	print session_id
+#	print subtitle_id
     
 	client = TitulkyClient()
 	log(__name__,'Get page with subtitle (id=%s)'%(subtitle_id))
@@ -79,15 +79,15 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 		log(__name__,'Found control image :(, asking user for input')
 		# subtitle limit was reached .. we need to ask user to rewrite image code :(
 		dialog = xbmcgui.Dialog()
-		dialog.ok(__scriptname__,'Maximum dowloads from your IP has been reached','Please take look at notification area')
+		dialog.ok(__scriptname__,_( 758 ),_( 759 ))
 		log(__name__,'Download control image')
 		img = client.get_file(control_img)
 		img_file = open(os.path.join(tmp_sub_dir,'image.png'),'w')
 		img_file.write(img)
 		img_file.close()
 		log(__name__,'Notifying user for 10s')
-		xbmc.executebuiltin("XBMC.Notification(%s,%s,10000,%s)" % (__scriptname__,'Image code',os.path.join(tmp_sub_dir,'image.png')))		
-		kb = xbmc.Keyboard('','Enter code',False)
+		xbmc.executebuiltin("XBMC.Notification(%s,%s,10000,%s)" % (__scriptname__,'',os.path.join(tmp_sub_dir,'image.png')))		
+		kb = xbmc.Keyboard('',_( 760 ),False)
 		kb.doModal()
 		if kb.isConfirmed():
 			code = kb.getText()
@@ -95,18 +95,18 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 			control_img2 = client.get_control_image(content)
 			if not control_img2 == None:
 				log(__name__,'Invalid control text')
-				return
+				return True,subtitles_list[pos]['language_name'], ""
 		else:
 			# user was not interested 
 			log(__name__,'Control text not confirmed, returning in error')
-			return
+			return True,subtitles_list[pos]['language_name'], ""
 	wait_time = client.get_waittime(content)
 	link = client.get_link(content)
 	log(__name__,'Got the link, wait %i seconds before download' % (wait_time))
 	delay = wait_time
 	icon =  os.path.join(os.getcwd(),'icon.png')
 	for i in range(wait_time+1):
-		line2 = "download will start in %i seconds" % (delay,)
+		line2 = _( 757 ) % (delay,)
 		xbmc.executebuiltin("XBMC.Notification(%s,%s,1000,%s)" % (__scriptname__,line2,icon))
 		delay -= 1
 		time.sleep(1)
@@ -122,6 +122,11 @@ def lang_titulky2xbmclang(lang):
 	if lang == 'CZ': return 'Czech'
 	if lang == 'SK': return 'Slovak'
 	return 'English'
+
+def lang_xbmclang2titulky(lang):
+	if lang == 'Czech': return 'CZ'
+	if lang == 'Slovak': return 'SK'
+	return 'EN'	
 
 def lang2_opensubtitles(lang):
 	lang = lang_titulky2xbmclang(lang)
@@ -144,13 +149,20 @@ class TitulkyClient(object):
 		response.close()
 		log(__name__,'Done')
 		subtitles_list = []
-		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL):
-			print matches.group('id') +' ' +matches.group('title')+' '+ str(matches.group('sync'))+' '+ matches.group('tvshow')+' '+ matches.group('year')+' '+ matches.group('downloads')+' '+ matches.group('lang')			
+		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL):			
+#			print matches.group('id') +' ' +matches.group('title')+' '+ str(matches.group('sync'))+' '+ matches.group('tvshow')+' '+ matches.group('year')+' '+ matches.group('downloads')+' '+ matches.group('lang')
 			file_name = matches.group('sync')
 			if file_name == None: # if no sync info is found, just use title instead of None
 				file_name = matches.group('title') 
 			flag_image = "flags/%s.gif" % (lang2_opensubtitles(matches.group('lang')))
-			subtitles_list.append( { 'title' : matches.group('title'), 'year' : matches.group('year'), "filename" : file_name, 'language_name' : lang_titulky2xbmclang(matches.group('lang')), 'ID' : matches.group('id'), "mediaType" : 'mediaType', "numberOfDiscs" : '2', "downloads" : matches.group('downloads'), "sync" : False, "rating" :'0', "language_flag":flag_image } )
+			sync = False
+			if file_original_path.find(matches.group('sync')) > -1:
+				sync = True
+			if not matches.group('year') == year:
+				continue
+			lang = lang_titulky2xbmclang(matches.group('lang'))
+			if lang == lang1 or lang == lang2 or lang == lang3:
+				subtitles_list.append( { 'title' : matches.group('title'), 'year' : matches.group('year'), "filename" : file_name, 'language_name' : lang_titulky2xbmclang(matches.group('lang')), 'ID' : matches.group('id'), "mediaType" : 'mediaType', "numberOfDiscs" : '2', "downloads" : matches.group('downloads'), "sync" : sync, "rating" :'0', "language_flag":flag_image } )
 		return subtitles_list
 	
 	def get_waittime(self,content):
@@ -185,7 +197,6 @@ class TitulkyClient(object):
 		url = self.server_url+'/idown.php?'+urllib.urlencode({'PHPSESSID':session_id})
 		post_data = {'downkod':code,'titulky':id,'zip':'z','securedown':'2','histstamp':''}
 		req = urllib2.Request(url,urllib.urlencode(post_data))
-		print 'opening url '+url+ ' post data: '+str(post_data)
 		log(__name__,'Opening %s POST:%s' % (url,str(post_data)))
 		response = urllib2.urlopen(req)
 		content = response.read()
