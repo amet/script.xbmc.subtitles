@@ -90,9 +90,9 @@ class GUI( xbmcgui.WindowXMLDialog ):
                 self.title = self.title  
         else:
             self.year = ""
-        self.language_1 = __settings__.getSetting( "Lang1" )                    # Full language 1
-        self.language_2 = __settings__.getSetting( "Lang2" )                    # Full language 2  
-        self.language_3 = __settings__.getSetting( "Lang3" )                    # Full language 3
+        self.language_1 = toScriptLang(__settings__.getSetting( "Lang01" ))     # Full language 1
+        self.language_2 = toScriptLang(__settings__.getSetting( "Lang02" ))     # Full language 2  
+        self.language_3 = toScriptLang(__settings__.getSetting( "Lang03" ))     # Full language 3
        
         label_colour = __settings__.getSetting( "label_colour" )                # Service Label Colour 
         if label_colour == "Blue":
@@ -219,9 +219,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         else:
             self.getControl( STATUS_LABEL ).setLabel( "No Services Have been selected" )
             xbmc.sleep(2000)
-            self.exit_script()
-            
-       
+            self.exit_script()    
 
 #### ---------------------------- On Init ----------------------------###
 
@@ -382,7 +380,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
                 if filecmp.cmp(subtitle_file, file_path):
                     subtitle_set = True
             except:
-                dialog = xbmcgui.Dialog( __name__ ,)
+                dialog = xbmcgui.Dialog()
                 selected = dialog.yesno( __scriptname__ , _( 748 ), _( 750 ),"" )
                 if selected == 1:
                     file_path = subtitle_file

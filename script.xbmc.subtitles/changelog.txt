@@ -1,8 +1,13 @@
+1.9.8
+- fixed: Script would fail on non English XBMC
+- added: New Dutch translation
+- updatet: LegendasTV service
+
 1.9.7
 - added: new titulky.com service. Thanks lzoubek for creating it.
 
 1.9.6
-- added: "Disable hash search" setting under Advanced settings, it disables Hash search on OpenSubtitles and Podnapisi(still does name search). it needs to be enabled on some systems with smb:// drives attached.
+- added: "Disable hash search" setting under Advanced settings, it disables Hash search on OpenSubtitles and Podnapisi(still does name search). it needs to be disabled on some systems with smb:// drives attached.
 
 1.9.5
 - fixed: works on python2.6??, handles smb:// files better and temp subs are now in addon_data/script.xbmc.subtitles

@@ -246,9 +246,7 @@ class SublightWebService :
             r = h.getresponse()
             d = r.read()
             h.close()
-            
-            ##if r.status != 200:
-               ## log( __name__ , LOG_INFO,'Error connecting: %s, %s' % (r.status, r.reason))
+
             return d
     
     #
