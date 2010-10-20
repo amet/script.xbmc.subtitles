@@ -32,14 +32,17 @@ class GUI( xbmcgui.WindowXMLDialog ):
         
         temp = False
         rar = False
-        movieFullPath = urllib.unquote(xbmc.Player().getPlayingFile())
+        try:
+          movieFullPath = urllib.unquote(xbmc.Player().getPlayingFileUnicode()).encode("utf-8")
+        except:
+          movieFullPath = urllib.unquote(xbmc.Player().getPlayingFile())
         path = __settings__.getSetting( "subfolder" ) == "true"      # True for movie folder
         sub_folder = xbmc.translatePath(__settings__.getSetting( "subfolderpath" ))
         
         if (movieFullPath.find("http://") > -1 ):
             temp = True
 
-        if (movieFullPath.find("rar://") > -1 ) and path:
+        if (movieFullPath.find("rar://") > -1 ):
             rar = True
             
             movieFullPath = sub_folder = movieFullPath.replace("rar://","")
@@ -200,6 +203,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
             log( __name__ ,"Default Service : [%s]"      % self.service)
             log( __name__ ,"Services : [%s]"             % self.service_list)
             log( __name__ ,"Temp?: [%s]"                 % self.set_temp)
+            log( __name__ ,"Rar?: [%s]"                  % self.rar)
             log( __name__ ,"File Path: [%s]"             % self.file_original_path)
             log( __name__ ,"Year: [%s]"                  % str(self.year))
             log( __name__ ,"Tv Show Title: [%s]"         % self.tvshow)
