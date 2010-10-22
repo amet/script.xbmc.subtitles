@@ -18,7 +18,7 @@ xbmc.output("### [%s] - Version: %s" % (__scriptname__,__version__,),level=xbmc.
 if ( __name__ == "__main__" ):
     if not xbmc.getCondVisibility('Player.Paused') : xbmc.Player().pause() #Pause if not paused        
     import gui
-    ui = gui.GUI( "script-XBMC-Subtitles-main.xml" , os.getcwd(), "Default")
+    ui = gui.GUI( "script-XBMC-Subtitles-main.xml" , addon.getAddonInfo('path'), "Default")
     ui.doModal()
     if xbmc.getCondVisibility('Player.Paused'): xbmc.Player().pause() # if Paused, un-pause
     del ui
