@@ -32,10 +32,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         
         temp = False
         rar = False
-        try:
-          movieFullPath = urllib.unquote(xbmc.Player().getPlayingFileUnicode()).encode("utf-8")
-        except:
-          movieFullPath = urllib.unquote(xbmc.Player().getPlayingFile())
+        movieFullPath = urllib.unquote(xbmc.Player().getPlayingFile())
         path = __settings__.getSetting( "subfolder" ) == "true"      # True for movie folder
         sub_folder = xbmc.translatePath(__settings__.getSetting( "subfolderpath" ))
         
