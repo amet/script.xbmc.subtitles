@@ -285,7 +285,9 @@ class GUI( xbmcgui.WindowXMLDialog ):
               self.setFocusId( SERVICES_LIST )
               self.getControl( SERVICES_LIST ).selectItem( 0 )
             else:
-              self.list_services()  
+              self.list_services()
+              self.setFocusId( SUBTITLES_LIST )
+              self.getControl( SUBTITLES_LIST ).selectItem( 0 )  
     
         else:
             if not self.newWindow: self.list_services()
@@ -302,8 +304,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
     
             self.getControl( STATUS_LABEL ).setLabel( '%i %s '"' %s '"'' % (len ( self.subtitles_list ), _( 744 ), self.file_name,) ) 
         
-        self.setFocusId( SUBTITLES_LIST )
-        self.getControl( SUBTITLES_LIST ).selectItem( 0 )
+            self.setFocusId( SUBTITLES_LIST )
+            self.getControl( SUBTITLES_LIST ).selectItem( 0 )
 
 ###-------------------------- Download Subtitles  -------------################
 
