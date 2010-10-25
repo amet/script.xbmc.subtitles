@@ -22,8 +22,8 @@
 			<height>720</height>
 			<label>-</label>
 			<font>-</font>
-			<texturenofocus>default-panel.png</texturenofocus>
-			<texturefocus>default-panel.png</texturefocus>
+			<texturenofocus>-</texturenofocus>
+			<texturefocus>-</texturefocus>
 			<visible>true</visible>
 		</control>
 		<control type="group" id="250">
