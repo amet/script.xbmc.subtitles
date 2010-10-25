@@ -306,7 +306,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
         
             self.setFocusId( SUBTITLES_LIST )
             self.getControl( SUBTITLES_LIST ).selectItem( 0 )
-
 ###-------------------------- Download Subtitles  -------------################
 
     def Download_Subtitles( self, pos ):
@@ -380,6 +379,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
             self.getControl( SERVICES_LIST ).selectItem( 0 )
           else:
             self.list_services()           
+            self.setFocusId( SUBTITLES_LIST )
+            self.getControl( SUBTITLES_LIST ).selectItem( 0 )                       
 
 ###-------------------------- Create name  -------------################
 
@@ -554,6 +555,13 @@ class GUI( xbmcgui.WindowXMLDialog ):
     
     def onFocus( self, controlId ):
         self.controlId = controlId
+        if controlId == 8999:
+          self.setFocusId( 150 )
+          self.getControl( 8999 ).setVisible( False )
+        else:
+          self.getControl( 8999 ).setVisible( True )  
+            
+
 
 ###-------------------------- "Esc" , "Back" button  -------------################
         
