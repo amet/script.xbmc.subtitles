@@ -141,7 +141,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         
         
         if not self.tmp_sub_dir.endswith(':') and not os.path.exists(self.tmp_sub_dir):
-          os.mkdir(self.tmp_sub_dir)
+          os.makedirs(self.tmp_sub_dir)
         else:
           self.rem_files(self.tmp_sub_dir)
         
@@ -555,11 +555,12 @@ class GUI( xbmcgui.WindowXMLDialog ):
     
     def onFocus( self, controlId ):
         self.controlId = controlId
-        if controlId == 8999:
-          self.setFocusId( 150 )
-          self.getControl( 8999 ).setVisible( False )
-        else:
-          self.getControl( 8999 ).setVisible( True )  
+        if self.newWindow:
+          if controlId == 8999:
+            self.setFocusId( 150 )
+            self.getControl( 8999 ).setVisible( False )
+          else:
+            self.getControl( 8999 ).setVisible( True )  
             
 
 

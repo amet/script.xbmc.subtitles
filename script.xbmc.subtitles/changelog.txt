@@ -1,3 +1,6 @@
+2.0.2
+- fixed: os.mkdir() to os.makedirs(), it failed creating tmp folder. thx beenje!
+
 2.0.1
 - updated xml window to have services in separate list, purely cosmetics. backward compatible with old xml
 
