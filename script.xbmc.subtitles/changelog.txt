@@ -1,3 +1,13 @@
+2.0.5
+- added: Addic7ed service
+
+2.0.4
+- added: right arrow to indicate where the services have been hiding
+- added: new icon, thanks freezy3k
+
+2.0.3
+- fixed: script fails in some cases, related to new window
+
 2.0.2
 - fixed: os.mkdir() to os.makedirs(), it failed creating tmp folder. thx beenje!
 

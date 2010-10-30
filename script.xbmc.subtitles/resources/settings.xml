@@ -24,6 +24,7 @@
       <setting id="Titlovi" type="bool" label="- Titlovi.com" default="false"/> 
       <setting id="Titulky" type="bool" label="- Titulky.com (Czech and Slovak subs only)" default="false"/>       
       <setting id="Subdivx" type="bool" label="- Subdivx.com (Spanish subs only)" default="false"/>
+      <setting id="Addic7ed" type="bool" label="- Addic7ed.com" default="false"/>
     </category>
     <category label="30106">
       <setting id="subfolder" type="bool" label="30107" default="true" />
