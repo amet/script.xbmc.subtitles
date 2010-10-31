@@ -15,15 +15,10 @@ def compare_columns(b,a):
 
 def query_TvShow(name, season, episode, file_original_path, langs):
     sublinks = []
-    name = name.lower().replace(" ", "_")
+    name = name.lower().replace(" ", "_").replace("$#*!","shit") #need this for $#*! My Dad Says
     searchurl = "%s/serie/%s/%s/%s/%s" %(self_host, name, season, episode, name)
-    print searchurl
-    try:
-        socket.setdefaulttimeout(3)
-        page = urllib2.urlopen(searchurl)
-    except:
-        pass
-
+    socket.setdefaulttimeout(3)
+    page = urllib2.urlopen(searchurl)
     content = page.read()
     content = content.replace("The safer, easier way", "The safer, easier way \" />")
     soup = BeautifulSoup(content)
@@ -47,12 +42,8 @@ def query_Film(name, file_original_path,year, langs):
     sublinks = []
     name = urllib.quote(name.replace(" ", "_"))
     searchurl = "%s/film/%s_(%s)-Download" %(self_host,name, str(year))
-    print searchurl
-    try:
-        socket.setdefaulttimeout(5)
-        page = urllib2.urlopen(searchurl)
-    except:
-        pass
+    socket.setdefaulttimeout(5)
+    page = urllib2.urlopen(searchurl)
     content = page.read()
     content = content.replace("The safer, easier way", "The safer, easier way \" />")
     soup = BeautifulSoup(content)

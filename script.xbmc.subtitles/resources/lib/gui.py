@@ -558,9 +558,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
         try:
           if controlId == 8999:
             self.setFocusId( 150 )
-            self.getControl( 8999 ).setVisible( False )
-          else:
-            self.getControl( 8999 ).setVisible( True )
         except:
           pass    
             
