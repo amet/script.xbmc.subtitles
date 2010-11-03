@@ -69,7 +69,7 @@ def query_Film(name, file_original_path,year, langs):
         if status == "Completed" and (lang in langs) :
             sublinks.append({'filename':"%s-%s" %(name.replace("_", ".").title(),subteams ),'link':link,'language_name':langs_html.string.strip(),'language_id':lang,'language_flag':"flags/%s.gif" % (lang,),'movie':"movie","ID":"subtitle_id","rating":"0","format":"srt","sync":hashed})
       except:
-        subteams = ""
+        pass
     return sublinks    
 
 
