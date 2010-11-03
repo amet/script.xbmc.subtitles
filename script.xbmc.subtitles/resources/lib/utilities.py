@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*- 
-
 import sys
 import os
 import xbmc
@@ -166,6 +164,8 @@ def toOpenSubtitles_two( id ):
     u"Spanish (Latin America)"   : "es",
     u"Español"                  : "es",
     u"Spanish (Spain)"           : "es",
+    u"Chinese (Traditional)"     : "zh",
+    u"Chinese (Simplified)"      : "zh",
     "All"                        : "all"
   }
   return languages[ id ]
