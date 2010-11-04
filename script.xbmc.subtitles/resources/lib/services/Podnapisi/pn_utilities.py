@@ -8,6 +8,15 @@ import xbmc
 from xml.dom import minidom
 import urllib
 
+try:
+  # Python 2.6 +
+  from hashlib import md5 as md5
+  from hashlib import sha256 as sha256
+except ImportError:
+  # #Python 2.5 and earlier
+  from md5 import md5
+  import sha256
+  
 _ = sys.modules[ "__main__" ].__language__
 __settings__   = sys.modules[ "__main__" ].__settings__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
@@ -49,37 +58,30 @@ class OSDBServer:
 
 
     def searchsubtitles_pod( self, movie_hash, lang1,lang2,lang3):
+#      movie_hash = "e1b45885346cfa0b" # Matrix Hash, Debug only
+      podserver = xmlrpclib.Server('http://ssp.podnapisi.net:8000')      
       pod_session = ""
-      podserver = xmlrpclib.Server('http://ssp.podnapisi.net:8000')
-      lang = []
-      lang11 = lang1
-      lang.append(lang11)
-      if lang1!=lang2:
-        lang22 = lang2
-        lang.append(lang22)
-      if lang3!=lang2 and lang3!=lang1:
-        lang33 = lang3
-        lang.append(lang33)
       hash_pod =[]
-      hash_pod.append(movie_hash)
+      hash_pod.append(movie_hash)      
+      lang = []
+      lang.append(lang1)
+      if lang1!=lang2:
+        lang.append(lang2)
+      if lang3!=lang2 and lang3!=lang1:
+        lang.append(lang3)
+
       log( __name__ ,"Languages : [%s]" % str(lang))
       log( __name__ ,"Hash : [%s]" % str(hash_pod))
       try:
         user_agent = "%s_v%s" % (__scriptname__.replace(" ","_"),__version__ )
         init = podserver.initiate(user_agent)
-        try:
-          from hashlib import md5 as md5
-          from hashlib import sha256 as sha256
-        except ImportError:
-          from md5 import md5
-          import sha256
+
         username = __settings__.getSetting( "PNuser" )
         password = __settings__.getSetting( "PNpass" )
 
         hash = md5()
         hash.update(password)
         password = hash.hexdigest()
-
         password256 = sha256.sha256(str(password) + str(init['nonce'])).hexdigest()
         if str(init['status']) == "200":
           pod_session = init['session']
@@ -91,31 +93,28 @@ class OSDBServer:
           log( __name__ ,"Filter : [%s]" % str(filt) )
           search = podserver.search(pod_session , hash_pod)
           if str(search['status']) == "200" and len(search['results']) > 0 :
-            item1 = search["results"]
-            item2 = item1[movie_hash]
-            item3 = item2["subtitles"]
-            episode = item2["tvEpisode"]
-  
-            if str(episode) == "0":
-              title = "%s (%s)" % (str(item2["movieTitle"]),str(item2["movieYear"]),)
-            else:
-              title = "%s S(%s)E(%s)" % (str(item2["movieTitle"]),str(item2["tvSeason"]), str(episode), )
-            for item in item3:
+            item2 = search["results"][movie_hash]
+            for item in item2["subtitles"]:
               if item["lang"]:
                 flag_image = "flags/%s.gif" % (item["lang"],)
               else:                                                           
                 flag_image = "-.gif"
               link =  "http://www.podnapisi.net/ppodnapisi/download/i/%s" % str(item["id"])
-              rating = int(item['rating'])*2
-              name = item['release']
-              if name == "":
-                name = title
+              
+              if item['release'] == "":
+                episode = item2["tvEpisode"]
+                if str(episode) == "0":
+                  name = "%s (%s)" % (str(item2["movieTitle"]),str(item2["movieYear"]),)
+                else:
+                  name = "%s S(%s)E(%s)" % (str(item2["movieTitle"]),str(item2["tvSeason"]), str(episode), )
+              else:
+                name = item['release']
+                
               if item["inexact"]:
                 sync1 = False
               else:
                 sync1 = True
-
-              self.subtitles_hash_list.append({'filename':name,'link':link,"language_name":twotofull(item["lang"]),"language_flag":flag_image,"language_id":item["lang"],"ID":item["id"],"sync":sync1, "format":"srt", "rating": str(rating) })
+              self.subtitles_hash_list.append({'filename':name,'link':link,"language_name":twotofull(item["lang"]),"language_flag":flag_image,"language_id":item["lang"],"ID":item["id"],"sync":sync1, "format":"srt", "rating": str(int(item['rating'])*2) })
           self.mergesubtitles()
         return self.subtitles_list,pod_session
       except :
