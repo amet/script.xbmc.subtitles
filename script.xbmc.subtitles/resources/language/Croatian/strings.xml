@@ -34,9 +34,9 @@
     <string id="30103">Odaberi Servis</string>
     <string id="30104">- Podnapisi.net Korisničko ime</string>
     <string id="30105">- Podnapisi.net Lozinka</string>
-    <string id="30106">Advanced Options</string>  
-    <string id="30107">- Direktorij preuzetih titlova</string>
-    <string id="30108">Odaberi željeni direktorij</string>
+    <string id="30106">Advanced Options</string>
+    <string id="30107">- Subtitle Download Folder Same As Movie</string>
+    <string id="30108">  - Set Custom Subtitle Download Path</string>
     <string id="30110">- Unesi ručno podatkovni niz (string) za pretragu</string>
     <string id="30111">- Third Language</string>  
     <string id="30113">- Select Default Movie Service</string>

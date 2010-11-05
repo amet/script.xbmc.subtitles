@@ -35,8 +35,8 @@
     <string id="30104"> - Podnapisi.net nazwa urzytkownika</string>
     <string id="30105"> - Podnapisi.net hasło</string>
     <string id="30106">Advanced Options</string>
-    <string id="30107">- Folder filmów</string>
-    <string id="30108"> - Folder dla napisów</string>
+    <string id="30107">- Subtitle Download Folder Same As Movie</string>
+    <string id="30108">  - Set Custom Subtitle Download Path</string>
     <string id="30110">- Wprowadź szukaną nazwę </string>
     <string id="30111">- Third Language</string>  
     <string id="30113">- Select Default Movie Service</string>

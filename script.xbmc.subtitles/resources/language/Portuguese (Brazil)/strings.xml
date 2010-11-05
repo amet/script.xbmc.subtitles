@@ -34,9 +34,9 @@
     <string id="30103">Seleção de Serviços</string>
     <string id="30104"> - Podnapisi.net Nome Do Usuário</string>
     <string id="30105"> - Podnapisi.net Senha</string>
-    <string id="30106">Pasta Para Download De Legendas</string>
-    <string id="30107">- Pasta De Filmes</string>
-    <string id="30108"> - Selecionar Pasta Alternativa</string>
+    <string id="30106">Advanced Options</string>
+    <string id="30107">- Subtitle Download Folder Same As Movie</string>
+    <string id="30108">  - Set Custom Subtitle Download Path</string>
     <string id="30110">- Pesquisa Manual</string>
     <string id="30111">- Idioma Terciário</string> 
     <string id="30113">- Selecione o Serviço Padrão para Filmes</string>
