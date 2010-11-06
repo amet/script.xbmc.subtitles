@@ -3,28 +3,28 @@
     
     <!-- Hungarian -->
 
-    <string id="610">Keres </string>
-    <string id="612">Manuális keresési szöveg</string>
+    <string id="610">Keresés </string>
+    <string id="612">Kézi keresés</string>
     <string id="642">Feliratok keresése %s</string>
     <string id="646">Kapcsolódás...</string>
     <string id="649">Feliratok letöltése...</string>
     <string id="652">Felirat fájl letöltve és kibontva</string>
-    <string id="653">A kapcsolat meghíusúlt</string>
+    <string id="653">A kapcsolat meghiúsult</string>
     <string id="654">Hiba a kibontás közben</string>
     <string id="655">Helyi felirat elérhető</string>
-    <string id="656">Service did not respond within the time out limit</string>
-    <string id="657">No Subtitles Found!</string>
+    <string id="656">Szolgáltatás nem elérhtető a megadott időkorláton belül</string>
+    <string id="657">Felirat nem található!</string>
     <string id="744"> felirat található ehhez </string>
-    <string id="747">Keresés a szülőmappa használatával</string>
+    <string id="747">Keresés a mappanév használatával</string>
     <string id="748">Nem mentheted el a feliratot a kiválasztott célhelyre</string>
-    <string id="750">Akarod a beállításokat megváltoztatni?</string>
+    <string id="750">Felirat ideiglenes aktiválása?</string>
     <string id="751">Add meg a film címét (év)</string>
-    <string id="755">Server is overloaded, please try again later</string>
-    <string id="756">Login failed. Please verify your settings at the addon Configuration</string>
-    <string id="757">Server requires you to rewrite code from image</string>
-    <string id="758">Please take look at notification area</string> 
-    <string id="759">Enter code of image in notification area</string>
-    <string id="760">Available Services</string> 
+    <string id="755">A Kiszolgáló túlterhelt, próbáld meg később</string>
+    <string id="756">Belépés sikertelen. Ellenőrizd a beállításokat a kiegészítő beállításaiban.</string>
+    <string id="757">A továbblépéshez a kiszolgáló egy kód beírását kéri</string>
+    <string id="758">Nézd meg az értesítések mezőt</string> 
+    <string id="759">Írd be a kódot az értesítési mezőből</string>
+    <string id="760">Hozzáférhető szolgáltatások</string> 
   
   <!-- Script Settings -->
   
@@ -39,15 +39,15 @@
     <string id="30108">  - Egyedi feliratmappa megadása</string>
     <string id="30110">- Keresési szöveg manuális megadása</string>
     <string id="30111">- Harmadik nyelv</string>  
-    <string id="30113">- Select Default Movie Service</string>
-    <string id="30114">- Select Default TV Show Service</string>    
+    <string id="30113">- Alapértelmezett szolgáltatás választása mozifilmekre</string>
+    <string id="30114">- Alapértelmezett szolgáltatás választása TV sorozatokra</string>    
     <string id="30118">- Fájlnév megjelenítése a találatok között</string>
-    <string id="30119">- Keresés a szülőmappa használatával</string> 
-    <string id="30121">- Add Language To Filename </string>
-    <string id="30122">- Set Default Timeout</string>
-    <string id="30123"> - Legendas.TV Username</string>
-    <string id="30124"> - Legendas.TV Password</string>
-    <string id="30125">- Disable hash search</string>
+    <string id="30119">- Keresés mappanév használatával</string> 
+    <string id="30121">- Nyelv hozzáadása a fájlnévhez </string>
+    <string id="30122">- Alapértelmezett időkorlát</string>
+    <string id="30123"> - Legendas.TV Felhasználónév</string>
+    <string id="30124"> - Legendas.TV Jelszó</string>
+    <string id="30125">- Hash keresés kikapcsolása</string>
 
       <!-- Optional  -->
 
