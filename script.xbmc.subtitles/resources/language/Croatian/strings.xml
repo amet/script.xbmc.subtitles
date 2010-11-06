@@ -2,52 +2,51 @@
 <strings>
 
   <!-- Croatian -->
-  
     <string id="610">Pretraga </string>
-    <string id="612">Ručno unesi podatkovni niz za pretragu (string)</string>
+    <string id="612">Ručno unesi ime filma/serije</string>
     <string id="642">Pretraga titlova %s</string>
     <string id="646">Spajanje...</string>
     <string id="649">Preuzimanje titlova...</string>
-    <string id="652">Titlovi preuzeti i ekstraktirani</string>
+    <string id="652">Titlovi preuzeti i raspakirani</string>
     <string id="653">Spajanje neuspjelo</string>
-    <string id="654">Greška prilikom ekstraktiranje titlova</string>
-    <string id="655">Local subtitle available</string>
-    <string id="656">Service did not respond within the time out limit</string>
-    <string id="657">No Subtitles Found!</string>
+    <string id="654">Greška prilikom raspakiravanja titlova</string>
+    <string id="655">Titl dostupan lokalno</string>
+    <string id="656">Servis nije odgovorio u zadanom vremenskom periodu</string>
+    <string id="657">Nije pronađen niti jedan titl!</string>
     <string id="744"> pronađeni su titlovi za </string>
-    <string id="747">Search Using Parent Folder</string>
-    <string id="748">You can't save subtitle to selected destination</string>
-    <string id="750">Would you like to activate this subtitle temporarily?</string>
-    <string id="751">Enter Movie Name (year)</string>
-    <string id="755">Server is overloaded, please try again later</string>
-    <string id="756">Login failed. Please verify your settings at the addon Configuration</string>
-    <string id="757">Server requires you to rewrite code from image</string>
-    <string id="758">Please take look at notification area</string> 
-    <string id="759">Enter code of image in notification area</string>
-    <string id="760">Available Services</string>
+    <string id="747">Pretraži koristeći ime datoteke</string>
+    <string id="748">Ne možete spremiti titl na odabranu lokaciju</string>
+    <string id="750">Želite li privremeno omogućiti titl?</string>
+    <string id="751">Upišite ime filma (godina)</string>
+    <string id="755">Server je preopterećen, pokušajte ponovo kasnije</string>
+    <string id="756">Prijava nije uspjela. Molim, provjerite postavke unutar add-on kofiguratora</string>
+    <string id="757">Servis zahtjeva da ponovo napišete kod image datoteke</string>
+    <string id="758">Molim, pogledajte obavijesti</string> 
+    <string id="759">Upišite kod image datoteke u prijavu</string>
+    <string id="760">Dostupni servisi</string>
       
   <!-- Script Settings -->
   
     <string id="30100">Odaberi jezike</string>
-    <string id="30101">- Osnovni jezik</string>
-    <string id="30102">- Sekundarni jezik</string>
+    <string id="30101">- Prvi jezik</string>
+    <string id="30102">- Drugi jezik</string>
     <string id="30103">Odaberi Servis</string>
-    <string id="30104">- Podnapisi.net Korisničko ime</string>
-    <string id="30105">- Podnapisi.net Lozinka</string>
-    <string id="30106">Advanced Options</string>
-    <string id="30107">- Subtitle Download Folder Same As Movie</string>
-    <string id="30108">  - Set Custom Subtitle Download Path</string>
+    <string id="30104">- podnapisi.net Korisničko ime</string>
+    <string id="30105">- podnapisi.net Zaporka</string>
+    <string id="30106">Opcije</string>
+    <string id="30107">- Mapa skinutih titlova ista kao film</string>
+    <string id="30108">  - Postavi putanju za skinute titlove</string>
     <string id="30110">- Unesi ručno podatkovni niz (string) za pretragu</string>
-    <string id="30111">- Third Language</string>  
-    <string id="30113">- Select Default Movie Service</string>
-    <string id="30114">- Select Default TV Show Service</string>
-    <string id="30118">- Display file name in results page</string>
-    <string id="30119">- Search Using Parent Folder</string>
-    <string id="30121">- Add Language To Filename </string>
-    <string id="30122">- Set Default Timeout</string>
-    <string id="30123"> - Legendas.TV Username</string>
-    <string id="30124"> - Legendas.TV Password</string>
-    <string id="30125">- Disable hash search</string>  
+    <string id="30111">- Treći jezik</string>  
+    <string id="30113">- Odaberi default-ni servis za filmove</string>
+    <string id="30114">- Odaberi default-ni servis za TV serije</string>
+    <string id="30118">- Prikaži ime datoteke na stranici s rezultatima</string>
+    <string id="30119">- Pretraži koristeći ime datoteke</string>
+    <string id="30121">- Dodaj oznaku jezika u ime datoteke</string>
+    <string id="30122">- Postavi vremensko ograničenje</string>
+    <string id="30123"> - legendas.tv Korisničko ime</string>
+    <string id="30124"> - legendas.tv Zaporka</string>
+    <string id="30125">- Onemogući hash pretragu</string>  
   
   <!-- Neobavezno  -->
   
