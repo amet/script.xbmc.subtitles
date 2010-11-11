@@ -25,25 +25,25 @@
   <!-- Script Settings-->
   
     <string id="30100">Избор Језика</string>
-    <string id="30101">- Први Језик</string>
-    <string id="30102">- Други Језик</string>
+    <string id="30101">Први Језик</string>
+    <string id="30102">Други Језик</string>
     <string id="30103">Избор Сервиса</string>
-    <string id="30104"> - Podnapisi.net Корисничко Име</string>
-    <string id="30105"> - Podnapisi.net Лозинка</string>
+    <string id="30104">- Podnapisi.net Корисничко Име</string>
+    <string id="30105">- Podnapisi.net Лозинка</string>
     <string id="30106">Опције</string>
-    <string id="30107">- Датотека за скинуте преводе иста као филм</string>
-    <string id="30108"> - Подеси датотеку за скинуте преводе</string>
-    <string id="30110">- Ручно унети име филма</string>
-    <string id="30111">- Трећи Језик</string>
-    <string id="30113">- Изаберите подразумеван Сервис за Филм</string>
-    <string id="30114">- Изаберите подразумеван Сервис за ТВ</string>
-    <string id="30118">- Прикажи име фајла на страници са резултатима</string>
-    <string id="30119">- Претражи користећи име датотеке</string>
-    <string id="30121">- Дотати језик имену превода</string>
-    <string id="30122">- Жељени сервис тајмоут</string>
-    <string id="30123"> - Legendas.TV Корисничко Име</string>
-    <string id="30124"> - Legendas.TV Лозинка</string>
-    <string id="30125">- Обуставити hash претрагу</string>
+    <string id="30107">Датотека за скинуте преводе иста као филм</string>
+    <string id="30108">- Подеси датотеку за скинуте преводе</string>
+    <string id="30110">Ручно унети име филма</string>
+    <string id="30111">Трећи Језик</string>
+    <string id="30113">Изаберите подразумеван Сервис за Филм</string>
+    <string id="30114">Изаберите подразумеван Сервис за ТВ</string>
+    <string id="30118">Прикажи име фајла на страници са резултатима</string>
+    <string id="30119">Претражи користећи име датотеке</string>
+    <string id="30121">Дотати језик имену превода</string>
+    <string id="30122">Жељени сервис тајмоут</string>
+    <string id="30123">- Legendas.TV Корисничко Име</string>
+    <string id="30124">- Legendas.TV Лозинка</string>
+    <string id="30125">Обуставити hash претрагу</string>
 
   <!-- Languages -->
 

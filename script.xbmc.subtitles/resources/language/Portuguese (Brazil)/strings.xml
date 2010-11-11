@@ -29,25 +29,25 @@
   <!-- Script Settings -->
    
     <string id="30100">Seleconar Idioma</string>
-    <string id="30101">- Idioma Principal</string>
-    <string id="30102">- Idioma Secundário</string>
+    <string id="30101">Idioma Principal</string>
+    <string id="30102">Idioma Secundário</string>
     <string id="30103">Seleção de Serviços</string>
-    <string id="30104"> - Podnapisi.net Nome Do Usuário</string>
-    <string id="30105"> - Podnapisi.net Senha</string>
+    <string id="30104">- Podnapisi.net Nome Do Usuário</string>
+    <string id="30105">- Podnapisi.net Senha</string>
     <string id="30106">Advanced Options</string>
-    <string id="30107">- Subtitle Download Folder Same As Movie</string>
-    <string id="30108">  - Set Custom Subtitle Download Path</string>
-    <string id="30110">- Pesquisa Manual</string>
-    <string id="30111">- Idioma Terciário</string> 
-    <string id="30113">- Selecione o Serviço Padrão para Filmes</string>
-    <string id="30114">- Selecione o Serviço Padrão para Séries</string>
-    <string id="30118">- Mostre o Nome do Arquivo nos Resultados</string>
-    <string id="30119">- Pesquise Usando o Nome da Pasta</string>
-    <string id="30121">- Adicionar Língua ao Nome do Arquivo </string>
-    <string id="30122">- Tempo Padrão de Timeout</string>
-    <string id="30123"> - Legendas.TV Nome do Usuário</string>
-    <string id="30124"> - Legendas.TV Senha</string>
-    <string id="30125">- Disable hash search</string>
+    <string id="30107">Subtitle Download Folder Same As Movie</string>
+    <string id="30108">- Set Custom Subtitle Download Path</string>
+    <string id="30110">Pesquisa Manual</string>
+    <string id="30111">Idioma Terciário</string> 
+    <string id="30113">Selecione o Serviço Padrão para Filmes</string>
+    <string id="30114">Selecione o Serviço Padrão para Séries</string>
+    <string id="30118">Mostre o Nome do Arquivo nos Resultados</string>
+    <string id="30119">Pesquise Usando o Nome da Pasta</string>
+    <string id="30121">Adicionar Língua ao Nome do Arquivo </string>
+    <string id="30122">Tempo Padrão de Timeout</string>
+    <string id="30123">- Legendas.TV Nome do Usuário</string>
+    <string id="30124">- Legendas.TV Senha</string>
+    <string id="30125">Disable hash search</string>
   
   <!-- Languages  -->
 

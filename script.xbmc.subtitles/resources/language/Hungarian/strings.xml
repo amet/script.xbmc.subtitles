@@ -29,25 +29,25 @@
   <!-- Script Settings -->
   
     <string id="30100">Nyelvek</string>
-    <string id="30101">- Elsődleges nyelv</string>
-    <string id="30102">- Másodlagos nyelv</string>
+    <string id="30101">Elsődleges nyelv</string>
+    <string id="30102">Másodlagos nyelv</string>
     <string id="30103">Szolgáltastások</string>
-    <string id="30104"> - Podnapisi.net felhasználónév</string>
-    <string id="30105"> - Podnapisi.net jelszó</string>
+    <string id="30104">- Podnapisi.net felhasználónév</string>
+    <string id="30105">- Podnapisi.net jelszó</string>
     <string id="30106">Különleges beállítások</string>
-    <string id="30107">- Feliratmappa megeggyezik a film mappájával</string>
-    <string id="30108">  - Egyedi feliratmappa megadása</string>
-    <string id="30110">- Keresési szöveg manuális megadása</string>
-    <string id="30111">- Harmadik nyelv</string>  
-    <string id="30113">- Alapértelmezett szolgáltatás választása mozifilmekre</string>
-    <string id="30114">- Alapértelmezett szolgáltatás választása TV sorozatokra</string>    
-    <string id="30118">- Fájlnév megjelenítése a találatok között</string>
-    <string id="30119">- Keresés mappanév használatával</string> 
-    <string id="30121">- Nyelv hozzáadása a fájlnévhez </string>
-    <string id="30122">- Alapértelmezett időkorlát</string>
-    <string id="30123"> - Legendas.TV Felhasználónév</string>
-    <string id="30124"> - Legendas.TV Jelszó</string>
-    <string id="30125">- Hash keresés kikapcsolása</string>
+    <string id="30107">Feliratmappa megeggyezik a film mappájával</string>
+    <string id="30108">- Egyedi feliratmappa megadása</string>
+    <string id="30110">Keresési szöveg manuális megadása</string>
+    <string id="30111">Harmadik nyelv</string>  
+    <string id="30113">Alapértelmezett szolgáltatás választása mozifilmekre</string>
+    <string id="30114">Alapértelmezett szolgáltatás választása TV sorozatokra</string>    
+    <string id="30118">Fájlnév megjelenítése a találatok között</string>
+    <string id="30119">Keresés mappanév használatával</string> 
+    <string id="30121">Nyelv hozzáadása a fájlnévhez </string>
+    <string id="30122">Alapértelmezett időkorlát</string>
+    <string id="30123">- Legendas.TV Felhasználónév</string>
+    <string id="30124">- Legendas.TV Jelszó</string>
+    <string id="30125">Hash keresés kikapcsolása</string>
 
       <!-- Optional  -->
 

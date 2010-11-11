@@ -28,25 +28,25 @@
   <!-- Script Settings -->
   
     <string id="30100">Odaberi jezike</string>
-    <string id="30101">- Prvi jezik</string>
-    <string id="30102">- Drugi jezik</string>
+    <string id="30101">Prvi jezik</string>
+    <string id="30102">Drugi jezik</string>
     <string id="30103">Odaberi Servis</string>
     <string id="30104">- podnapisi.net Korisničko ime</string>
     <string id="30105">- podnapisi.net Zaporka</string>
     <string id="30106">Opcije</string>
-    <string id="30107">- Mapa skinutih titlova ista kao film</string>
-    <string id="30108">  - Postavi putanju za skinute titlove</string>
-    <string id="30110">- Unesi ručno podatkovni niz (string) za pretragu</string>
-    <string id="30111">- Treći jezik</string>  
-    <string id="30113">- Odaberi default-ni servis za filmove</string>
-    <string id="30114">- Odaberi default-ni servis za TV serije</string>
-    <string id="30118">- Prikaži ime datoteke na stranici s rezultatima</string>
-    <string id="30119">- Pretraži koristeći ime datoteke</string>
-    <string id="30121">- Dodaj oznaku jezika u ime datoteke</string>
-    <string id="30122">- Postavi vremensko ograničenje</string>
-    <string id="30123"> - legendas.tv Korisničko ime</string>
-    <string id="30124"> - legendas.tv Zaporka</string>
-    <string id="30125">- Onemogući hash pretragu</string>  
+    <string id="30107">Mapa skinutih titlova ista kao film</string>
+    <string id="30108">- Postavi putanju za skinute titlove</string>
+    <string id="30110">Unesi ručno podatkovni niz (string) za pretragu</string>
+    <string id="30111">Treći jezik</string>  
+    <string id="30113">Odaberi default-ni servis za filmove</string>
+    <string id="30114">Odaberi default-ni servis za TV serije</string>
+    <string id="30118">Prikaži ime datoteke na stranici s rezultatima</string>
+    <string id="30119">Pretraži koristeći ime datoteke</string>
+    <string id="30121">Dodaj oznaku jezika u ime datoteke</string>
+    <string id="30122">Postavi vremensko ograničenje</string>
+    <string id="30123">- legendas.tv Korisničko ime</string>
+    <string id="30124">- legendas.tv Zaporka</string>
+    <string id="30125">Onemogući hash pretragu</string>  
   
   <!-- Neobavezno  -->
   

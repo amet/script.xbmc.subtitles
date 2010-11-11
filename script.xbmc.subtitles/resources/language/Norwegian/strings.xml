@@ -29,25 +29,25 @@
   <!-- Script Settings -->
 
     <string id="30100">Velg språk</string>
-    <string id="30101">- Primærspråk</string>
-    <string id="30102">- Sekundærspråk</string>
+    <string id="30101">Primærspråk</string>
+    <string id="30102">Sekundærspråk</string>
     <string id="30103">Velg tjeneste</string>
-    <string id="30104"> - Podnapisi.net brukernavn</string>
-    <string id="30105"> - Podnapisi.net passord</string>
+    <string id="30104">- Podnapisi.net brukernavn</string>
+    <string id="30105">- Podnapisi.net passord</string>
     <string id="30106">Avanserte innstillinger</string>
-    <string id="30107">- Last ned undertekster i samme mappe som filmen</string>
-    <string id="30108">  - Sett mappe for nedlasting av undertekster</string>
-    <string id="30110">- Skriv inn søkestreng manuelt</string>
-    <string id="30111">- Tredje språk</string>
-    <string id="30113">- Velg standard filmtjeneste</string>
-    <string id="30114">- Velg standard tv-tjeneste</string>
-    <string id="30118">- Vis filnavn i resultatlisten</string>
-    <string id="30119">- Søk med mappenavn</string>
-    <string id="30121">- Inkludèr språk i filnavn</string>
-    <string id="30122">- Standard tidsgrense</string>
-    <string id="30123"> - Legendas.TV Brukernavn</string>
-    <string id="30124"> - Legendas.TV Passord</string>
-    <string id="30125">- Slå av hash-søk</string>      
+    <string id="30107">Last ned undertekster i samme mappe som filmen</string>
+    <string id="30108">- Sett mappe for nedlasting av undertekster</string>
+    <string id="30110">Skriv inn søkestreng manuelt</string>
+    <string id="30111">Tredje språk</string>
+    <string id="30113">Velg standard filmtjeneste</string>
+    <string id="30114">Velg standard tv-tjeneste</string>
+    <string id="30118">Vis filnavn i resultatlisten</string>
+    <string id="30119">Søk med mappenavn</string>
+    <string id="30121">Inkludèr språk i filnavn</string>
+    <string id="30122">Standard tidsgrense</string>
+    <string id="30123">- Legendas.TV Brukernavn</string>
+    <string id="30124">- Legendas.TV Passord</string>
+    <string id="30125">Slå av hash-søk</string>      
       
   <!-- Languages  -->
       

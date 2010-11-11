@@ -29,25 +29,25 @@
   <!-- * Script Settings -->
     
     <string id="30100">Talen</string>
-    <string id="30101">- Eerste taal</string>
-    <string id="30102">- Tweede taal</string>
+    <string id="30101">Eerste taal</string>
+    <string id="30102">Tweede taal</string>
     <string id="30103">Services</string>
-    <string id="30104">  - Gebruikersnaam Podnapisi.net</string>
-    <string id="30105">  - Wachtwoord Podnapisi.net</string>
+    <string id="30104">- Gebruikersnaam Podnapisi.net</string>
+    <string id="30105">- Wachtwoord Podnapisi.net</string>
     <string id="30106">Geavanceerde opties</string>
-    <string id="30107">- Ondertitels opslaan in dezelfde map als film</string>
-    <string id="30108">  - Een aparte map voor ondertitels instellen</string>
-    <string id="30110">- Handmatige zoekopdracht toestaan</string>
-    <string id="30111">- Derde taal</string>  
-    <string id="30113">- Standaard service voor films</string>
-    <string id="30114">- Standaard service voor series</string>
-    <string id="30118">- Bestandsnaam tonen in resultatenpagina</string>
-    <string id="30119">- Op basis van mapnaam zoeken</string>
-    <string id="30121">- Taalcode aan bestandsnaam toevoegen</string>
-    <string id="30122">- Standaard time-out instellen</string>
-    <string id="30123">  - Gebruikersnaam Legendas.TV</string>
-    <string id="30124">  - Wachtwoord Legendas.TV</string>
-    <string id="30125">- Zoeken op hashwaarde uitschakelen</string>
+    <string id="30107">Ondertitels opslaan in dezelfde map als film</string>
+    <string id="30108">- Een aparte map voor ondertitels instellen</string>
+    <string id="30110">Handmatige zoekopdracht toestaan</string>
+    <string id="30111">Derde taal</string>  
+    <string id="30113">Standaard service voor films</string>
+    <string id="30114">Standaard service voor series</string>
+    <string id="30118">Bestandsnaam tonen in resultatenpagina</string>
+    <string id="30119">Op basis van mapnaam zoeken</string>
+    <string id="30121">Taalcode aan bestandsnaam toevoegen</string>
+    <string id="30122">Standaard time-out instellen</string>
+    <string id="30123">- Gebruikersnaam Legendas.TV</string>
+    <string id="30124">- Wachtwoord Legendas.TV</string>
+    <string id="30125">Zoeken op hashwaarde uitschakelen</string>
        
   <!-- Languages  -->
     
