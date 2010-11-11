@@ -8,8 +8,6 @@ import xbmc
 
 
 _ = sys.modules[ "__main__" ].__language__
-__scriptname__ = sys.modules[ "__main__" ].__scriptname__
-__version__    = sys.modules[ "__main__" ].__version__
 
 STATUS_LABEL = 100
 LOADING_IMAGE = 110

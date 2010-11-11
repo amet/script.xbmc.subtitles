@@ -31,7 +31,10 @@ def query_TvShow(name, season, episode, file_original_path, langs):
           hashed = True
         else:
           hashed = False
-        lang = toOpenSubtitles_two(langs_html.string.strip())
+        try:
+          lang = toOpenSubtitles_two(langs_html.string.strip())
+        except:
+          lang = ""
         statusTD = langs_html.findNext("td")
         status = statusTD.find("strong").string.strip()
         link = "%s%s"%(self_host,statusTD.findNext("td").find("a")["href"])
