@@ -45,10 +45,11 @@ class GUI( xbmcgui.WindowXMLDialog ):
         if (movieFullPath.find("rar://") > -1 ):
             rar = True
             
-            movieFullPath = sub_folder = movieFullPath.replace("rar://","")
-            sub_folder = os.path.dirname(os.path.dirname( sub_folder ))
+            movieFullPath = movieFullPath.replace("rar://","")
+            if path:
+              sub_folder = os.path.dirname(os.path.dirname( movieFullPath ))
                 
-        if not path and not rar:
+        if not path:
             if len(sub_folder) < 1 :
                 sub_folder = os.path.dirname( movieFullPath )
                               
