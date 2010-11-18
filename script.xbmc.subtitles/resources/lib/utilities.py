@@ -476,6 +476,17 @@ def twotofull(id):
     "es"                  :  "Spanish",
     "sv"                  :  "Swedish",
     "tr"                  :  "Turkish",
+    "pb"                  :  "PortugueseBrazil",
+    "hy"                  :  "Belarusian",
+    "bs"                  :  "Bosnian",
+    "ca"                  :  "Catalan",
+    "is"                  :  "Icelandic",
+    "kk"                  :  "Kazakh",
+    "th"                  :  "Thai",
+    "uk"                  :  "Ukrainian",
+    "vi"                  :  "Vietnamese",
+    "fa"                  :  "Persian",
+
 
   }
   return languages[ id ]  
