@@ -11,20 +11,20 @@
     <string id="652">Undertext nedladdad och uppackad</string>
     <string id="653">Anslutning misslyckades.</string>
     <string id="654">Fel vid uppackning av undertext</string>
-    <string id="655">Local subtitle available</string>
-    <string id="656">Service did not respond within the time out limit</string>
-    <string id="657">No Subtitles Found!</string>
+    <string id="655">Lokal undertext tillgänglig</string>
+    <string id="656">Tjänsten svarade inte inom tidsgränsen</string>
+    <string id="657">Inga undertexter funna!</string>
     <string id="744">undertexter hittades för</string>
-    <string id="747">Search Using Parent Folder</string>
-    <string id="748">You can't save subtitle to selected destination</string>
-    <string id="750">Would you like to activate this subtitle temporarily?</string>
-    <string id="751">Enter Movie Name (year)</string>
-    <string id="755">Server is overloaded, please try again later</string>
-    <string id="756">Login failed. Please verify your settings at the addon Configuration</string>
+    <string id="747">Använd överordnad mapp vid Sök</string>
+    <string id="748">Du kan inte spara undertexten till vald målmapp</string>
+    <string id="750">Vill du aktivera denna undertexten temporärt?</string>
+    <string id="751">Skriv in Filmens Namn (år)</string>
+    <string id="755">Servern är överbelastad, vänligen försök senare</string>
+    <string id="756">Inloggning misslyckades. Vänligen verifiera dina inställningar i tilläggets konfiguration</string>
     <string id="757">Server requires you to rewrite code from image</string>
     <string id="758">Please take look at notification area</string> 
     <string id="759">Enter code of image in notification area</string>
-    <string id="760">Available Services</string>        
+    <string id="760">Tillgängliga tjänster</string>        
 
   <!-- Script Settings -->
     
@@ -34,20 +34,20 @@
     <string id="30103">Välj tjänster</string>
     <string id="30104">- Podnapisi.net Användarnamn</string>
     <string id="30105">- Podnapisi.net Lösenord</string>
-    <string id="30106">Advanced Options</string>
-    <string id="30107">Subtitle Download Folder Same As Movie</string>
-    <string id="30108">- Set Custom Subtitle Download Path</string>
+    <string id="30106">Avancerade alternativ</string>
+    <string id="30107">Undertextens målmapp samma som videon</string>
+    <string id="30108">- Välj Anpassad målmapp för undertext</string>
     <string id="30110">Mata in söktext manuellt</string>
-    <string id="30111">Third Language</string>  
-    <string id="30113">Select Default Movie Service</string>
-    <string id="30114">Select Default TV Show Service</string>
-    <string id="30118">Display file name in results page</string>
-    <string id="30119">Search Using Parent Folder</string>
-    <string id="30121">Add Language To Filename </string>
-    <string id="30122">Set Default Timeout</string>
-    <string id="30123">- Legendas.TV Username</string>
-    <string id="30124">- Legendas.TV Password</string>
-    <string id="30125">Disable hash search</string>
+    <string id="30111">Tredjehandsspråk</string>  
+    <string id="30113">Välj standardtjänst för Film</string>
+    <string id="30114">Välj standardtjänst för TV program</string>
+    <string id="30118">Visa filnamnet på sidan för resultaten</string>
+    <string id="30119">Använd överordnad mapp vid Sök</string>
+    <string id="30121">Lägg till språk till filnamnet </string>
+    <string id="30122">Ställ standard timeout</string>
+    <string id="30123">- Legendas.TV Användarnamn</string>
+    <string id="30124">- Legendas.TV Lösenord</string>
+    <string id="30125">Inaktivera hash sökning</string>
   
   <!-- Languages  -->
      
