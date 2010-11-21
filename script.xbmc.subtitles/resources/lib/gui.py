@@ -25,13 +25,10 @@ CANCEL_DIALOG = EXIT_SCRIPT + ( 216, 257, 61448, )
 
 class GUI( xbmcgui.WindowXMLDialog ):
         
-    def __init__( self, *args, **kwargs ):
-        
+    def __init__( self, *args, **kwargs ):        
         pass
-          
 
-    def set_allparam(self):
-        
+    def set_allparam(self):       
         temp = False
         rar = False
         self.newWindow = True
@@ -71,8 +68,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.season    = str(xbmc.getInfoLabel("VideoPlayer.Season")) # Season
         self.episode   = str(xbmc.getInfoLabel("VideoPlayer.Episode"))# Episode        
         if self.episode.lower().find("s") > -1:                       # Check if season is "Special"             
-            self.season = "0"                                         #
-            self.episode = self.episode[-1:]                          #
+          self.season = "0"                                         #
+          self.episode = self.episode[-1:]                          #
         
         self.tvshow    = xbmc.getInfoLabel("VideoPlayer.TVshowtitle") # Show
         self.title     = unicodedata.normalize('NFKD', 
@@ -81,19 +78,19 @@ class GUI( xbmcgui.WindowXMLDialog ):
                          ).encode('ascii','ignore')                   # Title
         
         if self.tvshow == "":
-            if str(self.year) == "":
-                title, season, episode = regex_tvshow(False, self.title)
-                if episode != "":
-                    self.season = str(int(season))
-                    self.episode = str(int(episode))
-                    self.tvshow = title
-                else:
-                    self.title, self.year = xbmc.getCleanMovieTitle( self.title )
- 
+          if str(self.year) == "":
+            title, season, episode = regex_tvshow(False, self.title)
+            if episode != "":
+               self.season = str(int(season))
+               self.episode = str(int(episode))
+               self.tvshow = title
             else:
-                self.title = self.title  
+               self.title, self.year = xbmc.getCleanMovieTitle( self.title )
+ 
+          else:
+            self.title = self.title  
         else:
-            self.year = ""
+          self.year = ""
         self.language_1 = toScriptLang(__settings__.getSetting( "Lang01" ))     # Full language 1
         self.language_2 = toScriptLang(__settings__.getSetting( "Lang02" ))     # Full language 2  
         self.language_3 = toScriptLang(__settings__.getSetting( "Lang03" ))     # Full language 3
@@ -105,7 +102,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.set_temp = temp
         
         if __settings__.getSetting( "disable_hash_search" ) == "true":
-           self.set_temp = True
+         self.set_temp = True
 
         self.mansearch =  __settings__.getSetting( "searchstr" ) == "true"      # Manual search string??
         self.parsearch =  __settings__.getSetting( "par_folder" ) == "true"     # Parent folder as search string
