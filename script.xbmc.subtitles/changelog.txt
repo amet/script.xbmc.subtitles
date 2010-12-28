@@ -1,8 +1,12 @@
+2.2.3
+- fixed: Hungarian translation, thanks alanwww1.
+- fixed: addic7ed would fail on That '70s Show, we remove "'" to fix the search
+
 2.2.2
--added Itasa (Italiansubs.net), thx mr_blobby
+-added: Itasa (Italiansubs.net), thx mr_blobby
 
 2.2.1
--added Swesub.nu, thx mr_blobby
+-added: Swesub.nu, thx mr_blobby
 
 2.2.0
 - simplify services code
