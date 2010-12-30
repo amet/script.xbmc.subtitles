@@ -1,7 +1,5 @@
-2.2.4
-- fixed: Bierdopje needs a single quote changed to two single quotes (Grey's Anatomy -> Grey''s Anatomy) otherwise it couldn't find a show-id, thx mr_blobby 
-
 2.2.3
+- fixed: Bierdopje needs a single quote changed to two single quotes (Grey's Anatomy -> Grey''s Anatomy) otherwise it couldn't find a show-id, thx mr_blobby 
 - fixed: Hungarian translation, thanks alanwww1.
 - fixed: addic7ed would fail on That '70s Show, we remove "'" to fix the search
 
