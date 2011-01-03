@@ -90,7 +90,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 		img_file.write(img)
 		img_file.close()
 		dialog = xbmcgui.Dialog()
-		dialog.ok(__scriptname__,_( 757 ),_( 758 ))		
+		dialog.ok(__scriptname__,_( 757 ),_( 758 ))
 		log(__name__,'Notifying user for 10s')
 		xbmc.executebuiltin("XBMC.Notification(%s,%s,10000,%s)" % (__scriptname__,'',os.path.join(tmp_sub_dir,'image.png')))		
 		kb = xbmc.Keyboard('',_( 759 ),False)
@@ -164,29 +164,41 @@ class TitulkyClient(object):
 			file_size='%.2f' % (float(os.path.getsize(file_original_path))/(1024*1024))
 		except:
 			file_size=''
+		print file_size
 		log(__name__,'Opening %s' % (url))
 		response = urllib2.urlopen(req)
 		content = response.read()
 		response.close()
 		log(__name__,'Done')
 		subtitles_list = []
+		max_downloads=1
 		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL):			
-#			print matches.group('id') +' ' +matches.group('title')+' '+ str(matches.group('sync'))+' '+ matches.group('tvshow')+' '+ matches.group('year')+' '+ matches.group('downloads')+' '+ matches.group('lang')+' '+ matches.group('cds')+' '+matches.group('size')
+			print matches.group('id') +' ' +matches.group('title')+' '+ str(matches.group('sync'))+' '+ matches.group('tvshow')+' '+ matches.group('year')+' '+ matches.group('downloads')+' '+ matches.group('lang')+' '+ matches.group('cds')+' '+matches.group('size')
 			file_name = matches.group('sync')
 			if file_name == None: # if no sync info is found, just use title instead of None
 				file_name = matches.group('title') 
 			flag_image = "flags/%s.gif" % (lang2_opensubtitles(matches.group('lang')))
 			sync = False
-			if file_original_path.find(matches.group('sync')) > -1:
+			matches_sync=matches.group('sync')
+			if not matches_sync == None and file_original_path.find(matches_sync) > -1:
 				sync = True
 			if file_size==matches.group('size'):
 				sync = True
+			try:
+				downloads = int(matches.group('downloads'))
+				if downloads>max_downloads:
+					max_downloads=downloads
+			except:
+				downloads=0
 			if not year == '':
 				if not matches.group('year') == year:
 					continue
 			lang = lang_titulky2xbmclang(matches.group('lang'))
 			if lang == lang1 or lang == lang2 or lang == lang3:
-				subtitles_list.append( { 'title' : matches.group('title'), 'year' : matches.group('year'), "filename" : file_name, 'language_name' : lang_titulky2xbmclang(matches.group('lang')), 'ID' : matches.group('id'), "mediaType" : 'mediaType', "numberOfDiscs" : '1', "downloads" : matches.group('downloads'), "sync" : sync, "rating" :'0', "language_flag":flag_image } )
+				subtitles_list.append( { 'title' : matches.group('title'), 'year' : matches.group('year'), "filename" : file_name, 'language_name' : lang_titulky2xbmclang(matches.group('lang')), 'ID' : matches.group('id'), "mediaType" : 'mediaType', "numberOfDiscs" : '1', "downloads" : downloads, "sync" : sync, "rating" :'0', "language_flag":flag_image } )
+		# computing ratings is based on downloads
+		for subtitle in subtitles_list:
+			subtitle['rating'] = str((subtitle['downloads']*10/max_downloads))
 		return subtitles_list
 	
 	def get_waittime(self,content):
