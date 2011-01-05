@@ -173,7 +173,7 @@ class TitulkyClient(object):
 		subtitles_list = []
 		max_downloads=1
 		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL):			
-			print matches.group('id') +' ' +matches.group('title')+' '+ str(matches.group('sync'))+' '+ matches.group('tvshow')+' '+ matches.group('year')+' '+ matches.group('downloads')+' '+ matches.group('lang')+' '+ matches.group('cds')+' '+matches.group('size')
+			# print matches.group('id') +' ' +matches.group('title')+' '+ str(matches.group('sync'))+' '+ matches.group('tvshow')+' '+ matches.group('year')+' '+ matches.group('downloads')+' '+ matches.group('lang')+' '+ matches.group('cds')+' '+matches.group('size')
 			file_name = matches.group('sync')
 			if file_name == None: # if no sync info is found, just use title instead of None
 				file_name = matches.group('title') 
