@@ -13,7 +13,7 @@ from utilities import toOpenSubtitles_two, log
 _ = sys.modules[ "__main__" ].__language__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __cwd__        = sys.modules[ "__main__" ].__cwd__
-
+__settings__ = sys.modules[ "__main__" ].__settings__
 """
             <tr class="row2">
                     <td><a href="Pulp-Fiction-118518.htm" >Pulp Fiction</a></td>
@@ -49,17 +49,6 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 	if br_index > -1:
 		title = title[:br_index]
 	title = title.strip()
-#   print 'path '+file_original_path
-#	print 'title '+title
-#	print 'tvshow '+tvshow
-#	print 'year '+year
-#	print 'season '+season
-#	print 'episode'+episode
-#    print 'set_temp '+str(set_temp)
-#    print 'rar '+str(rar)
-#	print 'lang1 '+lang1
-#	print 'lang2 '+lang2
-#	print 'lang3 '+lang3
 	session_id = "0"
 	client = TitulkyClient()    
 	subtitles_list = client.search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 )   
@@ -70,14 +59,18 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
 
 	subtitle_id =  subtitles_list[pos][ 'ID' ]
-#	print pos
-#	print zip_subs
-#	print tmp_sub_dir
-#	print sub_folder
-#	print session_id
-#	print subtitle_id
-    
 	client = TitulkyClient()
+	username = __settings__.getSetting( "Titulkyuser" )
+	password = __settings__.getSetting( "Titulkypass" )
+	if password == '' or username == '':
+		log(__name__,'Credentials to Titulky.com not provided')
+	else:
+		if client.login(username,password) == False:
+			log(__name__,'Login to Titulky.com failed. Check your username/password at the addon configuration')
+			dialog = xbmcgui.Dialog()
+			dialog.ok(__scriptname__,_( 756 ))
+			return True,subtitles_list[pos]['language_name'], ""
+		log(__name__,'Login successfull')
 	log(__name__,'Get page with subtitle (id=%s)'%(subtitle_id))
 	content = client.get_subtitle_page(subtitle_id)
 	control_img = client.get_control_image(content)
@@ -92,7 +85,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 		dialog = xbmcgui.Dialog()
 		dialog.ok(__scriptname__,_( 757 ),_( 758 ))
 		log(__name__,'Notifying user for 10s')
-		xbmc.executebuiltin("XBMC.Notification(%s,%s,10000,%s)" % (__scriptname__,'',os.path.join(tmp_sub_dir,'image.png')))		
+		xbmc.executebuiltin("XBMC.Notification(%s,%s,10000,%s)" % (__scriptname__,'',os.path.join(tmp_sub_dir,'image.png')))
 		kb = xbmc.Keyboard('',_( 759 ),False)
 		kb.doModal()
 		if kb.isConfirmed():
@@ -107,6 +100,12 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 			log(__name__,'Control text not confirmed, returning in error')
 			return True,subtitles_list[pos]['language_name'], ""
 	wait_time = client.get_waittime(content)
+	cannot_download = client.get_cannot_download_error(content)
+	if not None == cannot_download:
+		log(__name__,'Subtitles cannot be downloaded, user needs to login')
+		dialog = xbmcgui.Dialog()
+		dialog.ok(__scriptname__,_( 761 ))
+		return True,subtitles_list[pos]['language_name'], ""
 	link = client.get_link(content)
 	log(__name__,'Got the link, wait %i seconds before download' % (wait_time))
 	delay = wait_time
@@ -116,6 +115,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 		xbmc.executebuiltin("XBMC.Notification(%s,%s,1000,%s)" % (__scriptname__,line2,icon))
 		delay -= 1
 		time.sleep(1)
+
 	log(__name__,'Downloading subtitle zip')
 	data = client.get_file(link)
 	log(__name__,'Saving to file %s' % zip_subs)
@@ -145,16 +145,22 @@ def get2DigitStr(number):
 def lang2_opensubtitles(lang):
 	lang = lang_titulky2xbmclang(lang)
 	return toOpenSubtitles_two(lang)
-    
+
 class TitulkyClient(object):
-	
+
 	def __init__(self):
 		self.server_url = 'http://www.titulky.com'
 		opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookielib.LWPCookieJar()))
 		opener.version = 'User-Agent=Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3 ( .NET CLR 3.5.30729)'
 		urllib2.install_opener(opener)
-	
-	def search_subtitles(self, file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ):	
+	def login(self,username,password):
+			log(__name__,'Logging in to Titulky.com')
+			login_postdata = urllib.urlencode({'Login': username, 'Password': password, 'foreverlog': '1','Detail2':''} )
+			request = urllib2.Request(self.server_url + '/index.php',login_postdata)
+			response = urllib2.urlopen(request).read()
+			log(__name__,'Got response')
+			return not response.find('BadLogin')>-1
+	def search_subtitles(self, file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ):
 		url = self.server_url+'/index.php?'+urllib.urlencode({'Fulltext':title,'FindUser':''})
 		if not (tvshow == None or tvshow == ''):
 			title2 = tvshow+' '+get_episode_season(episode,season)
@@ -164,7 +170,6 @@ class TitulkyClient(object):
 			file_size='%.2f' % (float(os.path.getsize(file_original_path))/(1024*1024))
 		except:
 			file_size=''
-		print file_size
 		log(__name__,'Opening %s' % (url))
 		response = urllib2.urlopen(req)
 		content = response.read()
@@ -172,7 +177,7 @@ class TitulkyClient(object):
 		log(__name__,'Done')
 		subtitles_list = []
 		max_downloads=1
-		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL):			
+		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL):
 			# print matches.group('id') +' ' +matches.group('title')+' '+ str(matches.group('sync'))+' '+ matches.group('tvshow')+' '+ matches.group('year')+' '+ matches.group('downloads')+' '+ matches.group('lang')+' '+ matches.group('cds')+' '+matches.group('size')
 			file_name = matches.group('sync')
 			if file_name == None: # if no sync info is found, just use title instead of None
@@ -200,18 +205,21 @@ class TitulkyClient(object):
 		for subtitle in subtitles_list:
 			subtitle['rating'] = str((subtitle['downloads']*10/max_downloads))
 		return subtitles_list
-	
+	def get_cannot_download_error(self,content):
+		if content.find('CHYBA') > -1:
+			return True
+
 	def get_waittime(self,content):
 		for matches in re.finditer(countdown_pattern, content, re.IGNORECASE | re.DOTALL):
 			return int(matches.group(1))
 
 	def get_link(self,content):
 		for matches in re.finditer(sublink_pattern, content, re.IGNORECASE | re.DOTALL):
-			return str(matches.group(1))				
+			return str(matches.group(1))
 
 	def _get_session_id(self,content):
 		for matches in re.finditer(session_id_pattern, content, re.IGNORECASE | re.DOTALL):
-			return str(matches.group(1))	
+			return str(matches.group(1))
 
 	def get_control_image(self,content):
 		for matches in re.finditer(control_image_pattern, content, re.IGNORECASE | re.DOTALL):
@@ -250,4 +258,4 @@ class TitulkyClient(object):
 		log(__name__,'Done')
 		response.close()
 		return content
-		
+
