@@ -2,10 +2,10 @@ import os, sys, re, xbmc, xbmcgui, string, urllib, ElementTree as XMLTree
 from utilities import log
 
 _                = sys.modules[ "__main__" ].__language__
-__cwd__          = sys.modules[ "__main__" ].__cwd__
+__settings__     = sys.modules[ "__main__" ].__settings__
 apiurl           = "http://api.bierdopje.com/"
 apikey           = "369C2ED4261DE9C3"
-showids_filename = os.path.join( xbmc.translatePath( "special://profile/" ), "addon_data", os.path.basename( __cwd__ ),"bierdopje_show_ids.txt" )
+showids_filename = os.path.join( __settings__.getAddonInfo('profile') ,"bierdopje_show_ids.txt" )
 
 #====================================================================================================================
 # Functions
