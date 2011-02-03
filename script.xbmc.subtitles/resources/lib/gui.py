@@ -285,13 +285,12 @@ class GUI( xbmcgui.WindowXMLDialog ):
         file_name = "%s.%s%s" % ( sub_name, sub_lang, sub_ext )
       else:
         file_name = "%s%s" % ( sub_name, sub_ext )
-
       file_from = os.path.join(self.tmp_sub_dir, "zipsubs.zip").replace('\\','/')
       file_to = os.path.join(self.sub_folder, file_name).replace('\\','/')
       try:
-		shutil.copyfile(file_from, file_to)
+        shutil.copyfile(file_from, file_to)
       except IOError, e:
-		log( __name__ ,"Error: [%s]" % (e,)  )
+        log( __name__ ,"Error: [%s]" % (e,)  )
       xbmc.Player().setSubtitles(file_to)
       self.rem_files(self.tmp_sub_dir)
       self.exit_script()
