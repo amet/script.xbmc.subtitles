@@ -1,3 +1,6 @@
+2.2.6
+- added: theSubDB, thanks to jrhames
+
 2.2.5
 - added: Added storing of Bierdopje show ids to reduce the number of api calls. thx mr_blobby
 - use getAddonInfo('profile') for temporary subtitle location 
