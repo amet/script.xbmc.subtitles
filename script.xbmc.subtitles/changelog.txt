@@ -1,3 +1,6 @@
+2.2.9
+- fixed: undertexter download
+
 2.2.8
 - reverted: legacy window support
 - fixed: theSubDB service extraction
