@@ -1,3 +1,6 @@
+2.3.0
+- fixed: temporary folder needs xbmc.translatePath()
+
 2.2.9
 - fixed: undertexter download
 
