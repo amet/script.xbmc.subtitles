@@ -294,7 +294,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       try:
         if VFS:
           xbmcvfs.copy(file_from, file_to)
-          log( __name__ ,"vfs module copy %s -> %s" % (subtitle_file, file_path))
+          log( __name__ ,"vfs module copy %s -> %s" % (file_from, file_to))
         else:  
           shutil.copyfile(file_from, file_to)
       except IOError, e:
