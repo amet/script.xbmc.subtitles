@@ -115,7 +115,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
                 # determine if there is a newer file created in tmp_sub_dir (marks that the extraction had completed)
                 for file in files:
                     mtime = os.stat(os.path.join(tmp_sub_dir, file)).st_mtime
-                    if mtime > max_mtime:
+                    if (string.split(file,'.')[-1] in ['srt','sub','txt']) and (mtime > max_mtime):
                         max_mtime =  mtime
                 waittime  = waittime + 1
             if waittime == 20:
