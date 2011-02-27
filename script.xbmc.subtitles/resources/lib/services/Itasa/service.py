@@ -162,9 +162,10 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
                     filecount = init_filecount
                     # determine the newest file from tmp_sub_dir
                     for file in files:
-                        mtime = os.stat(os.path.join(tmp_sub_dir, file)).st_mtime
-                        if mtime > max_mtime:
-                            max_mtime =  mtime
+                        if (string.split(file,'.')[-1] in ['srt','sub','txt']):
+                            mtime = os.stat(os.path.join(tmp_sub_dir, file)).st_mtime
+                            if mtime > max_mtime:
+                                max_mtime =  mtime
                     init_max_mtime = max_mtime
                     time.sleep(2)  # wait 2 seconds so that the unpacked files are at least 1 second newer
                     xbmc.executebuiltin("XBMC.Extract(" + local_tmp_file + "," + tmp_sub_dir +")")
