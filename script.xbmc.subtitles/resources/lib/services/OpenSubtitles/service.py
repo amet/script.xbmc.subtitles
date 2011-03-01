@@ -36,7 +36,6 @@ def set_filehash(path,rar):
 
 
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ): #standard input
-    import xbmc
     ok = False
     msg = ""
     hash_search = False
@@ -47,8 +46,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
         OS_search_string = ("%s S%.2dE%.2d" % (tvshow, int(season), int(episode),)).replace(" ","+")      
     else:                                                            # Movie or not in Library
 
-        if str(year) == "":
-                import xbmc                                          # Not in Library
+        if str(year) == "":                                          # Not in Library
                 title, year = xbmc.getCleanMovieTitle( title )
         else:                                                        # Movie in Library
                 year  = year
