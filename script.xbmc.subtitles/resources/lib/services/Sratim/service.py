@@ -1,7 +1,11 @@
 # -*- coding: UTF-8 -*-
 #===============================================================================
 # Sratim.co.il subtitles service.
-# Version: 1.0
+# Version: 1.1
+#
+# Change log:
+# 1.1 - Fixed bug with movie search: forgot to replace spaces with + signs.
+#
 # Created by: Ori Varon
 #===============================================================================
 import os, re, xbmc, xbmcgui, string, time, urllib2
@@ -141,7 +145,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     if tvshow:
         searchString = tvshow.replace(" ","+") + "+season+" + season + "+episode+" + episode
     else:
-        searchString = title
+        searchString = title.replace(" ","+")
     log( __name__ ,"%s Search string = %s" % (debug_pretext, searchString))
 
     # Retrieve the search results (html)
