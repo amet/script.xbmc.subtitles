@@ -136,7 +136,7 @@ def extractAndFindSub(tempSubDir,tempZipFile):
 # set_temp -> True iff video is http:// stream
 # rar -> True iff video is inside a rar archive
 # lang1, lang2, lang3 -> Languages selected by the user
-def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3 ): #standard input
+def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack ): #standard input
     subtitlesList = []
     # List of user languages - easier to manipulate
     languageList = [lang1, lang2, lang3]

@@ -1,3 +1,6 @@
+2.3.8
+- added: support for stack:// files (CD1/CD2)
+
 2.3.7
 - fixed: sratim.co.il movie search bug, thanks to orivar
 - added: option to copy two sub files to the destination, needed in sub+idx cases. Thanks to orivar 
