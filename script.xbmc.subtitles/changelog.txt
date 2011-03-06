@@ -1,3 +1,8 @@
+2.3.7
+- fixed: sratim.co.il movie search bug, thanks to orivar
+- added: option to copy two sub files to the destination, needed in sub+idx cases. Thanks to orivar 
+- Bulgarian string fix, thx to Radoslav
+
 2.3.6
 - added: Sratim.co.il, thanks to orivar
 

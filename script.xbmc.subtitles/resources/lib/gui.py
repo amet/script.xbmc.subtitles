@@ -291,15 +291,25 @@ class GUI( xbmcgui.WindowXMLDialog ):
         file_name = "%s%s" % ( sub_name, sub_ext )
       file_from = file.replace('\\','/')
       file_to = os.path.join(self.sub_folder, file_name).replace('\\','/')
+      # Create a files list of from-to tuples so that multiple files may be
+      # copied (sub+idx etc')
+      files_list = [(file_from,file_to)]
       try:
-        if VFS:
-          xbmcvfs.copy(file_from, file_to)
-          log( __name__ ,"vfs module copy %s -> %s" % (file_from, file_to))
-        else:  
-          shutil.copyfile(file_from, file_to)
+        # If the subtitle's extension sub, check if an idx file exists and if so
+        # add it to the list
+        if ((sub_ext == ".sub") and (os.path.exists(file[:-3]+"idx"))):
+            log( __name__ ,"found .sub+.idx pair %s + %s" % (file_from,file_from[:-3]+"idx"))
+            files_list.append((file_from[:-3]+"idx",file_to[:-3]+"idx"))
+        for cur_file_from, cur_file_to in files_list:
+          if VFS:
+            xbmcvfs.copy(cur_file_from, cur_file_to)
+            log( __name__ ,"vfs module copy %s -> %s" % (cur_file_from, cur_file_to))
+          else:  
+            shutil.copyfile(cur_file_from, cur_file_to)
       except IOError, e:
         log( __name__ ,"Error: [%s]" % (e,)  )
-      xbmc.Player().setSubtitles(file_to)
+      # Choose the last pair in the list, second item (destination file)
+      xbmc.Player().setSubtitles(files_list[-1][1])
       self.rem_files(self.tmp_sub_dir)
       self.exit_script()
 
