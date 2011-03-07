@@ -1,10 +1,11 @@
 # -*- coding: UTF-8 -*-
 #===============================================================================
 # Sratim.co.il subtitles service.
-# Version: 1.1
+# Version: 1.2
 #
 # Change log:
 # 1.1 - Fixed bug with movie search: forgot to replace spaces with + signs.
+# 1.2 - Better handling of search timeout (no results returned instead of error)
 #
 # Created by: Ori Varon
 #===============================================================================
@@ -150,6 +151,9 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 
     # Retrieve the search results (html)
     searchResults = getURL(BASE_URL + "browse.php\?q=" + searchString)
+    # Search most likely timed out, no results
+    if (not searchResults):
+        return subtitlesList, "", "Search timed out, please try again later."
 
     # When searching for episode 1 Sratim.co.il returns episode 1,10,11,12 etc'
     # so we need to catch with out pattern the episode and season numbers and
