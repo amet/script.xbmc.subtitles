@@ -7,7 +7,8 @@ import urllib
 import unzip
 import unicodedata
 import shutil
-import socket, re
+import socket
+import re
 
 try:
   import xbmcvfs
@@ -177,21 +178,21 @@ class GUI( xbmcgui.WindowXMLDialog ):
       self.controlId = -1
       self.subtitles_list = []
 
-      log( __name__ ,"Manual Search : [%s]"              % self.mansearch)
-      log( __name__ ,"Default Service : [%s]"            % self.service)
-      log( __name__ ,"Services : [%s]"                   % self.service_list)
-      log( __name__ ,"Temp?: [%s]"                       % self.set_temp)
-      log( __name__ ,"Rar?: [%s]"                        % self.rar)
-      log( __name__ ,"File Path: [%s]"                   % self.file_original_path)
-      log( __name__ ,"Year: [%s]"                        % str(self.year))
-      log( __name__ ,"Tv Show Title: [%s]"               % self.tvshow)
-      log( __name__ ,"Tv Show Season: [%s]"              % self.season)
-      log( __name__ ,"Tv Show Episode: [%s]"             % self.episode)
-      log( __name__ ,"Movie/Episode Title: [%s]"         % self.title)
-      log( __name__ ,"Subtitle Folder: [%s]"             % self.sub_folder)
-      log( __name__ ,"Languages: [%s] [%s] [%s]"         % (self.language_1, self.language_2, self.language_3,))
-      log( __name__ ,"Parent Folder Search: [%s]"        % self.parsearch)
-      log( __name__ ,"Stacked(CD1/CD2)?: [%s]"           % self.stack)
+      log( __name__ ,"Manual Search : [%s]"        % self.mansearch)
+      log( __name__ ,"Default Service : [%s]"      % self.service)
+      log( __name__ ,"Services : [%s]"             % self.service_list)
+      log( __name__ ,"Temp?: [%s]"                 % self.set_temp)
+      log( __name__ ,"Rar?: [%s]"                  % self.rar)
+      log( __name__ ,"File Path: [%s]"             % self.file_original_path)
+      log( __name__ ,"Year: [%s]"                  % str(self.year))
+      log( __name__ ,"Tv Show Title: [%s]"         % self.tvshow)
+      log( __name__ ,"Tv Show Season: [%s]"        % self.season)
+      log( __name__ ,"Tv Show Episode: [%s]"       % self.episode)
+      log( __name__ ,"Movie/Episode Title: [%s]"   % self.title)
+      log( __name__ ,"Subtitle Folder: [%s]"       % self.sub_folder)
+      log( __name__ ,"Languages: [%s] [%s] [%s]"   % (self.language_1, self.language_2, self.language_3,))
+      log( __name__ ,"Parent Folder Search: [%s]"  % self.parsearch)
+      log( __name__ ,"Stacked(CD1/CD2)?: [%s]"     % self.stack)
 
       try:
         self.list_services()
@@ -364,19 +365,16 @@ class GUI( xbmcgui.WindowXMLDialog ):
                 subtitle_set,file_path = self.copy_files( subtitle_file, file_path ) 
                 if re.split("(?x)(?i)\CD(\d)", zip_entry)[1] == "1":
                   subToActivate = file_path
-                  print subToActivate
               except:
                 subtitle_set = False              
             else:            
-              subtitle_set,file_path = self.copy_files( subtitle_file, file_path )
-              subToActivate = file_path
+              subtitle_set,subToActivate = self.copy_files( subtitle_file, file_path )
 
       if not subtitle_set:
         for zip_entry in files:
           if os.path.splitext( zip_entry )[1] in exts:
             subtitle_file, file_path = self.create_name(zip_entry,sub_filename,subtitle_lang)
-            subtitle_set,file_path  = self.copy_files( subtitle_file, file_path )
-            subToActivate = file_path            
+            subtitle_set,subToActivate  = self.copy_files( subtitle_file, file_path )
 
     if subtitle_set :
       xbmc.Player().setSubtitles(subToActivate)
