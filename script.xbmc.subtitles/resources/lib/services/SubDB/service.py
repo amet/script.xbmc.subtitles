@@ -2,7 +2,6 @@
 
 import cPickle
 import StringIO
-import md5
 import sys
 import os
 import random
@@ -14,6 +13,13 @@ import xbmc
 import xbmcgui
 from utilities import log, toOpenSubtitles_two, twotofull
 
+try:
+  #Python 2.6 +
+  from hashlib import md5
+except ImportError:
+  #Python 2.5 and earlier
+  from md5 import new as md5
+  
 _ = sys.modules[ "__main__" ].__language__
 
 base_url = 'http://api.thesubdb.com/?%s'

@@ -175,6 +175,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.service = service  
 
       self.service_list = service_list
+      self.next = list(service_list)
       self.controlId = -1
       self.subtitles_list = []
 
@@ -228,13 +229,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.Service = Service
     self.getControl( STATUS_LABEL ).setLabel( _( 646 ) )
     msg = ""
-
-    log( __name__ ,"Socket timeout: %s" % (socket.getdefaulttimeout(),)  )
-    log( __name__ ,"Timeout Setting: %s" % (__settings__.getSetting( "timeout" ),)  )
-
     socket.setdefaulttimeout(float(__settings__.getSetting( "timeout" )))
-    log( __name__ ,"Socket timeout: %s" % (socket.getdefaulttimeout(),)  )
-
     try: 
       self.subtitles_list, self.session_id, msg = self.Service.search_subtitles( self.file_original_path, self.title, self.tvshow, self.year, self.season, self.episode, self.set_temp, self.rar, self.language_1, self.language_2, self.language_3, self.stack )
     except socket.error:
@@ -249,22 +244,28 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
     socket.setdefaulttimeout(None)
 
-    log( __name__ ,"Socket timeout: %s" % (socket.getdefaulttimeout(),)  )
-
     self.getControl( STATUS_LABEL ).setLabel( _( 642 ) % ( "...", ) )
 
-    if not self.subtitles_list: 
-      if msg != "":
-        self.getControl( STATUS_LABEL ).setLabel( msg )
+    if not self.subtitles_list:
+      xbmc.sleep(1500)
+      if ((__settings__.getSetting( "search_next" )== "true") and (len(self.next) > 1)):
+        self.next.remove(self.service)
+        self.service = self.next[0]
+        log( __name__ ,"Auto Searching '%s' Service" % (self.service,)  )
+        self.Search_Subtitles()
       else:
-        self.getControl( STATUS_LABEL ).setLabel( _( 657 ) )
-      if self.newWindow:  
-        self.setFocusId( SERVICES_LIST )
-        self.getControl( SERVICES_LIST ).selectItem( 0 )
-      else:
-        self.list_services()
-        self.setFocusId( SUBTITLES_LIST )
-        self.getControl( SUBTITLES_LIST ).selectItem( 0 )  
+        self.next = list(self.service_list)
+        if msg != "":
+          self.getControl( STATUS_LABEL ).setLabel( msg )
+        else:
+          self.getControl( STATUS_LABEL ).setLabel( _( 657 ) )
+        if self.newWindow:  
+          self.setFocusId( SERVICES_LIST )
+          self.getControl( SERVICES_LIST ).selectItem( 0 )
+        else:
+          self.list_services()
+          self.setFocusId( SUBTITLES_LIST )
+          self.getControl( SUBTITLES_LIST ).selectItem( 0 )  
 
     else:
       if not self.newWindow: self.list_services()
@@ -282,6 +283,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       self.getControl( STATUS_LABEL ).setLabel( '%i %s '"' %s '"'' % (len ( self.subtitles_list ), _( 744 ), self.file_name,) ) 
       self.setFocusId( SUBTITLES_LIST )
       self.getControl( SUBTITLES_LIST ).selectItem( 0 )
+      
 ###-------------------------- Download Subtitles  -------------################
 
   def Download_Subtitles( self, pos ):
@@ -527,7 +529,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
             self.service = selection
             self.Search_Subtitles()
 
-    elif controlId == 150:     
+    elif controlId == 150:
       selection = str(self.list[self.getControl( SERVICES_LIST ).getSelectedPosition()])
       log( __name__ ,"In 'On click' selected : [%s]" % (selection, )  )
       self.setFocusId( 120 )
@@ -538,7 +540,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       elif selection == "Set":
         __settings__.openSettings()
         self.set_allparam()         
-      else:  
+      else:
         self.service = selection
         self.Search_Subtitles()
                                                                                                                
