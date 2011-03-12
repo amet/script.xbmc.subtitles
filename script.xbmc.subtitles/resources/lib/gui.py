@@ -280,7 +280,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
         if self.autoDownload and item["sync"] and  (item["language_name"] == twotofull(toOpenSubtitles_two(self.language_1))):
           self.Download_Subtitles(itemCount, True)
           __settings__.setSetting("auto_download_file", os.path.basename( self.file_original_path ))
-          print __settings__.getSetting("auto_download_file")
           break
         else:
           listitem = xbmcgui.ListItem( label=item["language_name"], label2=item["filename"], iconImage=item["rating"], thumbnailImage=item["language_flag"] )
@@ -350,7 +349,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
     xbmc.executebuiltin('XBMC.Extract("%s","%s")' % (zip_subs,self.tmp_sub_dir,))
     xbmc.sleep(1000)
     files = os.listdir(self.tmp_sub_dir)
-    print files
     sub_filename = os.path.basename( self.file_original_path )
     exts = [".srt", ".sub", ".txt", ".smi", ".ssa", ".ass" ]
     if len(files) < 1 :
