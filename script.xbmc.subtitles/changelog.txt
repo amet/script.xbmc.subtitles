@@ -1,3 +1,7 @@
+2.4.0
+- code cleanup
+- removed unzip module and use built-in "XBMC.Extract"
+
 2.3.9
 - added: Search next available service if no results are found
 - fixed: SubDB md5 depreciated warning

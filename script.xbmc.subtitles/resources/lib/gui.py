@@ -1,35 +1,35 @@
-import sys
+# -*- coding: UTF-8 -*-
+
 import os
-import xbmc
-import xbmcgui
-from utilities import *
-import urllib
-import unzip
-import unicodedata
-import shutil
-import socket
 import re
+import sys
+import xbmc
+import urllib
+import socket
+import shutil
+import xbmcgui
+import unicodedata
+from utilities import *
 
 try:
   import xbmcvfs
   VFS = True
 except:
   VFS = False  
+
+STATUS_LABEL   = 100
+LOADING_IMAGE  = 110
+SUBTITLES_LIST = 120
+SERVICES_LIST  = 150
+CANCEL_DIALOG  = ( 9, 10, 216, 247, 257, 275, 61467, 61448, )
+
 _              = sys.modules[ "__main__" ].__language__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __settings__   = sys.modules[ "__main__" ].__settings__
 __cwd__        = sys.modules[ "__main__" ].__cwd__
 __profile__    = sys.modules[ "__main__" ].__profile__ 
 
-
-STATUS_LABEL = 100
-LOADING_IMAGE = 110
-SUBTITLES_LIST = 120
-SERVICES_LIST = 150
-SERVICE_DIR = os.path.join(__cwd__, "resources", "lib", "services")
-
-EXIT_SCRIPT = ( 9, 10, 247, 275, 61467, )
-CANCEL_DIALOG = EXIT_SCRIPT + ( 216, 257, 61448, )
+SERVICE_DIR    = os.path.join(__cwd__, "resources", "lib", "services")
 
 class GUI( xbmcgui.WindowXMLDialog ):
         
@@ -43,6 +43,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.stack          = False
     self.stackSecond    = ""
     self.autoDownload   = False
+    self.list           = []
     movieFullPath       = urllib.unquote(xbmc.Player().getPlayingFile())
     path                = __settings__.getSetting( "subfolder" ) == "true"                 # True for movie folder
     sub_folder          = xbmc.translatePath(__settings__.getSetting( "subfolderpath" ))
@@ -76,11 +77,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
       else:
         sub_folder = os.path.dirname( movieFullPath )   
 
-    self.list = []
-
     self.year      = xbmc.getInfoLabel("VideoPlayer.Year")                  # Year
     self.season    = str(xbmc.getInfoLabel("VideoPlayer.Season"))           # Season
     self.episode   = str(xbmc.getInfoLabel("VideoPlayer.Episode"))          # Episode        
+    
     if self.episode.lower().find("s") > -1:                                 # Check if season is "Special"             
       self.season = "0"                                                     #
       self.episode = self.episode[-1:]                                      #
@@ -347,8 +347,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
 ###-------------------------- Extract, Rename & Activate Subtitles  -------------################    
 
   def Extract_Subtitles( self, zip_subs, subtitle_lang ):
-    un = unzip.unzip()
-    files = un.get_file_list( zip_subs )
+    xbmc.executebuiltin('XBMC.Extract("%s","%s")' % (zip_subs,self.tmp_sub_dir,))
+    xbmc.sleep(1000)
+    files = os.listdir(self.tmp_sub_dir)
+    print files
     sub_filename = os.path.basename( self.file_original_path )
     exts = [".srt", ".sub", ".txt", ".smi", ".ssa", ".ass" ]
     if len(files) < 1 :
@@ -360,7 +362,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.list_services()
     else :    
       self.getControl( STATUS_LABEL ).setLabel(  _( 652 ) )
-      un.extract( zip_subs, self.tmp_sub_dir )
       subtitle_set = False
       movie_sub = False
       episode = 0

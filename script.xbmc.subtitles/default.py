@@ -24,7 +24,7 @@ if ( __name__ == "__main__" ):
   import gui
   ui = gui.GUI( "script-XBMC-Subtitles-main.xml" , __cwd__ , "Default")
   ui.doModal()
-  if xbmc.getCondVisibility('Player.Paused'): xbmc.Player().pause() # if Paused, un-pause
+  if xbmc.getCondVisibility('Player.Paused'): xbmc.Player().pause()      # if Paused, un-pause
   del ui
   sys.modules.clear()
 

@@ -36,7 +36,7 @@ def get_languages(languages):
 
 def get_hash(name):
 	data = ""
-	m = md5.new()
+	m = md5()
 	readsize = 64 * 1024
 	# with open(name, 'rb') as f:
 	f = open(name, 'rb')
