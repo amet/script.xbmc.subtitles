@@ -25,7 +25,6 @@ if ( __name__ == "__main__" ):
   ui = gui.GUI( "script-XBMC-Subtitles-main.xml" , __cwd__ , "Default")
   ui.doModal()
   del ui
-  xbmc.sleep(1000)  # without it Windows crashes ???
   if xbmc.getCondVisibility('Player.Paused'): xbmc.Player().pause()      # if Paused, un-pause
   sys.modules.clear()
 
