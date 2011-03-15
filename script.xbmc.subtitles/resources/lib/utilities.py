@@ -388,56 +388,7 @@ def toScriptLang(id):
     "43"                  : "Vietnamese",
   }
   return languages[ id ]       
-        
-def toSublightLanguage(id):
-  languages = { 
-  	"0"                   : "None",
-    "alb"                 : "Albanian",
-    "ara"                 : "Arabic",
-    "arm"                 : "Belarusian",
-    "bos"                 : "BosnianLatin",
-    "bul"                 : "Bulgarian",
-    "cat"                 : "Catalan",
-    "chi"                 : "Chinese",
-    "hrv"                 : "Croatian",
-    "cze"                 : "Czech",
-    "dan"                 : "Danish",
-    "dut"                 : "Dutch",
-    "eng"                 : "English",
-    "est"                 : "Estonian",
-    "fin"                 : "Finnish",
-    "fre"                 : "French",
-    "ger"                 : "German",
-    "ell"                 : "Greek",
-    "heb"                 : "Hebrew",
-    "hin"                 : "Hindi",
-    "hun"                 : "Hungarian",
-    "ice"                 : "Icelandic",
-    "ind"                 : "Indonesian",
-    "ita"                 : "Italian",
-    "jpn"                 : "Japanese",
-    "kor"                 : "Korean",
-    "lav"                 : "Latvian",
-    "lit"                 : "Lithuanian",
-    "mac"                 : "Macedonian",
-    "nor"                 : "Norwegian",
-    "pol"                 : "Polish",
-    "por"                 : "Portuguese",
-    "pob"                 : "PortugueseBrazil",
-    "per"                 : "Persian",
-    "rum"                 : "Romanian",
-    "rus"                 : "Russian",
-    "scc"                 : "SerbianLatin",
-    "slo"                 : "Slovak",
-    "slv"                 : "Slovenian",
-    "spa"                 : "Spanish",
-    "swe"                 : "Swedish",
-    "tha"                 : "Thai",
-    "tur"                 : "Turkish",
-    "ukr"                 : "Ukrainian",
-    "vie"                 : "Vietnamese",
-  }
-  return languages[ id ]
+
   
 def twotofull(id):
   languages = {
