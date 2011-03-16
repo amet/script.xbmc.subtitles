@@ -10,12 +10,8 @@ import shutil
 import xbmcgui
 import unicodedata
 from utilities import *
+import xbmcvfs
 
-try:
-  import xbmcvfs
-  VFS = True
-except:
-  VFS = False  
 
 STATUS_LABEL   = 100
 LOADING_IMAGE  = 110
@@ -134,7 +130,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
     self.tmp_sub_dir = os.path.join( __profile__ ,"sub_tmp" )
 
-    if not self.tmp_sub_dir.endswith(':') and not os.path.exists(self.tmp_sub_dir):
+    if not xbmcvfs.exists(self.tmp_sub_dir):
       os.makedirs(self.tmp_sub_dir)
     else:
       self.rem_files(self.tmp_sub_dir)
@@ -146,7 +142,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       for sub_ext in sub_exts:
         if br == 0:
           exec("lang = toOpenSubtitles_two(self.language_%s)" % (str(i+1)) )
-          if os.path.isfile ("%s.%s.%s" % (os.path.join(sub_folder,os.path.splitext( os.path.basename( self.file_original_path ) )[0]),lang ,sub_ext,)):
+          if xbmcvfs.exists("%s.%s.%s" % (os.path.join(sub_folder,os.path.splitext( os.path.basename( self.file_original_path ) )[0]),lang ,sub_ext,)):
             self.getControl( 111 ).setVisible( True )
             br = 1
             break
@@ -421,23 +417,15 @@ class GUI( xbmcgui.WindowXMLDialog ):
   def copy_files( self, subtitle_file, file_path ):
     subtitle_set = False
     try:
-      if VFS:
-        xbmcvfs.copy(subtitle_file, file_path)
-        log( __name__ ,"vfs module copy %s -> %s" % (subtitle_file, file_path))
-      else:  
-        shutil.copy(subtitle_file, file_path)
+      xbmcvfs.copy(subtitle_file, file_path)
+      log( __name__ ,"vfs module copy %s -> %s" % (subtitle_file, file_path))
       subtitle_set = True
     except :
-      import filecmp
-      try:
-        if filecmp.cmp(subtitle_file, file_path):
-          subtitle_set = True
-      except:
-        dialog = xbmcgui.Dialog()
-        selected = dialog.yesno( __scriptname__ , _( 748 ), _( 750 ),"" )
-        if selected == 1:
-          file_path = subtitle_file
-          subtitle_set = True
+      dialog = xbmcgui.Dialog()
+      selected = dialog.yesno( __scriptname__ , _( 748 ), _( 750 ),"" )
+      if selected == 1:
+        file_path = subtitle_file
+        subtitle_set = True
 
     return subtitle_set, file_path
 
