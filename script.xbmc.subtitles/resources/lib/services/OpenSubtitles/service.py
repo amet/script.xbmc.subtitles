@@ -2,38 +2,12 @@
 
 import sys
 import os
-from utilities import hashFile, log
+from utilities import log
 from os_utilities import OSDBServer
 import socket
 import xbmc
 
-_ = sys.modules[ "__main__" ].__language__
-
-
-def timeout(func, args=(), kwargs={}, timeout_duration=10, default=None):
-
-    import threading
-    class InterruptableThread(threading.Thread):
-        def __init__(self):
-            threading.Thread.__init__(self)
-            self.result = "000000000000"
-        def run(self):
-            self.result = func(*args, **kwargs)
-    it = InterruptableThread()
-    it.start()
-    it.join(timeout_duration)
-    if it.isAlive():
-        return it.result
-    else:
-        return it.result
-        
-def set_filehash(path,rar):
-    
-    if rar:
-      path = os.path.dirname( path )
-    file_hash = hashFile(path)
-    return file_hash        
-
+_ = sys.modules[ "__main__" ].__language__   
 
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack ): #standard input
     ok = False
@@ -61,24 +35,21 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
         hashTry = "000000000000"
     else:
         try:
-          try:
-            file_size, hashTry   = xbmc.subHashAndFileSize(file_original_path)
-            log( __name__ ,"xbmc module hash and size")
-          except:  
-            hashTry = timeout(set_filehash, args=(file_original_path, rar), timeout_duration=5)
-            file_size = str(os.path.getsize( file_original_path ))
+          file_size, SubHash   = xbmc.subHashAndFileSize(file_original_path)
+          log( __name__ ,"xbmc module hash and size")
           hash_search = True
-        except: 
+        except:  
           file_size = ""
-          hashTry = ""
-          hash_search = False 
+          SubHash = ""
+          hash_search = False
     
-    log( __name__ ,"File Size [%s]" % file_size)
-    log( __name__ ,"File Hash [%s]" % hashTry)
+    if file_size != "" and SubHash != "":
+      log( __name__ ,"File Size [%s]" % file_size )
+      log( __name__ ,"File Hash [%s]" % SubHash)
     
     log( __name__ ,"Search by hash and name %s" % (os.path.basename( file_original_path ),))
 
-    subtitles_list, msg = osdb_server.searchsubtitles( OS_search_string, lang1, lang2, lang3, hash_search, hashTry, file_size  )
+    subtitles_list, msg = osdb_server.searchsubtitles( OS_search_string, lang1, lang2, lang3, hash_search, SubHash, file_size  )
         
     return subtitles_list, "", msg #standard output
     

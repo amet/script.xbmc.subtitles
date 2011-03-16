@@ -2,10 +2,16 @@
 
 import sys
 import os
-from utilities import hashFile, twotoone, toOpenSubtitles_two
+from utilities import twotoone, toOpenSubtitles_two
 import xbmc
 import urllib
-import md5
+
+try:
+  #Python 2.6 +
+  from hashlib import md5
+except ImportError:
+  #Python 2.5 and earlier
+  from md5 import new as md5
 
 # Version 0.1 
 # 
@@ -34,7 +40,7 @@ def timeout(func, args=(), kwargs={}, timeout_duration=10, default=None):
         return it.result
         
 def set_filehash(path,rar):
-    d = md5.new();    
+    d = md5();    
     qpath=urllib.quote(path)
     if rar:
         path="""rar://"""+qpath       
@@ -76,7 +82,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
             flag_image = "flags/%s.gif" % (language,)            
             s={'filename':title,'link':subs,"language_name":lang,"language_flag":flag_image,"language_id":language,"ID":0,"sync":True, "format":"srt", "rating": "" }
             subtitles_list.append(s)        
-
+            
     return subtitles_list, "", "" #standard output
 
 

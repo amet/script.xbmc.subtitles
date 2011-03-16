@@ -1,3 +1,8 @@
+2.9.0
+- fork from Dharma branch
+- removed python hashing function, use only xbmc.subHashAndFileSize()
+- md5 warning fix in NapiProject
+
 2.4.0
 - code cleanup
 - removed unzip module and use built-in "XBMC.Extract"
