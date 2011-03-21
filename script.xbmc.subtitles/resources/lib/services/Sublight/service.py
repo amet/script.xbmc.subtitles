@@ -27,18 +27,12 @@ _ = sys.modules[ "__main__" ].__language__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __cwd__        = sys.modules[ "__main__" ].__cwd__
 
-def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack ): #standard input
+def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, language1, language2, language3, stack ): #standard input
 
   subtitles_list = []    
-  language1 = lang1 
-  language2 = lang2
-  language3 = lang3
-  if language1 == "Farsi" : language1 = "Persian"
-  if language2 == "Farsi" : language2 = "Persian"
-  if language3 == "Farsi" : language3 = "Persian"
-  if language1 == "Portuguese (Brazil)" : language1 = "PortugueseBrazil"
-  if language2 == "Portuguese (Brazil)" : language2 = "PortugueseBrazil"
-  if language3 == "Portuguese (Brazil)" : language3 = "PortugueseBrazil"
+  for x in range(3):
+    exec("if language%i == 'Serbian'            : language%i = 'SerbianLatin' "     % (x+1,x+1,))
+    exec("if language%i == 'Bosnian'            : language%i = 'BosnianLatin' "     % (x+1,x+1,))
   sublightWebService = SublightWebService()
   session_id = sublightWebService.LogInAnonymous()
   
