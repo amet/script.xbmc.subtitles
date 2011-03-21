@@ -104,9 +104,9 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.title = self.title  
     else:
       self.year = ""
-    self.language_1 = toScriptLang(__settings__.getSetting( "Lang01" ))     # Full language 1
-    self.language_2 = toScriptLang(__settings__.getSetting( "Lang02" ))     # Full language 2  
-    self.language_3 = toScriptLang(__settings__.getSetting( "Lang03" ))     # Full language 3
+    self.language_1 = languageTranslate(__settings__.getSetting( "Lang01" ), 4, 0)     # Full language 1
+    self.language_2 = languageTranslate(__settings__.getSetting( "Lang02" ), 4, 0)     # Full language 2  
+    self.language_3 = languageTranslate(__settings__.getSetting( "Lang03" ), 4, 0)     # Full language 3
 
     self.sub_folder = sub_folder                                            # Subtitle download folder
 
@@ -144,7 +144,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     for i in range(3):
       for sub_ext in sub_exts:
         if br == 0:
-          exec("lang = toOpenSubtitles_two(self.language_%s)" % (str(i+1)) )
+          exec("lang = languageTranslate(self.language_%s, 0, 2)" % (str(i+1)) )
           if xbmcvfs.exists("%s.%s.%s" % (os.path.join(sub_folder,os.path.splitext( os.path.basename( self.file_original_path ) )[0]),lang ,sub_ext,)):
             self.getControl( 111 ).setVisible( True )
             br = 1
@@ -276,7 +276,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       subscounter = 0
       itemCount = 0
       for item in self.subtitles_list:
-        if self.autoDownload and item["sync"] and  (item["language_name"] == twotofull(toOpenSubtitles_two(self.language_1))):
+        if self.autoDownload and item["sync"] and  (item["language_name"] == languageTranslate(languageTranslate(self.language_1,0,2),2,0)):
           self.Download_Subtitles(itemCount, True)
           __settings__.setSetting("auto_download_file", os.path.basename( self.file_original_path ))
           break
@@ -304,7 +304,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       self.getControl( STATUS_LABEL ).setLabel(  _( 649 ) )
     zip_subs = os.path.join( self.tmp_sub_dir, "zipsubs.zip")
     zipped, language, file = self.Service.download_subtitles(self.subtitles_list, pos, zip_subs, self.tmp_sub_dir, self.sub_folder,self.session_id)
-    sub_lang = str(toOpenSubtitles_two(language))
+    sub_lang = str(languageTranslate(language,0,2))
 
     if zipped :
       self.Extract_Subtitles(zip_subs,sub_lang)

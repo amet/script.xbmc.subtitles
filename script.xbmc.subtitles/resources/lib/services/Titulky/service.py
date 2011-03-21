@@ -9,7 +9,7 @@ import xbmc,xbmcgui
 
 import time,calendar
 import urllib2,urllib,re,cookielib
-from utilities import toOpenSubtitles_two, log
+from utilities import languageTranslate, log
 
 _ = sys.modules[ "__main__" ].__language__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
@@ -145,7 +145,7 @@ def get2DigitStr(number):
 
 def lang2_opensubtitles(lang):
 	lang = lang_titulky2xbmclang(lang)
-	return toOpenSubtitles_two(lang)
+	return languageTranslate(lang,0,2)
 
 class TitulkyClient(object):
 

@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import os, sys, re, xbmc, xbmcgui, string, time, urllib, urllib2
-from utilities import toOpenSubtitles_two, log
+from utilities import languageTranslate, log
 
 main_url = "http://subscene.com/"
 debug_pretext = ""
@@ -112,7 +112,7 @@ def getallsubs(response_url, content, language, title, subtitles_list, search_st
         languagefound = matches.group(3)
         if languagefound == to_subscene_lang(language):
             link = main_url + matches.group(1)
-            languageshort = toOpenSubtitles_two(language)
+            languageshort = languageTranslate(language,0,2)
             filename   = matches.group(4)
             if search_string != "":
                 log( __name__ , "string.lower(filename) = >" + string.lower(filename) + "<" )

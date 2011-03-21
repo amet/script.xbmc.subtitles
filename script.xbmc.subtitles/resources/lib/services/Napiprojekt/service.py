@@ -2,7 +2,7 @@
 
 import sys
 import os
-from utilities import twotoone, toOpenSubtitles_two
+from utilities import languageTranslate
 import xbmc
 import urllib
 
@@ -71,7 +71,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     subtitles_list = []    
     languages = {}
     for lang in (lang1,lang2,lang3):
-        languages[lang]=toOpenSubtitles_two(lang)
+        languages[lang]=languageTranslate(lang,0,2)
         
     d = timeout(set_filehash, args=(file_original_path, rar), timeout_duration=15)
 

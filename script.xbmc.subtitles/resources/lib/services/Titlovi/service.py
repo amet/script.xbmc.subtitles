@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import os, sys, re, xbmc, xbmcgui, string, time, urllib, urllib2
-from utilities import toOpenSubtitles_two, log
+from utilities import languageTranslate, log
 
 main_url = "http://titlovi.com/titlovi/titlovi.aspx?"
 debug_pretext = ""
@@ -59,7 +59,7 @@ def getallsubs(content, language, search_string, season, episode):
             year_found     = matches.group(3)
             season_episode_found = string.rstrip(matches.group(4))
             filename = title_found
-            languageshort = toOpenSubtitles_two(language)
+            languageshort = languageTranslate(language,0,2)
             match = re.match(subinfo_pattern, matches.group(5), re.IGNORECASE | re.DOTALL)
             if match:
                 description = match.group(1)

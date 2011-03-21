@@ -11,7 +11,7 @@
 # Created by: Ori Varon
 #===============================================================================
 import os, re, xbmc, xbmcgui, string, time, urllib2
-from utilities import toOpenSubtitles_two, log
+from utilities import languageTranslate, log
 
 BASE_URL = "http://www.sratim.co.il/"
 debug_pretext = ""
@@ -69,7 +69,7 @@ def getAllSubtitles(subtitlePageID,languageList,subtitlesList):
             subtitlesList.append({'rating': '0', 'sync': False,
                                   'filename': title, 'subtitle_id': fid,
                                   'language_flag': 'flags/' + \
-                                  toOpenSubtitles_two(sratimToScript(language)) + \
+                                  languageTranslate(sratimToScript(language),0,2) + \
                                   '.gif', 'language_name': sratimToScript(language)})
 
 # Extracts the downloaded file and find a new sub/srt file to return.

@@ -6,7 +6,7 @@
 import sys
 import os
 import xmlrpclib
-from utilities import  toOpenSubtitles_two, log
+from utilities import  languageTranslate, log
 import time
 import array
 import httplib
@@ -353,7 +353,7 @@ class SublightWebService :
           linked = False    
         
         if len(language) > 1:
-          flag_image = "flags/%s.gif" % (toOpenSubtitles_two(language))
+          flag_image = "flags/%s.gif" % (languageTranslate(language,0,2))
         else:                                                           
           flag_image = "-.gif"              
 

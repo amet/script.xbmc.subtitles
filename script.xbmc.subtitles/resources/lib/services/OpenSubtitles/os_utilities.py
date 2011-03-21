@@ -81,13 +81,13 @@ class OSDBServer:
         search_url2 = None
         msg = ""                
         
-        language = toOpenSubtitlesId(lang1)
+        language = languageTranslate(lang1,0,3)
         if lang1 != lang2:
-            language += "," + toOpenSubtitlesId(lang2)
-            search_url1 = BASE_URL_NAME % (toOpenSubtitlesId(lang2),srch_string,)
+            language += "," + languageTranslate(lang2,0,3)
+            search_url1 = BASE_URL_NAME % (languageTranslate(lang2,0,3),srch_string,)
         if lang3 != lang1 and lang3 != lang2:
-            language += "," + toOpenSubtitlesId(lang3)
-            search_url2 = BASE_URL_NAME % (toOpenSubtitlesId(lang3),srch_string,)          
+            language += "," + languageTranslate(lang3,0,3)
+            search_url2 = BASE_URL_NAME % (languageTranslate(lang3,0,3),srch_string,)          
         try:
             if hash_search:
               search_url = BASE_URL_HASH % (language,size, _hash,)
@@ -104,7 +104,7 @@ class OSDBServer:
                        self.sortsubtitles(subtitle, True, url_base)           
 
             if (not hash_search) or (not self.subtitles_hash_list):        
-              search_url = BASE_URL_NAME % (toOpenSubtitlesId(lang1),srch_string,)
+              search_url = BASE_URL_NAME % (languageTranslate(lang1,0,3),srch_string,)
               result = self.get_results( search_url )
               if result.find('<?xml version=') < 0:
                   msg = _( 755 )

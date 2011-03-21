@@ -11,7 +11,7 @@ import urllib
 import urllib2
 import xbmc
 import xbmcgui
-from utilities import log, toOpenSubtitles_two, twotofull
+from utilities import log, languageTranslate
 
 try:
   #Python 2.6 +
@@ -28,7 +28,7 @@ user_agent = 'SubDB/1.0 (XBMCSubtitles/0.1; https://github.com/jrhames/script.xb
 def get_languages(languages):
 	subdb_languages = []
 	for language in languages:
-		code = toOpenSubtitles_two(language)
+		code = languageTranslate(language,0,2)
 		if code == 'pb':
 			code = 'pt'
 		subdb_languages.append(code)
@@ -79,7 +79,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 					else:
 						flag_image = "flags/%s.gif" % subtitle
 						
-					subtitles_list.append({'filename': filename,'link': link,'language_name': twotofull(subtitle),'language_id':"0",'language_flag':flag_image,'movie':filename,"ID":subtitle,"rating":"10","format": "srt","sync": True})
+					subtitles_list.append({'filename': filename,'link': link,'language_name': languageTranslate(subtitle, 2,0),'language_id':"0",'language_flag':flag_image,'movie':filename,"ID":subtitle,"rating":"10","format": "srt","sync": True})
 		except urllib2.HTTPError, e:
 			# HTTP/1.1 !200
 			return subtitles_list, "", msg #standard output

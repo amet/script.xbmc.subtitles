@@ -100,7 +100,7 @@ class OSDBServer:
               sync1 = False
             else:
               sync1 = True
-            self.subtitles_hash_list.append({'filename':name,'link':link,"language_name":twotofull(item["lang"]),"language_flag":flag_image,"language_id":item["lang"],"ID":item["id"],"sync":sync1, "format":"srt", "rating": str(int(item['rating'])*2) })
+            self.subtitles_hash_list.append({'filename':name,'link':link,"language_name":languageTranslate((item["lang"]),2,0),"language_flag":flag_image,"language_id":item["lang"],"ID":item["id"],"sync":sync1, "format":"srt", "rating": str(int(item['rating'])*2) })
         self.mergesubtitles(stack)
       return self.subtitles_list,pod_session
     except :

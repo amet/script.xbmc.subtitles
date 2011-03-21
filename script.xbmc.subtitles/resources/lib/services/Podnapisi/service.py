@@ -2,7 +2,7 @@
 
 import sys
 import os
-from utilities import twotoone, toOpenSubtitles_two, log
+from utilities import languageTranslate, log
 from pn_utilities import OSDBServer
 import xbmc
 import urllib
@@ -19,9 +19,9 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
   subtitles_list = []
   file_size = ""
   hashTry = ""
-  language1 = twotoone(toOpenSubtitles_two(lang1))
-  language2 = twotoone(toOpenSubtitles_two(lang2))
-  language3 = twotoone(toOpenSubtitles_two(lang3))  
+  language1 = languageTranslate(lang1,0,1)
+  language2 = languageTranslate(lang2,0,1)
+  language3 = languageTranslate(lang3,0,1)  
   if set_temp : 
     hash_search = False
     file_size = "000000000"
