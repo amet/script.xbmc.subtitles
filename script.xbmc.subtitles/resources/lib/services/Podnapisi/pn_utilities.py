@@ -11,17 +11,18 @@ import urllib
 try:
   # Python 2.6 +
   from hashlib import md5 as md5
-  from hashlib import sha256 as sha256
+  from hashlib import sha256
 except ImportError:
   # #Python 2.5 and earlier
   from md5 import md5
-  import sha256
+  from sha256 import sha256
   
 _ = sys.modules[ "__main__" ].__language__
 __settings__   = sys.modules[ "__main__" ].__settings__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __version__    = sys.modules[ "__main__" ].__version__
 
+USER_AGENT = "%s_v%s" % (__scriptname__.replace(" ","_"),__version__ )
 
 def compare_columns(b,a):
   return cmp( b["language_name"], a["language_name"] )  or cmp( a["sync"], b["sync"] ) 
@@ -58,58 +59,43 @@ class OSDBServer:
 
 
   def searchsubtitles_pod( self, movie_hash, lang1,lang2,lang3, stack):
-#      movie_hash = "e1b45885346cfa0b" # Matrix Hash, Debug only
+#    movie_hash = "e1b45885346cfa0b" # Matrix Hash, Debug only
     podserver = xmlrpclib.Server('http://ssp.podnapisi.net:8000')      
     pod_session = ""
     hash_pod =[]
-    hash_pod.append(movie_hash)      
+    hash_pod.append(str(movie_hash))      
     lang = []
     lang.append(lang1)
     if lang1!=lang2:
       lang.append(lang2)
     if lang3!=lang2 and lang3!=lang1:
       lang.append(lang3)
-
-    log( __name__ ,"Languages : [%s]" % str(lang))
-    log( __name__ ,"Hash : [%s]" % str(hash_pod))
     try:
-      user_agent = "%s_v%s" % (__scriptname__.replace(" ","_"),__version__ )
-      init = podserver.initiate(user_agent)
-
-      username = __settings__.getSetting( "PNuser" )
-      password = __settings__.getSetting( "PNpass" )
-
+      init = podserver.initiate(USER_AGENT)
       hash = md5()
-      hash.update(password)
-      password = hash.hexdigest()
-      password256 = sha256.sha256(str(password) + str(init['nonce'])).hexdigest()
+      hash.update(__settings__.getSetting( "PNpass" ))
+      password256 = sha256(str(hash.hexdigest()) + str(init['nonce'])).hexdigest()
       if str(init['status']) == "200":
         pod_session = init['session']
-
-        auth = podserver.authenticate(pod_session, username, password256)
-        filt = podserver.setFilters(pod_session, True, lang , False)
-    
-        log( __name__ ,"Auth : [%s]" % str(auth) )                                              
-        log( __name__ ,"Filter : [%s]" % str(filt) )
+        podserver.authenticate(pod_session, __settings__.getSetting( "PNuser" ), password256)
+        podserver.setFilters(pod_session, True, lang , False)
         search = podserver.search(pod_session , hash_pod)
         if str(search['status']) == "200" and len(search['results']) > 0 :
-          item2 = search["results"][movie_hash]
-          for item in item2["subtitles"]:
+          search_item = search["results"][movie_hash]
+          for item in search_item["subtitles"]:
             if item["lang"]:
               flag_image = "flags/%s.gif" % (item["lang"],)
             else:                                                           
               flag_image = "-.gif"
-            link =  "http://www.podnapisi.net/ppodnapisi/download/i/%s" % str(item["id"])
-            
+            link = "http://www.podnapisi.net/ppodnapisi/download/i/%s" % str(item["id"])
             if item['release'] == "":
-              episode = item2["tvEpisode"]
+              episode = search_item["tvEpisode"]
               if str(episode) == "0":
-                name = "%s (%s)" % (str(item2["movieTitle"]),str(item2["movieYear"]),)
+                name = "%s (%s)" % (str(search_item["movieTitle"]),str(search_item["movieYear"]),)
               else:
-                name = "%s S(%s)E(%s)" % (str(item2["movieTitle"]),str(item2["tvSeason"]), str(episode), )
+                name = "%s S(%s)E(%s)" % (str(search_item["movieTitle"]),str(search_item["tvSeason"]), str(episode), )
             else:
               name = item['release']
-              
             if item["inexact"]:
               sync1 = False
             else:

@@ -1,4 +1,6 @@
 2.9.0
+- fixed: unicode tvshow string, thx to Saviq
+- fixed: podnapisi hash search
 - fork from Dharma branch
 - removed python hashing function, use only xbmc.subHashAndFileSize()
 - md5 warning fix in NapiProject
