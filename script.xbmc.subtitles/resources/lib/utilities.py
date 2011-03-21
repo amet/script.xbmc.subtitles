@@ -131,7 +131,7 @@ def regex_tvshow(compare, file, sub = ""):
 
 def languageTranslate(lang, lang_from, lang_to):
   for x in LANGUAGES:
-    if lang in x[lang_from] :
+    if lang == x[lang_from] :
       return x[lang_to]
 
 

@@ -172,14 +172,14 @@ class OSDBServer:
           if subtitle.getElementsByTagName("rating")[0].firstChild:
             rating = int(subtitle.getElementsByTagName("rating")[0].firstChild.data)*2
           if subtitle.getElementsByTagName("languageId")[0].firstChild:
-            lang_name = onetotwo(subtitle.getElementsByTagName("languageId")[0].firstChild.data)
+            lang_name = languageTranslate(subtitle.getElementsByTagName("languageId")[0].firstChild.data, 1,2)
           if subtitle.getElementsByTagName("id")[0].firstChild:
             subtitle_id = subtitle.getElementsByTagName("id")[0].firstChild.data
           flag_image = "flags/%s.gif" % ( lang_name, )
           link = "%s%s" % ( url_base,str(subtitle_id), )
           if subtitle.getElementsByTagName("cds")[0].firstChild:
             no_files = int(subtitle.getElementsByTagName("cds")[0].firstChild.data)
-          self.subtitles_name_list.append({'filename':filename,'link':link,'language_name':twotofull(lang_name),'language_id':lang_id,'language_flag':flag_image,'movie':movie,"ID":subtitle_id,"rating":str(rating),"format":format,"sync":False, "no_files":no_files})
+          self.subtitles_name_list.append({'filename':filename,'link':link,'language_name':languageTranslate((lang_name),2,0),'language_id':lang_id,'language_flag':flag_image,'movie':movie,"ID":subtitle_id,"rating":str(rating),"format":format,"sync":False, "no_files":no_files})
         self.mergesubtitles(stack)
       return self.subtitles_list
     except :
