@@ -64,6 +64,7 @@ LANGUAGES = (
     ("English (UK)"               , "2",        "en",            "eng",                 "100"),
     ("Portuguese (Brazilian)"     , "48",       "pt-br",         "pob",                 "100"),
     ("Portuguese (Brazil)"        , "48",       "pb",            "pob",                 "32" ),
+    ("Portuguese-BR"              , "48",       "pb",            "pob",                 "32" ),
     ("Brazilian"                  , "48",       "pb",            "pob",                 "32" ),
     ("Español (Latinoamérica)"    , "28",       "es",            "spa",                 "100"),
     ("Español (España)"           , "28",       "es",            "spa",                 "100"),

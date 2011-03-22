@@ -118,34 +118,24 @@ class OSDBServer:
     search_url2 = None
     name = urllib.quote(name.replace(" ","+"))
     
-    search_url = "http://www.podnapisi.net/ppodnapisi/search?tbsl=1&sK=" + name + "&sJ=" +str(lang1)+ "&sY=" + str(year)+ "&sTS=" + str(season) + "&sTE=" + str(episode) + "&sXML=1&lang=0"
+    search_url_base = "http://www.podnapisi.net/ppodnapisi/search?tbsl=1&sK=%s&sJ=%s&sY=%s&sTS=%s&sTE=%s&sXML=1&lang=0" % (name, "%s", str(year), str(season), str(episode))
+    
+    search_url = search_url_base % str(lang1)
     log( __name__ ,"%s - Language 1" % search_url)        
     if lang2!=lang1:
-      search_url1 = "http://www.podnapisi.net/ppodnapisi/search?tbsl=1&sK=" + name + "&sJ=" +str(lang2)+ "&sY=" + str(year)+ "&sTS=" + str(season) + "&sTE=" + str(episode) + "&sXML=1&lang=0"
+      search_url1 = search_url_base % str(lang2)
       log( __name__ ,"%s - Language 2" % search_url1)             
     if lang3!=lang1 and lang3!=lang2:
-      search_url2 = "http://www.podnapisi.net/ppodnapisi/search?tbsl=1&sK=" + name + "&sJ=" +str(lang3)+ "&sY=" + str(year)+ "&sTS=" + str(season) + "&sTE=" + str(episode) + "&sXML=1&lang=0"
+      search_url2 = search_url_base % str(lang3)
       log( __name__ ,"%s - Language 3" % search_url2)         
     try:
-      socket = urllib.urlopen( search_url )
-      result = socket.read()
-      socket.close()
-      xmldoc = minidom.parseString(result)
-      subtitles = xmldoc.getElementsByTagName("subtitle")
+      subtitles = self.fetch(search_url)
       if search_url1 is not None: 
-        socket = urllib.urlopen( search_url1 )
-        result = socket.read()
-        socket.close()
-        xmldoc = minidom.parseString(result)
-        subtitles1 = xmldoc.getElementsByTagName("subtitle")
+        subtitles1 = self.fetch(search_url1)
         if subtitles1:
           subtitles = subtitles + subtitles1             
       if search_url2 is not None: 
-        socket = urllib.urlopen( search_url2 )
-        result = socket.read()
-        socket.close()
-        xmldoc = minidom.parseString(result)
-        subtitles1 = xmldoc.getElementsByTagName("subtitle")
+        subtitles2 = self.fetch(search_url2)
         if subtitles1:
           subtitles = subtitles + subtitles1
       if subtitles:
@@ -184,4 +174,11 @@ class OSDBServer:
       return self.subtitles_list
     except :
       return self.subtitles_list
-    
+  
+  
+  def fetch(self,url):
+    socket = urllib.urlopen( url )
+    result = socket.read()
+    socket.close()
+    xmldoc = minidom.parseString(result)
+    return xmldoc.getElementsByTagName("subtitle")    
