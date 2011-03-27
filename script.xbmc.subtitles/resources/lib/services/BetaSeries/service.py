@@ -10,7 +10,7 @@ import xbmc
 import xbmcgui
 import string
 import shutil
-from utilities import log, toOpenSubtitles_two, twotofull
+from utilities import log, languageTranslate
 from xml.dom import minidom
 
 
@@ -76,9 +76,9 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     subtitles_list = []
     msg = ""
 
-    lang1 = toOpenSubtitles_two(lang1)
-    lang2 = toOpenSubtitles_two(lang2)
-    lang3 = toOpenSubtitles_two(lang3)
+    lang1 = languageTranslate(lang1,0,2)
+    lang2 = languageTranslate(lang2,0,2)
+    lang3 = languageTranslate(lang3,0,2)
     querylang = ""
     if lang1 == 'en' or lang2 == 'en' or lang3 == 'en': querylang = "VO"
     if lang1 == 'fr' or lang2 == 'fr' or lang3 == 'fr': querylang += "VF"
@@ -155,14 +155,14 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
                                 if lang != lang1 and lang != lang2 and lang != lang3: continue
 
                                 #log( __name__ , "subfile = '%s'" % (subfile))
-                                subtitles_list.append({'filename': subfile,'link': url,'language_name': twotofull(lang),'language_id':"0",'language_flag':'flags/' + lang + '.gif',"rating":rating,"sync": False})
+                                subtitles_list.append({'filename': subfile,'link': url,'language_name': languageTranslate(lang,2,0),'language_id':"0",'language_flag':'flags/' + lang + '.gif',"rating":rating,"sync": False})
                         else:
                             log( __name__ , "not valid content! dumping XML...")
                             log( __name__ , dom.toxml())
 
                     else:
                         #log( __name__ , "sub found ('%s')" % (filename))
-                        subtitles_list.append({'filename': filename,'link': url,'language_name': twotofull(language),'language_id':"0",'language_flag':'flags/' + language + '.gif',"rating":rating,"sync": False})
+                        subtitles_list.append({'filename': filename,'link': url,'language_name': languageTranslate(language,2,0),'language_id':"0",'language_flag':'flags/' + language + '.gif',"rating":rating,"sync": False})
 
             except:
                 return subtitles_list, "", msg #standard output
