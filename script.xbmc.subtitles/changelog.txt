@@ -1,5 +1,5 @@
 2.9.0
-- fixed: BetaSeries language conversion
+- fixed: BetaSeries language conversion 
 - fixed: unicode tvshow string, thx to Saviq
 - fixed: podnapisi hash search
 - fork from Dharma branch
