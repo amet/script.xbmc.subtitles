@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
-# Version 0.1.7
+# Version 0.1.8
 # Code based on Undertext service
 # Coded by HiGhLaNdR@OLDSCHOOL
+# Help by VaRaTRoN
 # Bugs & Features to highlander@teknorage.com
 # http://www.teknorage.com
 # License: GPL v2
+#
+# FIXED on v0.1.8:
+# Uncompress rar'ed subtitles inside a rar file... yeh weird site...
 #
 # FIXED on v0.1.7:
 # BUG found in multi packs is now fixed.
@@ -308,14 +312,27 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 				log( __name__ ,"%s Failed to unpack subtitles in '%s'" % (debug_pretext, tmp_sub_dir))
 			else:
 				log( __name__ ,"%s Unpacked files in '%s'" % (debug_pretext, tmp_sub_dir))
+				searchrars = recursive_glob(tmp_sub_dir, '*.rar')
+				searchrarcount = len(searchrars)
+				log( __name__ ,"%s DEBUG-rarcount: '%s'" % (debug_pretext, searchrarcount))
+				log( __name__ ,"%s DEBUG-rarcount: '%s'" % (debug_pretext, searchrars))
+				if searchrarcount > 1:
+					for filerar in searchrars:
+						log( __name__ ,"%s DEBUG-nomedorar: '%s'" % (debug_pretext, filerar))
+						if filerar != os.path.join(tmp_sub_dir,'ldivx.rar'):
+							#filerar = os.path.join(tmp_sub_dir, filerar)
+							log( __name__ ,"%s DEBUG-nomedorarcompleto: '%s'" % (debug_pretext, filerar))
+							xbmc.executebuiltin("XBMC.Extract(" + filerar + "," + tmp_sub_dir +")")
+				time.sleep(1)
 				searchsubs = recursive_glob(tmp_sub_dir, '*.srt')
+				log( __name__ ,"%s DEBUG-searchsubs: '%s'" % (debug_pretext, searchsubs))
 				searchsubscount = len(searchsubs)
 				for filesub in searchsubs:
 					nopath = string.split(filesub, tmp_sub_dir)[-1]
 					justfile = string.split(nopath, '\\')[-1]
 					#For DEBUG only uncomment next line
-					#log( __name__ ,"%s DEBUG-nopath: '%s'" % (debug_pretext, nopath))
-					#log( __name__ ,"%s DEBUG-justfile: '%s'" % (debug_pretext, justfile))
+					log( __name__ ,"%s DEBUG-nopath: '%s'" % (debug_pretext, nopath))
+					log( __name__ ,"%s DEBUG-justfile: '%s'" % (debug_pretext, justfile))
 					releasefilename = filesearch[1][:len(filesearch[1])-4]
 					releasedirname = string.split(filesearch[0], '/')
 					if 'rar' in israr:
