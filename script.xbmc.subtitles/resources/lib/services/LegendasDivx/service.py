@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 
-# Version 0.1.6
+# Version 0.1.7
 # Code based on Undertext service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Bugs & Features to highlander@teknorage.com
 # http://www.teknorage.com
 # License: GPL v2
+#
+# FIXED on v0.1.7:
+# BUG found in multi packs is now fixed.
+# Added more accuracy to the selection of subtitle to load. Now checks the release dirname against the subtitles downloaded.
+# When no sync is found and if the substitle name is not equal to the release dirname or release filename it will load one random subtitle from the package.
 #
 # FIXED on v0.1.6:
 # Movies or TV eps with 2cds or more will now work.
@@ -165,6 +170,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 	msg = ""
 	searchstring_notclean = ""
 	searchstring = ""
+	global israr
 	israr = os.path.split(file_original_path)
 	israr = string.split(israr[0], '/')
 	israr = string.split(israr[-1], '.')
@@ -311,31 +317,51 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 					#log( __name__ ,"%s DEBUG-nopath: '%s'" % (debug_pretext, nopath))
 					#log( __name__ ,"%s DEBUG-justfile: '%s'" % (debug_pretext, justfile))
 					releasefilename = filesearch[1][:len(filesearch[1])-4]
+					releasedirname = string.split(filesearch[0], '/')
+					if 'rar' in israr:
+						releasedirname = releasedirname[-2]
+					else:
+						releasedirname = releasedirname[-1]
 					#For DEBUG only uncomment next line
 					#log( __name__ ,"%s DEBUG-releasefilename: '%s'" % (debug_pretext, releasefilename))
 					subsfilename = justfile[:len(justfile)-4]
 					#For DEBUG only uncomment next line
 					#log( __name__ ,"%s DEBUG-subsfilename: '%s'" % (debug_pretext, subsfilename))
 					#log( __name__ ,"%s DEBUG-subscount: '%s'" % (debug_pretext, searchsubscount))
+					#Check for multi CD Releases
+					multicds_pattern = "\+?(cd\d)\+?"
+					multicdsubs = re.search(multicds_pattern, subsfilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
+					multicdsrls = re.search(multicds_pattern, releasefilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
+
+					#Start choosing the right subtitle(s)
 					if searchsubscount == 1:
-						#log( __name__ ,"%s DEBUG-inside subscount: '%s'" % (debug_pretext, searchsubscount))
 						subs_file = filesub
-					elif (string.lower(subsfilename)) == (string.lower(releasefilename)):
+						log( __name__ ,"%s DEBUG-inside subscount: '%s'" % (debug_pretext, searchsubscount))
+						break
+					elif string.lower(subsfilename) == string.lower(releasefilename):
 						subs_file = filesub
 						#For DEBUG only uncomment next line
-						#log( __name__ ,"%s DEBUG-subsfile: '%s'" % (debug_pretext, subs_file))
-					else:
-						multicds_pattern = "\+?(cd\d)\+?"
-						multicdsubs = re.search(multicds_pattern, subsfilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
-						multicdsrls = re.search(multicds_pattern, releasefilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
-						if (multicdsubs != None) and (multicdsrls != None):
-							multicdsubs = multicdsubs.group(1)
-							multicdsrls = multicdsrls.group(1)
-							#log( __name__ ,"%s DEBUG-multicdsubs: '%s'" % (debug_pretext, multicdsubs))
-							#log( __name__ ,"%s DEBUG-multicdsrls: '%s'" % (debug_pretext, multicdsrls))
-							if (string.lower(multicdsrls) == string.lower(multicdsubs)):
-								subs_file = filesub
+						log( __name__ ,"%s DEBUG-subsfile-morethen1: '%s'" % (debug_pretext, subs_file))
+						break
+					elif string.lower(subsfilename) == string.lower(releasedirname):
+						subs_file = filesub
+						#For DEBUG only uncomment next line
+						log( __name__ ,"%s DEBUG-subsfile-morethen1-dirname: '%s'" % (debug_pretext, subs_file))
+						break
+					elif (multicdsubs != None) and (multicdsrls != None):
+						multicdsubs = string.lower(multicdsubs.group(1))
+						multicdsrls = string.lower(multicdsrls.group(1))
+						log( __name__ ,"%s DEBUG-multicdsubs: '%s'" % (debug_pretext, multicdsubs))
+						log( __name__ ,"%s DEBUG-multicdsrls: '%s'" % (debug_pretext, multicdsrls))
+						if multicdsrls == multicdsubs:
+							subs_file = filesub
+							break
 				else:
-					subs_file = filesub
-								
+					#If none is found just choose what you have left (leftovers :))
+					for file in files:
+						# there could be more subtitle files in tmp_sub_dir, so make sure we get the newly created subtitle file
+						if (string.split(file, '.')[-1] in ['srt', 'sub', 'txt']) and (os.stat(os.path.join(tmp_sub_dir, file)).st_mtime > init_max_mtime): # unpacked file is a newly created subtitle file
+							log( __name__ ,"%s Unpacked subtitles file '%s'" % (debug_pretext, file))
+							subs_file = os.path.join(tmp_sub_dir, file)
+							
 		return False, language, subs_file #standard output
