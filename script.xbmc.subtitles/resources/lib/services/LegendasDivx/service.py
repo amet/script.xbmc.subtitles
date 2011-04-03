@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Version 0.1.8
+# Version 0.1.9
 # Code based on Undertext service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Help by VaRaTRoN
@@ -31,7 +31,7 @@
 # KNOWN BUGS (TODO for next versions):
 # Regex isn't perfect so a few results might have html tags still, not many but...
 # Filtering languages, shows only European Portuguese flag.
-# Just using .srt subs. Others will come in further versions.
+# Just using .srt subs for auto sync download. Others will come in further versions.
 
 # LegendasDivx.com subtitles, based on a mod of Undertext subtitles
 import os, sys, re, xbmc, xbmcgui, string, time, urllib, urllib2, cookielib, shutil, fnmatch
