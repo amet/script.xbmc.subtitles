@@ -8,19 +8,22 @@
 # http://www.teknorage.com
 # License: GPL v2
 #
-# FIXED on v0.1.8:
+# NEW on v0.1.9:
+# When no sync subtitle is found and the pack has more then 1 sub, it will open a dialog box for browsing the substitles inside the multi pack.
+#
+# NEW on v0.1.8:
 # Uncompress rar'ed subtitles inside a rar file... yeh weird site...
 #
-# FIXED on v0.1.7:
+# NEW on v0.1.7:
 # BUG found in multi packs is now fixed.
 # Added more accuracy to the selection of subtitle to load. Now checks the release dirname against the subtitles downloaded.
 # When no sync is found and if the substitle name is not equal to the release dirname or release filename it will load one random subtitle from the package.
 #
-# FIXED on v0.1.6:
+# NEW on v0.1.6:
 # Movies or TV eps with 2cds or more will now work.
 # Sync subs is now much more accurate.
 #
-# FIXED on v0.1.5:
+# First Release v0.1.5:
 # TV Season packs now downloads and chooses the best one available in the pack
 # Movie packs with several releases now works too, tries to choose the sync sub using filename or dirname
 # Search description for SYNC subtitles using filename or dirname
@@ -236,6 +239,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 
 	log( __name__ ,"%s Fetching subtitles using url %s" % (debug_pretext, subtitles_list))
 	id = subtitles_list[pos][ "id" ]
+	sync = subtitles_list[pos][ "sync" ]
 	log( __name__ ,"%s Fetching id using url %s" % (debug_pretext, id))
 	#Grabbing login and pass from xbmc settings
 	username = __settings__.getSetting( "LDivxuser" )
@@ -350,22 +354,23 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 					multicdsubs = re.search(multicds_pattern, subsfilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
 					multicdsrls = re.search(multicds_pattern, releasefilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
 
+					log( __name__ ,"%s DEBUG-sync: '%s'" % (debug_pretext, sync))
 					#Start choosing the right subtitle(s)
-					if searchsubscount == 1:
+					if searchsubscount == 1 and sync == 'True':
 						subs_file = filesub
 						log( __name__ ,"%s DEBUG-inside subscount: '%s'" % (debug_pretext, searchsubscount))
 						break
-					elif string.lower(subsfilename) == string.lower(releasefilename):
+					elif string.lower(subsfilename) == string.lower(releasefilename) and sync == 'True':
 						subs_file = filesub
 						#For DEBUG only uncomment next line
 						log( __name__ ,"%s DEBUG-subsfile-morethen1: '%s'" % (debug_pretext, subs_file))
 						break
-					elif string.lower(subsfilename) == string.lower(releasedirname):
+					elif string.lower(subsfilename) == string.lower(releasedirname) and sync == 'True':
 						subs_file = filesub
 						#For DEBUG only uncomment next line
 						log( __name__ ,"%s DEBUG-subsfile-morethen1-dirname: '%s'" % (debug_pretext, subs_file))
 						break
-					elif (multicdsubs != None) and (multicdsrls != None):
+					elif (multicdsubs != None) and (multicdsrls != None) and sync == 'True':
 						multicdsubs = string.lower(multicdsubs.group(1))
 						multicdsrls = string.lower(multicdsrls.group(1))
 						log( __name__ ,"%s DEBUG-multicdsubs: '%s'" % (debug_pretext, multicdsubs))
@@ -374,11 +379,25 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 							subs_file = filesub
 							break
 				else:
-					#If none is found just choose what you have left (leftovers :))
-					for file in files:
-						# there could be more subtitle files in tmp_sub_dir, so make sure we get the newly created subtitle file
-						if (string.split(file, '.')[-1] in ['srt', 'sub', 'txt']) and (os.stat(os.path.join(tmp_sub_dir, file)).st_mtime > init_max_mtime): # unpacked file is a newly created subtitle file
-							log( __name__ ,"%s Unpacked subtitles file '%s'" % (debug_pretext, file))
-							subs_file = os.path.join(tmp_sub_dir, file)
+					#If none is found just open a dialog box for browsing the temporary subtitle folder
+					sub_ext = "srt,aas,ssa,sub,smi"
+					sub_tmp = []
+					for root, dirs, files in os.walk(tmp_sub_dir, topdown=False):
+						for file in files:
+							dirfile = os.path.join(root, file)
+							ext = os.path.splitext(dirfile)[1][1:].lower()
+							if ext in sub_ext:
+								sub_tmp.append(dirfile)
+							elif os.path.isfile(dirfile):
+								os.remove(dirfile)
+					
+					# If there are more than one subtitle in the temp dir, launch a browse dialog
+					# so user can choose. If only one subtitle is found, parse it to the addon.
+					if len(sub_tmp) > 1:
+						dialog = xbmcgui.Dialog()
+						subs_file = dialog.browse(1, 'XBMC', 'files', '', False, False, tmp_sub_dir+"/")
+						if subs_file == tmp_sub_dir+"/": subs_file = ""
+					elif sub_tmp:
+						subs_file = sub_tmp[0]
 							
 		return False, language, subs_file #standard output
