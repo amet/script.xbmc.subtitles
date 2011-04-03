@@ -6,6 +6,9 @@
 - removed python hashing function, use only xbmc.subHashAndFileSize()
 - md5 warning fix in NapiProject
 
+2.4.4
+- fixed: various issues in LegendasDivx.com, thx to HiGhLaNdR
+
 2.4.3
 - added: new service LegendasDivx.com, thx to HiGhLaNdR
 
