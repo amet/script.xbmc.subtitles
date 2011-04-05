@@ -7,6 +7,7 @@
 - md5 warning fix in NapiProject
 
 2.4.4
+- added: new service, Argenteam, thx to Esteban
 - fixed: various issues in LegendasDivx.com, thx to HiGhLaNdR
 - fixed: throw an error if played file is a movie (betaserie is for tvshow only, for now), thx to darknao
 
