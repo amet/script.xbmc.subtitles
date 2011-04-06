@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Version 0.1.9
+# Service LegendasDivx.com version 0.2.0
 # Code based on Undertext service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Help by VaRaTRoN
@@ -8,22 +8,26 @@
 # http://www.teknorage.com
 # License: GPL v2
 #
-# NEW on v0.1.9:
+# NEW on Service LegendasDivx.com v0.2.0:
+# Better "star" rating, remember that the start rating is calculated using the number of hits/downloads.
+# Fixed a bug in the SYNC subtitles, it wouldn't assume that any were sync (in the code), a dialog box would open in multi packs.
+#
+# NEW on Service LegendasDivx.com v0.1.9:
 # When no sync subtitle is found and the pack has more then 1 sub, it will open a dialog box for browsing the substitles inside the multi pack.
 #
-# NEW on v0.1.8:
+# NEW on Service LegendasDivx.com v0.1.8:
 # Uncompress rar'ed subtitles inside a rar file... yeh weird site...
 #
-# NEW on v0.1.7:
+# NEW on Service LegendasDivx.com v0.1.7:
 # BUG found in multi packs is now fixed.
 # Added more accuracy to the selection of subtitle to load. Now checks the release dirname against the subtitles downloaded.
 # When no sync is found and if the substitle name is not equal to the release dirname or release filename it will load one random subtitle from the package.
 #
-# NEW on v0.1.6:
+# NEW on Service LegendasDivx.com v0.1.6:
 # Movies or TV eps with 2cds or more will now work.
 # Sync subs is now much more accurate.
 #
-# First Release v0.1.5:
+# Initial Release of Service LegendasDivx.com - v0.1.5:
 # TV Season packs now downloads and chooses the best one available in the pack
 # Movie packs with several releases now works too, tries to choose the sync sub using filename or dirname
 # Search description for SYNC subtitles using filename or dirname
@@ -42,6 +46,8 @@ __settings__ = sys.modules[ "__main__" ].__settings__
 
 main_url = "http://www.legendasdivx.com/"
 debug_pretext = "LegendasDivx"
+subext = ['srt', 'aas', 'ssa', 'sub', 'smi']
+packext = ['rar', 'zip']
 
 #====================================================================================================================
 # Regular expression patterns
@@ -106,7 +112,7 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 			id = matches.group(4)
 			movieyear = matches.group(2)
 			no_files = matches.group(3)
-			downloads = int(matches.group(5)) / 500
+			downloads = int(matches.group(5)) / 300
 			if (downloads > 10):
 				downloads=10
 			filename = string.strip(matches.group(1))
@@ -140,7 +146,7 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 						sync = True
 					log( __name__ ,"%s Subtitles found: %s (id = %s)" % (debug_pretext, filename, id))
 					#log( __name__ ,"%s dirsearch-2 found: %s" % (debug_pretext, dirsearch[-1]))
-				log( __name__ ,"%s Desc found: %s (id = %s)" % (debug_pretext, desc, id))
+				#log( __name__ ,"%s Desc found: %s (id = %s)" % (debug_pretext, desc, id))
 			filename = filename + " " + "(" + movieyear + ")" + "  " + hits + "Hits" + " - " + desc
 			subtitles_list.append({'rating': str(downloads), 'no_files': no_files, 'filename': filename, 'desc': desc, 'sync': sync, 'hits' : hits, 'id': id, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
 		page = page + 1
@@ -231,13 +237,14 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 def recursive_glob(treeroot, pattern):
 	results = []
 	for base, dirs, files in os.walk(treeroot):
-		goodfiles = fnmatch.filter(files, pattern)
-		results.extend(os.path.join(base, f) for f in goodfiles)
-	return results 
+		for extension in pattern:
+			for filename in fnmatch.filter(files, '*.' + extension):
+				results.append(os.path.join(base, filename))
+	return results
 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
 
-	log( __name__ ,"%s Fetching subtitles using url %s" % (debug_pretext, subtitles_list))
+	#log( __name__ ,"%s Fetching subtitles using url %s" % (debug_pretext, subtitles_list))
 	id = subtitles_list[pos][ "id" ]
 	sync = subtitles_list[pos][ "sync" ]
 	log( __name__ ,"%s Fetching id using url %s" % (debug_pretext, id))
@@ -316,27 +323,27 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 				log( __name__ ,"%s Failed to unpack subtitles in '%s'" % (debug_pretext, tmp_sub_dir))
 			else:
 				log( __name__ ,"%s Unpacked files in '%s'" % (debug_pretext, tmp_sub_dir))
-				searchrars = recursive_glob(tmp_sub_dir, '*.rar')
+				searchrars = recursive_glob(tmp_sub_dir, packext)
 				searchrarcount = len(searchrars)
 				log( __name__ ,"%s DEBUG-rarcount: '%s'" % (debug_pretext, searchrarcount))
 				log( __name__ ,"%s DEBUG-rarcount: '%s'" % (debug_pretext, searchrars))
 				if searchrarcount > 1:
 					for filerar in searchrars:
 						log( __name__ ,"%s DEBUG-nomedorar: '%s'" % (debug_pretext, filerar))
-						if filerar != os.path.join(tmp_sub_dir,'ldivx.rar'):
+						if filerar != os.path.join(tmp_sub_dir,'ldivx.rar') and filerar != os.path.join(tmp_sub_dir,'ldivx.zip'):
 							#filerar = os.path.join(tmp_sub_dir, filerar)
-							log( __name__ ,"%s DEBUG-nomedorarcompleto: '%s'" % (debug_pretext, filerar))
+							#log( __name__ ,"%s DEBUG-nomedorarcompleto: '%s'" % (debug_pretext, filerar))
 							xbmc.executebuiltin("XBMC.Extract(" + filerar + "," + tmp_sub_dir +")")
 				time.sleep(1)
-				searchsubs = recursive_glob(tmp_sub_dir, '*.srt')
-				log( __name__ ,"%s DEBUG-searchsubs: '%s'" % (debug_pretext, searchsubs))
+				searchsubs = recursive_glob(tmp_sub_dir, subext)
+				#log( __name__ ,"%s DEBUG-searchsubs: '%s'" % (debug_pretext, searchsubs))
 				searchsubscount = len(searchsubs)
 				for filesub in searchsubs:
 					nopath = string.split(filesub, tmp_sub_dir)[-1]
 					justfile = string.split(nopath, '\\')[-1]
 					#For DEBUG only uncomment next line
-					log( __name__ ,"%s DEBUG-nopath: '%s'" % (debug_pretext, nopath))
-					log( __name__ ,"%s DEBUG-justfile: '%s'" % (debug_pretext, justfile))
+					#log( __name__ ,"%s DEBUG-nopath: '%s'" % (debug_pretext, nopath))
+					#log( __name__ ,"%s DEBUG-justfile: '%s'" % (debug_pretext, justfile))
 					releasefilename = filesearch[1][:len(filesearch[1])-4]
 					releasedirname = string.split(filesearch[0], '/')
 					if 'rar' in israr:
@@ -345,6 +352,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 						releasedirname = releasedirname[-1]
 					#For DEBUG only uncomment next line
 					#log( __name__ ,"%s DEBUG-releasefilename: '%s'" % (debug_pretext, releasefilename))
+					#log( __name__ ,"%s DEBUG-releasedirname: '%s'" % (debug_pretext, releasedirname))
 					subsfilename = justfile[:len(justfile)-4]
 					#For DEBUG only uncomment next line
 					#log( __name__ ,"%s DEBUG-subsfilename: '%s'" % (debug_pretext, subsfilename))
@@ -353,28 +361,29 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 					multicds_pattern = "\+?(cd\d)\+?"
 					multicdsubs = re.search(multicds_pattern, subsfilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
 					multicdsrls = re.search(multicds_pattern, releasefilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
-
-					log( __name__ ,"%s DEBUG-sync: '%s'" % (debug_pretext, sync))
+					#log( __name__ ,"%s DEBUG-sync: '%s'" % (debug_pretext, syncsub))
 					#Start choosing the right subtitle(s)
-					if searchsubscount == 1 and sync == 'True':
-						subs_file = filesub
-						log( __name__ ,"%s DEBUG-inside subscount: '%s'" % (debug_pretext, searchsubscount))
-						break
-					elif string.lower(subsfilename) == string.lower(releasefilename) and sync == 'True':
+					if searchsubscount == 1 and sync == True:
 						subs_file = filesub
 						#For DEBUG only uncomment next line
-						log( __name__ ,"%s DEBUG-subsfile-morethen1: '%s'" % (debug_pretext, subs_file))
+						#log( __name__ ,"%s DEBUG-inside subscount: '%s'" % (debug_pretext, searchsubscount))
 						break
-					elif string.lower(subsfilename) == string.lower(releasedirname) and sync == 'True':
+					elif string.lower(subsfilename) == string.lower(releasefilename) and sync == True:
 						subs_file = filesub
 						#For DEBUG only uncomment next line
-						log( __name__ ,"%s DEBUG-subsfile-morethen1-dirname: '%s'" % (debug_pretext, subs_file))
+						#log( __name__ ,"%s DEBUG-subsfile-morethen1: '%s'" % (debug_pretext, subs_file))
 						break
-					elif (multicdsubs != None) and (multicdsrls != None) and sync == 'True':
+					elif string.lower(subsfilename) == string.lower(releasedirname) and sync == True:
+						subs_file = filesub
+						#For DEBUG only uncomment next line
+						#log( __name__ ,"%s DEBUG-subsfile-morethen1-dirname: '%s'" % (debug_pretext, subs_file))
+						break
+					elif (multicdsubs != None) and (multicdsrls != None) and sync == True:
 						multicdsubs = string.lower(multicdsubs.group(1))
 						multicdsrls = string.lower(multicdsrls.group(1))
-						log( __name__ ,"%s DEBUG-multicdsubs: '%s'" % (debug_pretext, multicdsubs))
-						log( __name__ ,"%s DEBUG-multicdsrls: '%s'" % (debug_pretext, multicdsrls))
+						#For DEBUG only uncomment next line
+						#log( __name__ ,"%s DEBUG-multicdsubs: '%s'" % (debug_pretext, multicdsubs))
+						#log( __name__ ,"%s DEBUG-multicdsrls: '%s'" % (debug_pretext, multicdsrls))
 						if multicdsrls == multicdsubs:
 							subs_file = filesub
 							break
