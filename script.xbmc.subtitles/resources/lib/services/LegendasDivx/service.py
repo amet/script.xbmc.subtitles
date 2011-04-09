@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 
-# Service LegendasDivx.com version 0.2.0
+# Service LegendasDivx.com version 0.2.1
 # Code based on Undertext service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Help by VaRaTRoN
 # Bugs & Features to highlander@teknorage.com
 # http://www.teknorage.com
 # License: GPL v2
+#
+# NEW on Service LegendasDivx.com v0.2.1:
+# Fixed bug when the file is played from a root path, no parent dir search\sync when that happens.
+# Fixed pathnames to work with all OS (Winblows, Unix, etc).
+# Added pattern to search several subtitle extensions.
 #
 # NEW on Service LegendasDivx.com v0.2.0:
 # Better "star" rating, remember that the start rating is calculated using the number of hits/downloads.
@@ -33,9 +38,8 @@
 # Search description for SYNC subtitles using filename or dirname
 #
 # KNOWN BUGS (TODO for next versions):
-# Regex isn't perfect so a few results might have html tags still, not many but...
+# Regex isn't perfect so a few results might have html tags still, not many but ...
 # Filtering languages, shows only European Portuguese flag.
-# Just using .srt subs for auto sync download. Others will come in further versions.
 
 # LegendasDivx.com subtitles, based on a mod of Undertext subtitles
 import os, sys, re, xbmc, xbmcgui, string, time, urllib, urllib2, cookielib, shutil, fnmatch
@@ -92,7 +96,7 @@ Release: The.Dark.Knight.2008.720p.BluRay.DTS.x264-ESiR</td>
 #subtitle_pattern = "<div\sclass=\"sub_box\">[\r\n\t]{2}<div\sclass=\"sub_header\">[\r\n\t]{2}<b>(.+?)</b>\s\((\d\d\d\d)\)\s.+?[\r\n\t ]+?[\r\n\t]</div>[\r\n\t]{2}<table\sclass=\"sub_main\scolor1\"\scellspacing=\"0\">[\r\n\t]{2}<tr>[\r\n\t]{2}.+?[\r\n\t]{2}.+?img/(.+?)gif\".+?[\r\n\t]{2}<th>CDs:</th>[\r\n\t ]{2}<td>(.+?)&nbsp;</td>[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}<a\shref=\"\?name=Downloads&d_op=ratedownload&lid=(.+?)\">[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}<th\sclass=\"color2\">Hits:</th>[\r\n\t]{2}<td>(.+?)</td>[\r\n\t ]{2}.+?[\r\n\t]{2}<td>(.+?)</td>[\r\n\t ]{2}.+?[\r\n\t ]{2}.+?[\r\n\t ]{2}.+?[\r\n\t ]{2}.+?.{2,5}[\r\n\t ]{2}.+?[\r\n\t ]{2}<td\scolspan=\"5\"\sclass=\"td_desc\sbrd_up\">((\n|.)*)</td>"
 # group(1) = Name, group(2) = Year, group(3) = Language, group(4)= Number Files, group(5) = ID, group(6) = Hits, group(7) = Requests, group(8) = Description
 
-subtitle_pattern = "<div\sclass=\"sub_box\">[\r\n\t]{2}<div\sclass=\"sub_header\">[\r\n\t]{2}<b>(.+?)</b>\s\((\d\d\d\d)\)\s.+?[\r\n\t ]+?[\r\n\t]</div>[\r\n\t]{2}<table\sclass=\"sub_main\scolor1\"\scellspacing=\"0\">[\r\n\t]{2}<tr>[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}<th>CDs:</th>[\r\n\t ]{2}<td>(.+?)&nbsp;</td>[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}<a\shref=\"\?name=Downloads&d_op=ratedownload&lid=(.+?)\">[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}<th\sclass=\"color2\">Hits:</th>[\r\n\t]{2}<td>(.+?)</td>[\r\n\t ]{2}.+?[\r\n\t]{2}<td>(.+?)</td>[\r\n\t ]{2}.+?[\r\n\t ]{2}.+?[\r\n\t ]{2}.+?[\r\n\t ]{2}.+?.{2,5}[\r\n\t ]{2}.+?[\r\n\t ]{2}<td\scolspan=\"5\"\sclass=\"td_desc\sbrd_up\">((\n|.)*)</td>"
+subtitle_pattern = "<div\sclass=\"sub_box\">[\r\n\t]{2}<div\sclass=\"sub_header\">[\r\n\t]{2}<b>(.+?)</b>\s\((\d\d\d\d)\)\s.+?[\r\n\t ]+?[\r\n\t]</div>[\r\n\t]{2}<table\sclass=\"sub_main\scolor1\"\scellspacing=\"0\">[\r\n\t]{2}<tr>[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}<th>CDs:</th>[\r\n\t ]{2}<td>(.+?)</td>[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}<a\shref=\"\?name=Downloads&d_op=ratedownload&lid=(.+?)\">[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}.+?[\r\n\t]{2}<th\sclass=\"color2\">Hits:</th>[\r\n\t]{2}<td>(.+?)</td>[\r\n\t ]{2}.+?[\r\n\t]{2}<td>(.+?)</td>[\r\n\t ]{2}.+?[\r\n\t ]{2}.+?[\r\n\t ]{2}.+?[\r\n\t ]{2}.+?.{2,5}[\r\n\t ]{2}.+?[\r\n\t ]{2}<td\scolspan=\"5\"\sclass=\"td_desc\sbrd_up\">((\n|.)*)</td>"
 # group(1) = Name, group(2) = Year, group(3) = Number Files, group(4) = ID, group(5) = Hits, group(6) = Requests, group(7) = Description
 #====================================================================================================================
 # Functions
@@ -106,7 +110,7 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 
 	content = geturl(url)
 	log( __name__ ,"%s Getting '%s' subs ..." % (debug_pretext, languageshort))
-	while re.search(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
+	while re.search(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE) and page < 6:
 		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
 			hits = matches.group(5)
 			id = matches.group(4)
@@ -125,28 +129,31 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 			desc = re.sub(r'<[^<]+?>|[~]','', desc)
 			#Find filename on the comentaries to show sync label using filename or dirname (making it global for further usage)
 			global filesearch
-			filesearch = os.path.split(file_original_path)
-			dirsearch = string.split(filesearch[0], '/')
+			filesearch = os.path.abspath(file_original_path)
+			filesearch = os.path.split(filesearch)
+			dirsearch = string.split(filesearch[0], '\\')
 			dirsearch_check = string.split(dirsearch[-1], '.')
 			if (searchstring_notclean != ""):
 				sync = False
 				if re.search(searchstring_notclean, desc):
 					sync = True
-				#log( __name__ ,"%s dirsearch-2 found: %s" % (debug_pretext, searchstring_notclean))
 			else:
 				if (string.lower(dirsearch_check[-1]) == "rar") or (string.lower(dirsearch_check[-1]) == "cd1") or (string.lower(dirsearch_check[-1]) == "cd2"):
 					sync = False
-					if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-2], desc):
-						sync = True
-					log( __name__ ,"%s Subtitles found: %s (id = %s)" % (debug_pretext, filename, id))
-					#log( __name__ ,"%s dirsearch-2 found: %s" % (debug_pretext, dirsearch[-2]))
+					if len(dirsearch) > 1 and dirsearch[1] != '':
+						if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-2], desc):
+							sync = True
+					else:
+						if re.search(filesearch[1][:len(filesearch[1])-4], desc):
+							sync = True
 				else:
 					sync = False
-					if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-1], desc):
-						sync = True
-					log( __name__ ,"%s Subtitles found: %s (id = %s)" % (debug_pretext, filename, id))
-					#log( __name__ ,"%s dirsearch-2 found: %s" % (debug_pretext, dirsearch[-1]))
-				#log( __name__ ,"%s Desc found: %s (id = %s)" % (debug_pretext, desc, id))
+					if len(dirsearch) > 1 and dirsearch[1] != '':
+						if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-1], desc):
+							sync = True
+					else:
+						if re.search(filesearch[1][:len(filesearch[1])-4], desc):
+							sync = True
 			filename = filename + " " + "(" + movieyear + ")" + "  " + hits + "Hits" + " - " + desc
 			subtitles_list.append({'rating': str(downloads), 'no_files': no_files, 'filename': filename, 'desc': desc, 'sync': sync, 'hits' : hits, 'id': id, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
 		page = page + 1
@@ -184,39 +191,44 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 	searchstring_notclean = ""
 	searchstring = ""
 	global israr
-	israr = os.path.split(file_original_path)
-	israr = string.split(israr[0], '/')
+	israr = os.path.abspath(file_original_path)
+	israr = os.path.split(israr)
+	israr = string.split(israr[0], '\\')
 	israr = string.split(israr[-1], '.')
 	israr = string.lower(israr[-1])
 	
-	#log( __name__ ,"%s string israr = %s" % (debug_pretext, israr))
-
 	if len(tvshow) == 0:
 		if 'rar' in israr and searchstring is not None:
-			#log( __name__ ,"%s em israr = %s" % (debug_pretext, israr))
 			if 'cd1' in string.lower(title) or 'cd2' in string.lower(title) or 'cd3' in string.lower(title):
-				#log( __name__ ,"%s em cd1-2-3 = %s" % (debug_pretext, israr))
-				dirsearch = os.path.split(file_original_path)
-				dirsearch = string.split(dirsearch[0], '/')
-				searchstring_notclean = dirsearch[-3]
-				searchstring = xbmc.getCleanMovieTitle(dirsearch[-3])
-				searchstring = searchstring[0]
-				#log( __name__ ,"%s searchstringisrar = %s" % (debug_pretext, searchstring))
-				#log( __name__ ,"%s searchstringnotclean = %s" % (debug_pretext, searchstring_notclean))
+				dirsearch = os.path.abspath(file_original_path)
+				dirsearch = os.path.split(dirsearch)
+				dirsearch = string.split(dirsearch[0], '\\')
+				if len(dirsearch) > 1:
+					searchstring_notclean = dirsearch[-3]
+					searchstring = xbmc.getCleanMovieTitle(dirsearch[-3])
+					searchstring = searchstring[0]
+				else:
+					searchstring = title
 			else:
 				searchstring = title
-				#log( __name__ ,"%s searchstringELSEafterIF = %s" % (debug_pretext, searchstring))
 		elif 'cd1' in string.lower(title) or 'cd2' in string.lower(title) or 'cd3' in string.lower(title):
-			dirsearch = os.path.split(file_original_path)
-			dirsearch = string.split(dirsearch[0], '/')
-			searchstring_notclean = dirsearch[-2]
-			searchstring = xbmc.getCleanMovieTitle(dirsearch[-2])
-			searchstring = searchstring[0]
-			#log( __name__ ,"%s searchstringnotrar = %s" % (debug_pretext, searchstring))
-			#log( __name__ ,"%s searchstringnotclean = %s" % (debug_pretext, searchstring_notclean))
+			dirsearch = os.path.abspath(file_original_path)
+			dirsearch = os.path.split(dirsearch)
+			dirsearch = string.split(dirsearch[0], '\\')
+			if len(dirsearch) > 1:
+				searchstring_notclean = dirsearch[-2]
+				searchstring = xbmc.getCleanMovieTitle(dirsearch[-2])
+				searchstring = searchstring[0]
+			else:
+				#We are at the root of the drive!!! so there's no dir to lookup only file#
+				title = os.path.split(file_original_path)
+				searchstring = title[-1]
 		else:
-			searchstring = title
-			#log( __name__ ,"%s searchstringELSE = %s" % (debug_pretext, searchstring))
+			if title == "":
+				title = os.path.split(file_original_path)
+				searchstring = title[-1]
+			else:
+				searchstring = title
 			
 	if len(tvshow) > 0:
 		searchstring = "%s S%#02dE%#02d" % (tvshow, int(season), int(episode))
@@ -244,7 +256,6 @@ def recursive_glob(treeroot, pattern):
 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
 
-	#log( __name__ ,"%s Fetching subtitles using url %s" % (debug_pretext, subtitles_list))
 	id = subtitles_list[pos][ "id" ]
 	sync = subtitles_list[pos][ "sync" ]
 	log( __name__ ,"%s Fetching id using url %s" % (debug_pretext, id))
@@ -270,7 +281,6 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 
 	if content is not None:
 		header = content.info()['Content-Disposition'].split('filename')[1].split('.')[-1].strip("\"")
-		#log( __name__ ,"%s Fetching subtitles using url %s" % (debug_pretext, content))
 		if header == 'rar':
 			log( __name__ ,"%s file: content is RAR" % (debug_pretext)) #EGO
 			local_tmp_file = os.path.join(tmp_sub_dir, "ldivx.rar")
@@ -325,18 +335,12 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 				log( __name__ ,"%s Unpacked files in '%s'" % (debug_pretext, tmp_sub_dir))
 				searchrars = recursive_glob(tmp_sub_dir, packext)
 				searchrarcount = len(searchrars)
-				log( __name__ ,"%s DEBUG-rarcount: '%s'" % (debug_pretext, searchrarcount))
-				log( __name__ ,"%s DEBUG-rarcount: '%s'" % (debug_pretext, searchrars))
 				if searchrarcount > 1:
 					for filerar in searchrars:
-						log( __name__ ,"%s DEBUG-nomedorar: '%s'" % (debug_pretext, filerar))
 						if filerar != os.path.join(tmp_sub_dir,'ldivx.rar') and filerar != os.path.join(tmp_sub_dir,'ldivx.zip'):
-							#filerar = os.path.join(tmp_sub_dir, filerar)
-							#log( __name__ ,"%s DEBUG-nomedorarcompleto: '%s'" % (debug_pretext, filerar))
 							xbmc.executebuiltin("XBMC.Extract(" + filerar + "," + tmp_sub_dir +")")
 				time.sleep(1)
 				searchsubs = recursive_glob(tmp_sub_dir, subext)
-				#log( __name__ ,"%s DEBUG-searchsubs: '%s'" % (debug_pretext, searchsubs))
 				searchsubscount = len(searchsubs)
 				for filesub in searchsubs:
 					nopath = string.split(filesub, tmp_sub_dir)[-1]
@@ -345,7 +349,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 					#log( __name__ ,"%s DEBUG-nopath: '%s'" % (debug_pretext, nopath))
 					#log( __name__ ,"%s DEBUG-justfile: '%s'" % (debug_pretext, justfile))
 					releasefilename = filesearch[1][:len(filesearch[1])-4]
-					releasedirname = string.split(filesearch[0], '/')
+					releasedirname = string.split(filesearch[0], '\\')
 					if 'rar' in israr:
 						releasedirname = releasedirname[-2]
 					else:
@@ -361,7 +365,6 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 					multicds_pattern = "\+?(cd\d)\+?"
 					multicdsubs = re.search(multicds_pattern, subsfilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
 					multicdsrls = re.search(multicds_pattern, releasefilename, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
-					#log( __name__ ,"%s DEBUG-sync: '%s'" % (debug_pretext, syncsub))
 					#Start choosing the right subtitle(s)
 					if searchsubscount == 1 and sync == True:
 						subs_file = filesub
