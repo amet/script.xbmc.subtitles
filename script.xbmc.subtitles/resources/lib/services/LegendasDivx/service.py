@@ -10,7 +10,7 @@
 #
 # NEW on Service LegendasDivx.com v0.2.1:
 # Fixed bug when the file is played from a root path, no parent dir search\sync when that happens.
-# Fixed pathnames to work with all OS (Winblows, Unix, etc).
+# Fixed pathnames to work with all OS (Win, Unix, etc).
 # Added pattern to search several subtitle extensions.
 #
 # NEW on Service LegendasDivx.com v0.2.0:
