@@ -1,5 +1,6 @@
 2.9.5
-- added: Subscenter.org service, thanks Ori Varon2.9.4
+- added: Subscenter.org service, thanks Ori Varon
+- added: Asia-Team.net thx to Fran CM
 
 2.9.4
 - added: New services PT-SUBS.net and OmniSubs.net, thx to highlandr
