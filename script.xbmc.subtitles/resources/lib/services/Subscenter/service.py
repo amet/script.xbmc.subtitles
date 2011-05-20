@@ -2,14 +2,15 @@
 
 #===============================================================================
 # Subscenter.org subtitles service.
-# Version: 1.0
+# Version: 1.1
 #
 # Change log:
+# 1.1 - Fixed downloading of non-Hebrew subtitles.
 #
 # Created by: Ori Varon
 #===============================================================================
 import os, re, xbmc, xbmcgui, string, time, urllib2
-from utilities import twotofull, log
+from utilities import twotofull, toOpenSubtitles_two, log
 
 BASE_URL = "http://www.subscenter.org"
 debug_pretext = ""
@@ -211,7 +212,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
     subtitle_id = subtitles_list[pos][ "subtitle_id" ]
     filename = subtitles_list[pos][ "filename" ]
-    url = BASE_URL + "/subtitle/download/he/"+str(subtitle_id)+"/?v="+filename
+    url = BASE_URL + "/subtitle/download/"+toOpenSubtitles_two(subtitles_list[pos][ "language_name" ])+"/"+str(subtitle_id)+"/?v="+filename
     log( __name__ ,"%s Fetching subtitles using url %s" % (debug_pretext, url))
     # Get the intended filename (don't know if it's zip or rar)
     archive_name = getURLfilename(url)
