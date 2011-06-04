@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Service Legendas-Zone.org version 0.1.5
+# Service Legendas-Zone.org version 0.1.6
 # Code based on Undertext service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Help by VaRaTRoN
@@ -8,6 +8,10 @@
 # http://www.teknorage.com
 # License: GPL v2
 #
+#
+# NEW on Service Legendas-Zone.org v0.1.6:
+# Better search results with 3 types of searching. Single title, multi titles and IMDB search.
+# Added builtin notifications for better information.
 #
 # Initial Release of Service Legendas-Zone.org - v0.1.5:
 # TODO: re-arrange code :)
@@ -18,6 +22,7 @@ from utilities import log
 _ = sys.modules[ "__main__" ].__language__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __settings__ = sys.modules[ "__main__" ].__settings__
+__cwd__        = sys.modules[ "__main__" ].__cwd__
 
 main_url = "http://www.legendas-zone.org/"
 debug_pretext = "Legendas-Zone"
@@ -30,13 +35,17 @@ packext = ['rar', 'zip']
 
 """
 """
-#desc_pattern = "<td><b>Descri.+?</b><img\ssrc=\".+?/>(.+?)[\r\n\t]<hr\s/><b>Posted\sby:"
-subtitle_pattern = "<a\shref=\"legendas.php\?modo=detalhes&amp;id=(.+?)\"\stitle=\"(.+?)\""
-# group(1) = ID, group(2) = Name, group(3) = Downloads, group(4) = Data, group(5) = Comments, group(6) = User
+#details_pattern = "<b>CD\#:</b>\s(.+?)\s.+?<b>Hits:</b>\s(.+?)</b>.+?<b>Linguagem:</b>.+?border=\"0\"\salt=\"(.+?)\"\stitle"
+#subtitle_pattern = "onmouseover=\"Tip\(\'<table><tr><td><b>(.+?)</b></td></tr></table>.+?<b>Hits:</b>\s(.+?)\s<br>.+?<b>CDs:</b>\s(.+?)<br>.+?Uploader:</b>\s(.+?)</td>"
+subtitle_pattern = "<a\shref=\"legendas.php.+?amp;(.+?)\".+?[\r\n\t]+?.+?[\r\n\t]+?.+?onmouseover=\"Tip\(\'<table><tr><td><b>(.+?)</b></td></tr></table>.+?<b>Hits:</b>\s(.+?)\s<br>.+?<b>CDs:</b>\s(.+?)<br>.+?Uploader:</b>\s(.+?)</td>"
+# group(1) = ID, group(2) = Name, group(3) = Hits, group(4) = Files, group(5) = Uploader
+multiple_results_pattern = "<td\salign=\"left\".+?<b><a\shref=\"legendas.php\?imdb=(.+?)&l=pt\"\stitle=\".+?\">.+?</td>"
+# group(1) = IMDB
+imdb_pattern = "<p><b>Popular\sTitles</b>\s\(Displaying.+?Results\)<table><tr>.+?<a\shref=\"\/title\/tt(.+?)\/\""
+# group(1) = IMDB
 #====================================================================================================================
 # Functions
 #====================================================================================================================
-
 def getallsubs(searchstring, languageshort, languagelong, file_original_path, subtitles_list, searchstring_notclean):
 
 	#Grabbing login and pass from xbmc settings
@@ -47,6 +56,8 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 	opener.addheaders.append(('User-agent', 'Mozilla/4.0'))
 	login_data = urllib.urlencode({'username' : username, 'password' : password})
 	opener.open(main_url+'fazendologin.php', login_data)
+	
+	
 
 	page = 0
 	if languageshort == "pt":
@@ -54,83 +65,237 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 
 	content = opener.open(url)
 	content = content.read()
-	#For DEBUG only uncomment next line
-	#log( __name__ ,"%s Getting '%s' list ..." % (debug_pretext, content))
-	#log( __name__ ,"%s Getting '%s' subs ..." % (debug_pretext, languageshort))
-	while re.search(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
-		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
-			hits = matches.group(1)
-			id = matches.group(1)
-			no_files = matches.group(1)
-			downloads = int(matches.group(1)) / 10
-			if (downloads > 10):
-				downloads=10
-			filename = string.strip(matches.group(2))
-			desc = string.strip(matches.group(2))
-			#log( __name__ ,"%s filename '%s'" % (debug_pretext, filename))
-			filename_check = string.split(filename,' ')
-			#log( __name__ ,"%s filename '%s'" % (debug_pretext, filename_check))
-			#if filename_check[0] == '[GT]':
-			#	continue
-			#content_desc = opener.open(id)
-			#content_desc = content_desc.read()
-			#For DEBUG only uncomment next line
-			#log( __name__ ,"%s Getting '%s' desc" % (debug_pretext, content_desc))
-			#for descmatch in re.finditer(desc_pattern, content_desc, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
-			#	desc = string.strip(descmatch.group(1))
-			#	log( __name__ ,"%s Desc: '%s'" % (debug_pretext, desc))
-			#Remove new lines on the commentaries
-			filename = re.sub('\n',' ',filename)
-			desc = re.sub('\n',' ',desc)
-			desc = re.sub('&quot;','"',desc)
-			#Remove HTML tags on the commentaries
-			filename = re.sub(r'<[^<]+?>','', filename)
-			desc = re.sub(r'<[^<]+?>|[~]',' ', desc)
-			#Find filename on the comentaries to show sync label using filename or dirname (making it global for further usage)
-			global filesearch
-			filesearch = os.path.abspath(file_original_path)
-			#For DEBUG only uncomment next line
-			#log( __name__ ,"%s abspath: '%s'" % (debug_pretext, filesearch))
-			filesearch = os.path.split(filesearch)
-			#For DEBUG only uncomment next line
-			#log( __name__ ,"%s path.split: '%s'" % (debug_pretext, filesearch))
-			dirsearch = filesearch[0].split(os.sep)
-			#For DEBUG only uncomment next line
-			#log( __name__ ,"%s dirsearch: '%s'" % (debug_pretext, dirsearch))
-			dirsearch_check = string.split(dirsearch[-1], '.')
-			#For DEBUG only uncomment next line
-			#log( __name__ ,"%s dirsearch_check: '%s'" % (debug_pretext, dirsearch_check))
-			if (searchstring_notclean != ""):
-				sync = False
-				if re.search(searchstring_notclean, desc):
-					sync = True
-			else:
-				if (string.lower(dirsearch_check[-1]) == "rar") or (string.lower(dirsearch_check[-1]) == "cd1") or (string.lower(dirsearch_check[-1]) == "cd2"):
+	if re.search(multiple_results_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE) == None:
+		log( __name__ ,"%s Getting '%s' subs ..." % (debug_pretext, "Single Title"))
+		icon =  os.path.join(__cwd__,"icon.png")
+		xbmc.executebuiltin("XBMC.Notification(%s,%s,6000,%s)" % (__scriptname__,"Searching single title... Please wait!",icon))
+		while re.search(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE) and page < 6:
+			for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
+				hits = matches.group(3)
+				downloads = int(matches.group(3)) / 5
+				if (downloads > 10):
+					downloads=10
+				id = matches.group(1)
+				filename = string.strip(matches.group(2))
+				desc = string.strip(matches.group(2))
+				no_files = matches.group(4)
+				uploader = matches.group(5)
+				#log( __name__ ,"%s filename '%s'" % (debug_pretext, filename))
+				filename_check = string.split(filename,' ')
+				#log( __name__ ,"%s filename '%s'" % (debug_pretext, filename_check))
+				#Remove new lines on the commentaries
+				filename = re.sub('\n',' ',filename)
+				desc = re.sub('\n',' ',desc)
+				desc = re.sub('&quot;','"',desc)
+				#Remove HTML tags on the commentaries
+				filename = re.sub(r'<[^<]+?>','', filename)
+				desc = re.sub(r'<[^<]+?>|[~]',' ', desc)
+				#Find filename on the comentaries to show sync label using filename or dirname (making it global for further usage)
+				global filesearch
+				filesearch = os.path.abspath(file_original_path)
+				#For DEBUG only uncomment next line
+				#log( __name__ ,"%s abspath: '%s'" % (debug_pretext, filesearch))
+				filesearch = os.path.split(filesearch)
+				#For DEBUG only uncomment next line
+				#log( __name__ ,"%s path.split: '%s'" % (debug_pretext, filesearch))
+				dirsearch = filesearch[0].split(os.sep)
+				#For DEBUG only uncomment next line
+				#log( __name__ ,"%s dirsearch: '%s'" % (debug_pretext, dirsearch))
+				dirsearch_check = string.split(dirsearch[-1], '.')
+				#For DEBUG only uncomment next line
+				#log( __name__ ,"%s dirsearch_check: '%s'" % (debug_pretext, dirsearch_check))
+				if (searchstring_notclean != ""):
 					sync = False
-					if len(dirsearch) > 1 and dirsearch[1] != '':
-						if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-2], desc):
-							sync = True
-					else:
-						if re.search(filesearch[1][:len(filesearch[1])-4], desc):
-							sync = True
+					if re.search(searchstring_notclean, desc):
+						sync = True
 				else:
-					sync = False
-					if len(dirsearch) > 1 and dirsearch[1] != '':
-						if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-1], desc):
-							sync = True
+					if (string.lower(dirsearch_check[-1]) == "rar") or (string.lower(dirsearch_check[-1]) == "cd1") or (string.lower(dirsearch_check[-1]) == "cd2"):
+						sync = False
+						if len(dirsearch) > 1 and dirsearch[1] != '':
+							if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-2], desc):
+								sync = True
+						else:
+							if re.search(filesearch[1][:len(filesearch[1])-4], desc):
+								sync = True
 					else:
-						if re.search(filesearch[1][:len(filesearch[1])-4], desc):
-							sync = True
-			filename = filename + "  " + hits + "Hits" + " - " + desc
-			subtitles_list.append({'rating': str(downloads), 'no_files': no_files, 'filename': filename, 'desc': desc, 'sync': sync, 'hits' : hits, 'id': id, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
-		page = page + 1
-		url = main_url + "	legendas.php?l=pt&page=" + str(page) + "&s=" + urllib.quote_plus(searchstring)
+						sync = False
+						if len(dirsearch) > 1 and dirsearch[1] != '':
+							if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-1], desc):
+								sync = True
+						else:
+							if re.search(filesearch[1][:len(filesearch[1])-4], desc):
+								sync = True
+				filename = filename + "  " + hits + "Hits" + " - " + desc + " - uploader: " + uploader
+				subtitles_list.append({'rating': str(downloads), 'no_files': no_files, 'id': id, 'filename': filename, 'desc': desc, 'sync': sync, 'hits' : hits, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
+			page = page + 1
+			url = main_url + "	legendas.php?l=pt&page=" + str(page) + "&s=" + urllib.quote_plus(searchstring)
+			content = opener.open(url)
+			content = content.read()
+			#For DEBUG only uncomment next line
+			#log( __name__ ,"%s Getting '%s' list part xxx..." % (debug_pretext, content))
+	else:
+		page = 0
+		if languageshort == "pt":
+			url = main_url + "	legendas.php?l=pt&page=" + str(page) + "&s=" + urllib.quote_plus(searchstring)
 		content = opener.open(url)
 		content = content.read()
-		#For DEBUG only uncomment next line
-		#log( __name__ ,"%s Getting '%s' list part xxx..." % (debug_pretext, content))
+		maxsubs = re.findall(multiple_results_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
+		maxsubs = len(maxsubs)
+		if maxsubs < 10:
+			icon =  os.path.join(__cwd__,"icon.png")
+			xbmc.executebuiltin("XBMC.Notification(%s,%s,6000,%s)" % (__scriptname__,"Searching many titles... Please wait!",icon))
+			while re.search(multiple_results_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
+				log( __name__ ,"%s Getting '%s' subs ..." % (debug_pretext, "Less Then 10 Titles"))
+				for resmatches in re.finditer(multiple_results_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
+					imdb = resmatches.group(1)
+					page1 = 0
+					content1 = opener.open(main_url + "legendas.php?l=pt&imdb=" + imdb + "&page=" + str(page1))
+					content1 = content1.read()
+					while re.search(subtitle_pattern, content1, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
+						for matches in re.finditer(subtitle_pattern, content1, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
+							hits = matches.group(3)
+							downloads = int(matches.group(3)) / 5
+							if (downloads > 10):
+								downloads=10
+							id = matches.group(1)
+							filename = string.strip(matches.group(2))
+							desc = string.strip(matches.group(2))
+							#desc = filename + " - uploader: " + desc
+							no_files = matches.group(4)
+							uploader = matches.group(5)
+							#log( __name__ ,"%s filename '%s'" % (debug_pretext, filename))
+							filename_check = string.split(filename,' ')
+							#log( __name__ ,"%s filename '%s'" % (debug_pretext, filename_check))
+							#Remove new lines on the commentaries
+							filename = re.sub('\n',' ',filename)
+							desc = re.sub('\n',' ',desc)
+							desc = re.sub('&quot;','"',desc)
+							#Remove HTML tags on the commentaries
+							filename = re.sub(r'<[^<]+?>','', filename)
+							desc = re.sub(r'<[^<]+?>|[~]',' ', desc)
+							#Find filename on the comentaries to show sync label using filename or dirname (making it global for further usage)
+							#global filesearch
+							filesearch = os.path.abspath(file_original_path)
+							#For DEBUG only uncomment next line
+							#log( __name__ ,"%s abspath: '%s'" % (debug_pretext, filesearch))
+							filesearch = os.path.split(filesearch)
+							#For DEBUG only uncomment next line
+							#log( __name__ ,"%s path.split: '%s'" % (debug_pretext, filesearch))
+							dirsearch = filesearch[0].split(os.sep)
+							#For DEBUG only uncomment next line
+							#log( __name__ ,"%s dirsearch: '%s'" % (debug_pretext, dirsearch))
+							dirsearch_check = string.split(dirsearch[-1], '.')
+							#For DEBUG only uncomment next line
+							#log( __name__ ,"%s dirsearch_check: '%s'" % (debug_pretext, dirsearch_check))
+							if (searchstring_notclean != ""):
+								sync = False
+								if re.search(searchstring_notclean, desc):
+									sync = True
+							else:
+								if (string.lower(dirsearch_check[-1]) == "rar") or (string.lower(dirsearch_check[-1]) == "cd1") or (string.lower(dirsearch_check[-1]) == "cd2"):
+									sync = False
+									if len(dirsearch) > 1 and dirsearch[1] != '':
+										if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-2], desc):
+											sync = True
+									else:
+										if re.search(filesearch[1][:len(filesearch[1])-4], desc):
+											sync = True
+								else:
+									sync = False
+									if len(dirsearch) > 1 and dirsearch[1] != '':
+										if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-1], desc):
+											sync = True
+									else:
+										if re.search(filesearch[1][:len(filesearch[1])-4], desc):
+											sync = True
+							filename = filename + "  " + hits + "Hits" + " - " + desc + " - uploader: " + uploader
+							subtitles_list.append({'rating': str(downloads), 'no_files': no_files, 'id': id, 'filename': filename, 'desc': desc, 'sync': sync, 'hits' : hits, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
+						page1 = page1 + 1
+						content1 = opener.open(main_url + "legendas.php?l=pt&imdb=" + imdb + "&page=" + str(page1))
+						content1 = content1.read()
+				page = page + 1
+				url = main_url + "	legendas.php?l=pt&page=" + str(page) + "&s=" + urllib.quote_plus(searchstring)
+				content = opener.open(url)
+				content = content.read()
+		else:
+			if languageshort == "pt":
+				url = "http://uk.imdb.com/find?s=all&q=" + urllib.quote_plus(searchstring)
+			content = opener.open(url)
+			content = content.read()
+			imdb = re.findall(imdb_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE)
+			page1 = 0
+			content1 = opener.open(main_url + "legendas.php?l=pt&imdb=" + imdb[0] + "&page=" + str(page1))
+			content1 = content1.read()
+			icon =  os.path.join(__cwd__,"icon.png")
+			xbmc.executebuiltin("XBMC.Notification(%s,%s,6000,%s)" % (__scriptname__,"Too many hits. Grabbing IMDB title!",icon))
+			while re.search(subtitle_pattern, content1, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
+				log( __name__ ,"%s Getting '%s' subs ..." % (debug_pretext, "IMDB Title"))
+				for matches in re.finditer(subtitle_pattern, content1, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
+					hits = matches.group(3)
+					downloads = int(matches.group(3)) / 5
+					if (downloads > 10):
+						downloads=10
+					id = matches.group(1)
+					filename = string.strip(matches.group(2))
+					desc = string.strip(matches.group(2))
+					#desc = filename + " - uploader: " + desc
+					no_files = matches.group(4)
+					uploader = matches.group(5)
+					#log( __name__ ,"%s filename '%s'" % (debug_pretext, filename))
+					filename_check = string.split(filename,' ')
+					#log( __name__ ,"%s filename '%s'" % (debug_pretext, filename_check))
+					#Remove new lines on the commentaries
+					filename = re.sub('\n',' ',filename)
+					desc = re.sub('\n',' ',desc)
+					desc = re.sub('&quot;','"',desc)
+					#Remove HTML tags on the commentaries
+					filename = re.sub(r'<[^<]+?>','', filename)
+					desc = re.sub(r'<[^<]+?>|[~]',' ', desc)
+					#Find filename on the comentaries to show sync label using filename or dirname (making it global for further usage)
+					#global filesearch
+					filesearch = os.path.abspath(file_original_path)
+					#For DEBUG only uncomment next line
+					#log( __name__ ,"%s abspath: '%s'" % (debug_pretext, filesearch))
+					filesearch = os.path.split(filesearch)
+					#For DEBUG only uncomment next line
+					#log( __name__ ,"%s path.split: '%s'" % (debug_pretext, filesearch))
+					dirsearch = filesearch[0].split(os.sep)
+					#For DEBUG only uncomment next line
+					#log( __name__ ,"%s dirsearch: '%s'" % (debug_pretext, dirsearch))
+					dirsearch_check = string.split(dirsearch[-1], '.')
+					#For DEBUG only uncomment next line
+					#log( __name__ ,"%s dirsearch_check: '%s'" % (debug_pretext, dirsearch_check))
+					if (searchstring_notclean != ""):
+						sync = False
+						if re.search(searchstring_notclean, desc):
+							sync = True
+					else:
+						if (string.lower(dirsearch_check[-1]) == "rar") or (string.lower(dirsearch_check[-1]) == "cd1") or (string.lower(dirsearch_check[-1]) == "cd2"):
+							sync = False
+							if len(dirsearch) > 1 and dirsearch[1] != '':
+								if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-2], desc):
+									sync = True
+							else:
+								if re.search(filesearch[1][:len(filesearch[1])-4], desc):
+									sync = True
+						else:
+							sync = False
+							if len(dirsearch) > 1 and dirsearch[1] != '':
+								if re.search(filesearch[1][:len(filesearch[1])-4], desc) or re.search(dirsearch[-1], desc):
+									sync = True
+							else:
+								if re.search(filesearch[1][:len(filesearch[1])-4], desc):
+									sync = True
+					filename = filename + "  " + hits + "Hits" + " - " + desc + " - uploader: " + uploader
+					subtitles_list.append({'rating': str(downloads), 'no_files': no_files, 'id': id, 'filename': filename, 'desc': desc, 'sync': sync, 'hits' : hits, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
+				page1 = page1 + 1
+				content1 = opener.open(main_url + "legendas.php?l=pt&imdb=" + imdb[0] + "&page=" + str(page1))
+				content1 = content1.read()
+				#For DEBUG only uncomment next line
 
-#	Bubble sort, to put syncs on top
+
+	xbmc.executebuiltin("XBMC.Notification(%s,%s,6000,%s)" % (__scriptname__,"Finished searching!",icon))
+	#Bubble sort, to put syncs on top
 	for n in range(0,len(subtitles_list)):
 		for i in range(1, len(subtitles_list)):
 			temp = subtitles_list[i]
@@ -212,7 +377,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 	getallsubs(searchstring, "pt", "Portuguese", file_original_path, subtitles_list, searchstring_notclean)
 
 	if portuguese == 0:
-		msg = "Won't work, Legendas-Zone is only for Portuguese subtitles!"
+		msg = "Only for Portuguese subtitles, perhaps others in the future!"
 	
 	return subtitles_list, "", msg #standard output
 	
@@ -285,6 +450,8 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 						max_mtime =  mtime
 			init_max_mtime = max_mtime
 			time.sleep(2)  # wait 2 seconds so that the unpacked files are at least 1 second newer
+			icon =  os.path.join(__cwd__,"icon.png")
+			xbmc.executebuiltin("XBMC.Notification(%s,%s,6000,%s)" % (__scriptname__,"Extracting Subtitles...",icon))
 			xbmc.executebuiltin("XBMC.Extract(" + local_tmp_file + "," + tmp_sub_dir +")")
 			waittime  = 0
 			while (filecount == init_filecount) and (waittime < 20) and (init_max_mtime == max_mtime): # nothing yet extracted
@@ -362,6 +529,8 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 							break
 				else:
 					#If none is found just open a dialog box for browsing the temporary subtitle folder
+					icon =  os.path.join(__cwd__,"icon.png")
+					xbmc.executebuiltin("XBMC.Notification(%s,%s,6000,%s)" % (__scriptname__,"Please wait. Opening browser!",icon))
 					sub_ext = "srt,aas,ssa,sub,smi"
 					sub_tmp = []
 					for root, dirs, files in os.walk(tmp_sub_dir, topdown=False):
@@ -381,5 +550,8 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 						if subs_file == tmp_sub_dir+"/": subs_file = ""
 					elif sub_tmp:
 						subs_file = sub_tmp[0]
-							
+	
+		
+		
+	
 		return False, language, subs_file #standard output
