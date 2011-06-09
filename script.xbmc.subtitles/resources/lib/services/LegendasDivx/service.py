@@ -122,8 +122,6 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 
 	content = geturl(url)
 	log( __name__ ,"%s Getting '%s' subs ..." % (debug_pretext, languageshort))
-	#icon =  os.path.join(__cwd__,"icon.png")
-	#xbmc.executebuiltin("XBMC.Notification(%s,%s,6000,%s)" % (__scriptname__,"Searching Title... Please wait!",icon))
 	msg("Searching Title... Please wait!", 6000)
 	while re.search(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE) and page < 6:
 		for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE | re.VERBOSE):
@@ -183,8 +181,6 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 		url = main_url + "modules.php?name=Downloads&file=jz&d_op=search_next&order=&form_cat=28&page=" + str(page) + "&query=" + urllib.quote_plus(searchstring)
 		content = geturl(url)
 
-	#icon =  os.path.join(__cwd__,"icon.png")
-	#xbmc.executebuiltin("XBMC.Notification(%s,%s,3000,%s)" % (__scriptname__,"Finished Searching. Choose One!",icon))
 	if subtitles_list != []:
 		msg("Finished Searching. Choose One!", 3000)
 	else:
@@ -286,8 +282,7 @@ def recursive_glob(treeroot, pattern):
 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
 
-	icon =  os.path.join(__cwd__,"icon.png")
-	xbmc.executebuiltin("XBMC.Notification(%s,%s,6000,%s)" % (__scriptname__,"Downloading... Please Wait!",icon))
+	msg("Downloading... Please Wait!", 6000)
 	id = subtitles_list[pos][ "id" ]
 	sync = subtitles_list[pos][ "sync" ]
 	log( __name__ ,"%s Fetching id using url %s" % (debug_pretext, id))
@@ -347,8 +342,6 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 						max_mtime =  mtime
 			init_max_mtime = max_mtime
 			time.sleep(2)  # wait 2 seconds so that the unpacked files are at least 1 second newer
-			#icon =  os.path.join(__cwd__,"icon.png")
-			#xbmc.executebuiltin("XBMC.Notification(%s,%s,6000,%s)" % (__scriptname__,"Extracting... Please Wait!",icon))
 			msg("Extracting... Please Wait!", 6000)
 			xbmc.executebuiltin("XBMC.Extract(" + local_tmp_file + "," + tmp_sub_dir +")")
 			waittime  = 0
@@ -367,8 +360,6 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 			if waittime == 20:
 				log( __name__ ,"%s Failed to unpack subtitles in '%s'" % (debug_pretext, tmp_sub_dir))
 			else:
-				icon =  os.path.join(__cwd__,"icon.png")
-				xbmc.executebuiltin("XBMC.Notification(%s,%s,3000,%s)" % (__scriptname__,"Done Extracting!",icon))
 				msg("Done Extracting!", 3000)
 				log( __name__ ,"%s Unpacked files in '%s'" % (debug_pretext, tmp_sub_dir))
 				searchrars = recursive_glob(tmp_sub_dir, packext)
@@ -450,8 +441,6 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 					elif sub_tmp:
 						subs_file = sub_tmp[0]
 		
-		#icon =  os.path.join(__cwd__,"icon.png")
-		#xbmc.executebuiltin("XBMC.Notification(%s,%s,3000,%s)" % (__scriptname__,"Playing Title!",icon))
 		msg("Playing Title!", 3000)
 
 		return False, language, subs_file #standard output
