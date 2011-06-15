@@ -86,14 +86,14 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
         patterntype = r'.+?(720p|1080p|1080|720|dvdrip|hdtv|WEB\-DL).+'
         matchtype = re.search(patterntype, title,  re.I)
         release_type = ""
-        if matchtype:
-                release_type = matchtype.group(1)
+        if matchtype: release_type = matchtype.group(1).lower()
+        
         #releaser
         releaser = ""
         patternreleaser = r'.+\-(\w+)\.\w{3}$'
         matchreleaser = re.search(patternreleaser, title,  re.I)
-        if matchreleaser:
-                releaser = matchreleaser.group(1)
+        if matchreleaser: releaser = matchreleaser.group(1).lower()
+        
         #on feliratok.info the episode number is listed with a leading zero (if below 10), e.g.: 4x02
         sep = season + "x" + str(episode).zfill(2)
         
@@ -111,22 +111,22 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
             flag = toOpenSubtitles_two(eng_langname)
             if flag == "": flag = "-"
 
-
             score = 0
             rating = 0
-            if release_type != "" and re.search(release_type, orig_title, re.I): 
+            orig_title_low = orig_title.lower()
+            if (release_type != "") and (release_type in orig_title_low): 
                 score += 10
                 rating += 2
-            if releaser != "" and re.search(releaser, orig_title, re.I): 
+            if (releaser != "") and (releaser in orig_title_low): 
                 score += 5
                 rating += 2
             
             if hun_langname.lower() == "magyar": score += 1
                 
             if len(tvshow) > 0:
-                if re.search(sep, orig_title): 
+                if sep in orig_title_low: 
                     score += 100
-                    rating += 5
+                    rating += 6
             else:
                 rating *= 2.5
             #rating format must be string 
