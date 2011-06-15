@@ -132,8 +132,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
             #rating format must be string 
             rating = str(rating)
 
-            subenv.debuglog("mukka: orig_title: %s type: %s, releaser: %s, rating: %s, sep: %s, score: %s" % (orig_title, release_type, releaser, rating, sep, score) )
-            #subenv.debuglog("Found movie on search page: orig: %s, hun: %s, lang: %s, link: %s, flag: %s" % (orig_title, hun_title, hun_langname, link, flag) )
+            subenv.debuglog("Found movie on search page: orig_title: %s, hun: %s, lang: %s, link: %s, flag: %s, type: %s, releaser: %s, rating: %s, sep: %s, score: %s" % (orig_title, hun_title, hun_langname, link, flag, release_type, releaser, rating, sep, score) )
             subtitles_list.append({'movie':  orig_title, 'filename': orig_title + " / " + hun_title, 'link': link, 'id': sub_id, 'language_flag': 'flags/' + flag + '.gif', 'language_name': hun_langname, 'movie_file':file_original_path, 'eng_language_name': eng_langname, 'sync': False, 'rating': rating, 'format': 'srt', 'base_url' : base_url, 'score': score })
 
         subenv.debuglog("%d subtitles found" % (len(subtitles_list)) )
