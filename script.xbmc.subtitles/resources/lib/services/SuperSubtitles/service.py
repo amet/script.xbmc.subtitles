@@ -13,7 +13,7 @@ from utilities import *
 _ = sys.modules[ "__main__" ].__language__
 
 base_urls = ("http://feliratok.info/", "http://feliratok.hs.vc/", "http://feliratok.na.tl/")
-search_url_postfix = "index.php?nyelv=&searchB=Mehet&search="
+search_url_postfix = "index.php?nyelv=Magyar&search=Mehet&search="
 
 subtitle_pattern =                    '<tr[^>]*>\s*'
 subtitle_pattern = subtitle_pattern +    '<td[^>]*>.*?</table>\s*</td>\s*' # picture
@@ -82,7 +82,22 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
         subenv.debuglog("Getting url: %s" % (url) )
         content = urllib2.urlopen(url).read()
 
-        for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE):  #  | re.UNICODE
+	#type of source
+        patterntype = r'.+?(720p|1080p|1080|720|dvdrip|hdtv|WEB\-DL).+'
+        matchtype = re.search(patterntype, title,  re.I)
+	ftype = ""
+        if matchtype:
+		type = matchtype.group(1)
+	#releaser
+	releaser = ""
+        patternreleaser = r'.+\-(\w+)\.\w{3}$'
+        matchreleaser = re.search(patternreleaser, title,  re.I)
+        if matchreleaser:
+        	releaser = matchreleaser.group(1)
+	#on feliratok.info the episode number is listed with a leading zero (if below 10) fe, 4x02
+	sep = season + "x" + str(episode).zfill(2)
+        
+	for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE):  #  | re.UNICODE
             link = matches.group('link1') + urllib.quote_plus(matches.group('link2')) + matches.group('link3')
             hun_title = matches.group('huntitle')
             orig_title = matches.group('origtitle')
@@ -95,12 +110,25 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
             eng_langname = subutils.lang_hun2eng(hun_langname)
             flag = toOpenSubtitles_two(eng_langname)
             if flag == "": flag = "-"
-            
+
+
+	    rating = 0
+            if len(tvshow) > 0:
+	    	if re.search(ftype, orig_title, re.I) and re.search(releaser, orig_title, re.I) and re.search(sep, orig_title):
+               		rating = 10 
+	    elif re.search(ftype, orig_title, re.I) and re.search(releaser, orig_title, re.I):
+               		rating = 10 
+	    #rating format must be string 
+	    rating = str(rating)
+
+            subenv.debuglog("mukka: orig_title: %s type: %s, releaser: %s, rating: %s, sep: %s" % (orig_title, ftype, releaser, rating, sep) )
             #subenv.debuglog("Found movie on search page: orig: %s, hun: %s, lang: %s, link: %s, flag: %s" % (orig_title, hun_title, hun_langname, link, flag) )
-            subtitles_list.append({'movie':  orig_title, 'filename': orig_title + " / " + hun_title, 'link': link, 'id': sub_id, 'language_flag': 'flags/' + flag + '.gif', 'language_name': hun_langname, 'movie_file':file_original_path, 'eng_language_name': eng_langname, 'sync': False, 'rating': '0', 'format': 'srt', 'base_url' : base_url })
+            subtitles_list.append({'movie':  orig_title, 'filename': orig_title + " / " + hun_title, 'link': link, 'id': sub_id, 'language_flag': 'flags/' + flag + '.gif', 'language_name': hun_langname, 'movie_file':file_original_path, 'eng_language_name': eng_langname, 'sync': False, 'rating': rating, 'format': 'srt', 'base_url' : base_url })
         subenv.debuglog("%d subtitles found" % (len(subtitles_list)) )
         error_msg = ""
         if len(subtitles_list) == 0: error_msg = "No subtitles found"
+	#subtitles_list = sorted(subtitles_list,key=lambda subtitle: subtitle['language_name'], reverse=True);
+	subtitles_list = sorted(subtitles_list,key=lambda rating: rating['rating'], reverse=True);
         return subtitles_list, "", error_msg #standard output
 
     except Exception, inst: 
