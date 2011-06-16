@@ -1,6 +1,7 @@
 # coding=iso-8859-2
 import sys
 import os
+import os.path
 import string
 import urllib
 import urllib2
@@ -41,7 +42,7 @@ subtitle_pattern = subtitle_pattern +  '</tr>'
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack ): 
 #input:
 #   title: if it's a tv show episode and it's in the library, then it's the title of the _episode_,
-#          if it's a tv show episode and it is not in the library, then it's thecleaned up name of the file,
+#          if it's a tv show episode and it is not in the library, then it's the cleaned up name of the file,
 #          if it's a movie and it's in the library, then it's the title of the movie (as stored in the lib.),
 #          otherwise it's the title of the movie deduced from the filename
 #   tvshow: the title of the tv show (if it's a tv show, of cource) as stored in the library or deduced from the filename
@@ -53,15 +54,16 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 #   session_id: this string is given to the download_subtitles function in the session_id parameter
 #   message: if it's not empty, then this message will be shown in the search dialog box instead of the title/filename
 
-    #subenv.debuglog("INPUT:: path: %s, title: %s, tvshow: %s, year: %s, season: %s, episode: %s, set_temp: %s, rar: %s, lang1: %s, lang2: %s, lang3: %s" % (file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3))
+    subenv.debuglog("INPUT:: path: %s, title: %s, tvshow: %s, year: %s, season: %s, episode: %s, set_temp: %s, rar: %s, lang1: %s, lang2: %s, lang3: %s" % (file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3))
     
     msg = ""
     subtitles_list = []  
     if len(tvshow) > 0:                                              # TvShow
         search_string = tvshow                                       # ("%s - %dx%.2d" % (tvshow, int(season), int(episode)))
+        full_filename = os.path.basename(file_original_path)
     else:                                                            # if not in Library: year == ""
-        if title == "":
-            title, year = subenv.clean_title( file_original_path ) 
+        full_filename = os.path.basename(os.path.dirname(file_original_path)) + ".avi"
+        if title == "": title, year = subenv.clean_title( file_original_path ) 
         search_string = title
     
     # remove year from the end of the search string [eg.: foo (2010) ], could happen with certain tv shows (e.g. Castle(2009), V (2009), etc.)
@@ -83,19 +85,20 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
         content = urllib2.urlopen(url).read()
 
         #type of source
-        patterntype = r'.+?(720p|1080p|1080|720|dvdrip|hdtv|WEB\-DL).+'
-        matchtype = re.search(patterntype, title,  re.I)
+        patterntype = r'.+?\W(720p|1080p|1080|720|dvdscr|brrip|bdrip|dvdrip|hdtv|PPVRip|TS|R5|WEB\-DL)\W.+'
+        matchtype = re.search(patterntype, full_filename,  re.I)
         release_type = ""
         if matchtype: release_type = matchtype.group(1).lower()
         
         #releaser
         releaser = ""
-        patternreleaser = r'.+\-(\w+)\.\w{3}$'
-        matchreleaser = re.search(patternreleaser, title,  re.I)
+        patternreleaser = r'.+\-(\w+?)(\.\[\w+\])?\.\w{3}$'
+        matchreleaser = re.search(patternreleaser, full_filename,  re.I)
         if matchreleaser: releaser = matchreleaser.group(1).lower()
         
         #on feliratok.info the episode number is listed with a leading zero (if below 10), e.g.: 4x02
         sep = season + "x" + str(episode).zfill(2)
+        subenv.debuglog("Release type: %s, Releaser: %s, Episode str: %s" % (release_type, releaser, sep) )
         
         for matches in re.finditer(subtitle_pattern, content, re.IGNORECASE | re.DOTALL | re.MULTILINE):  #  | re.UNICODE
             link = matches.group('link1') + urllib.quote_plus(matches.group('link2')) + matches.group('link3')
@@ -120,6 +123,8 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
             if (releaser != "") and (releaser in orig_title_low): 
                 score += 5
                 rating += 2
+            if (year != "") and (str(year) in orig_title_low):
+                score += 20
             
             if hun_langname.lower() == "magyar": score += 1
                 
@@ -130,10 +135,11 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
             else:
                 rating *= 2.5
             #rating format must be string 
-            rating = str(rating)
-
-            subenv.debuglog("Found movie on search page: orig_title: %s, hun: %s, lang: %s, link: %s, flag: %s, type: %s, releaser: %s, rating: %s, sep: %s, score: %s" % (orig_title, hun_title, hun_langname, link, flag, release_type, releaser, rating, sep, score) )
-            subtitles_list.append({'movie':  orig_title, 'filename': orig_title + " / " + hun_title, 'link': link, 'id': sub_id, 'language_flag': 'flags/' + flag + '.gif', 'language_name': hun_langname, 'movie_file':file_original_path, 'eng_language_name': eng_langname, 'sync': False, 'rating': rating, 'format': 'srt', 'base_url' : base_url, 'score': score })
+            sync = (rating == 10)
+            rating = str(int(rating))
+            
+            subenv.debuglog("Found movie on search page: orig_title: %s, hun: %s, lang: %s, link: %s, flag: %s, rating: %s, score: %s" % (orig_title, hun_title, hun_langname, link, flag, rating, score) )
+            subtitles_list.append({'movie':  orig_title, 'filename': orig_title + " / " + hun_title, 'link': link, 'id': sub_id, 'language_flag': 'flags/' + flag + '.gif', 'language_name': hun_langname, 'movie_file':file_original_path, 'eng_language_name': eng_langname, 'sync': sync, 'rating': rating, 'format': 'srt', 'base_url' : base_url, 'score': score })
 
         subenv.debuglog("%d subtitles found" % (len(subtitles_list)) )
         error_msg = ""
