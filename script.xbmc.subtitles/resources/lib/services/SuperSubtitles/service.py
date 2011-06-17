@@ -111,7 +111,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
             orig_title = orig_title + parenthesized
             
             eng_langname = subutils.lang_hun2eng(hun_langname)
-            flag = toOpenSubtitles_two(eng_langname)
+            flag = languageTranslate(eng_langname,0,2)
             if flag == "": flag = "-"
 
             score = 0
