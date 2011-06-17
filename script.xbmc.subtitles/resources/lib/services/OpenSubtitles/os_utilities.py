@@ -7,7 +7,8 @@ import xmlrpclib
 from utilities import *
 
 
-_ = sys.modules[ "__main__" ].__language__
+_              = sys.modules[ "__main__" ].__language__
+__scriptname__ = sys.modules[ "__main__" ].__scriptname__
 
 BASE_URL_XMLRPC = u"http://api.opensubtitles.org/xml-rpc"
 
@@ -37,7 +38,7 @@ class OSDBServer:
       language += "," + languageTranslate(lang3,0,3)
   
     self.server = xmlrpclib.Server( BASE_URL_XMLRPC, verbose=0 )
-    login = self.server.LogIn("", "", "en", "OpenSubtitles_OSD")
+    login = self.server.LogIn("", "", "en", __scriptname__.replace(" ","_"))
   
     self.osdb_token  = login[ "token" ]
     log( __name__ ,"Token:[%s]" % str(self.osdb_token))
