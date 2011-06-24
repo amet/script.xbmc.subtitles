@@ -247,18 +247,19 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.Search_Subtitles()
       else:
         self.next = list(self.service_list)
-        if gui and msg != "":
-          self.getControl( STATUS_LABEL ).setLabel( msg )
-        else:
-          self.getControl( STATUS_LABEL ).setLabel( _( 657 ) )
-        if self.newWindow:
-          window_list = SERVICES_LIST
-        else:
-          window_list = SUBTITLES_LIST
-          self.list_services()   
         if gui:
-          self.setFocusId( window_list )
-          self.getControl( window_list ).selectItem( 0 ) 
+          if msg != "":
+            self.getControl( STATUS_LABEL ).setLabel( msg )
+          else:
+            self.getControl( STATUS_LABEL ).setLabel( _( 657 ) )
+          if self.newWindow:
+            window_list = SERVICES_LIST
+          else:
+            window_list = SUBTITLES_LIST
+            self.list_services()   
+          if gui:
+            self.setFocusId( window_list )
+            self.getControl( window_list ).selectItem( 0 ) 
     else:
       if not self.newWindow: self.list_services()
       subscounter = 0
