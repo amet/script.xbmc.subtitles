@@ -17,13 +17,27 @@ __author__     = "Amet,mr_blobby"
 BASE_RESOURCE_PATH = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) )
 sys.path.append (BASE_RESOURCE_PATH)
 
+from utilities import *
+
 xbmc.output("### [%s] - Version: %s" % (__scriptname__,__version__,),level=xbmc.LOGDEBUG )
 
 if ( __name__ == "__main__" ):
-  if not xbmc.getCondVisibility('Player.Paused') : xbmc.Player().pause() #Pause if not paused        
+          
   import gui
   ui = gui.GUI( "script-XBMC-Subtitles-main.xml" , __cwd__ , "Default")
-  ui.doModal()
+  movieFullPath = ui.set_allparam()
+  if (__settings__.getSetting( "auto_download" ) == "true") and (__settings__.getSetting( "auto_download_file" ) != os.path.basename( movieFullPath )):
+    line2 = "Downloading first 'sync' sub"
+    notification = UserNotificationNotifier(__scriptname__, line2, 2000)    
+    if not ui.Search_Subtitles(False):
+      if not xbmc.getCondVisibility('Player.Paused') : xbmc.Player().pause() #Pause if not paused
+      ui.doModal()
+    else:
+      notification.close("first 'sync' subtitle downloaded", 1000) 
+  else:
+    if not xbmc.getCondVisibility('Player.Paused') : xbmc.Player().pause() #Pause if not paused
+    ui.doModal()
+        
   del ui
   if xbmc.getCondVisibility('Player.Paused'): xbmc.Player().pause()      # if Paused, un-pause
   sys.modules.clear()
