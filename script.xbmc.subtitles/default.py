@@ -27,13 +27,12 @@ if ( __name__ == "__main__" ):
   ui = gui.GUI( "script-XBMC-Subtitles-main.xml" , __cwd__ , "Default")
   movieFullPath = ui.set_allparam()
   if (__settings__.getSetting( "auto_download" ) == "true") and (__settings__.getSetting( "auto_download_file" ) != os.path.basename( movieFullPath )):
-    line2 = "Downloading first 'sync' sub"
-    notification = UserNotificationNotifier(__scriptname__, line2, 2000)    
+    notification = UserNotificationNotifier(__scriptname__, __language__(764), 2000)    
     if not ui.Search_Subtitles(False):
       if not xbmc.getCondVisibility('Player.Paused') : xbmc.Player().pause() #Pause if not paused
       ui.doModal()
     else:
-      notification.close("first 'sync' subtitle downloaded", 1000) 
+      notification.close(__language__(765), 1000) 
   else:
     if not xbmc.getCondVisibility('Player.Paused') : xbmc.Player().pause() #Pause if not paused
     ui.doModal()
