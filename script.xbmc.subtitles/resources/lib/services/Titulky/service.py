@@ -14,7 +14,7 @@ from utilities import languageTranslate, log
 _ = sys.modules[ "__main__" ].__language__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __cwd__        = sys.modules[ "__main__" ].__cwd__
-__settings__ = sys.modules[ "__main__" ].__settings__
+__addon__      = sys.modules[ "__main__" ].__addon__
 """
             <tr class="row2">
                     <td><a href="Pulp-Fiction-118518.htm" >Pulp Fiction</a></td>
@@ -61,8 +61,8 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 
 	subtitle_id =  subtitles_list[pos][ 'ID' ]
 	client = TitulkyClient()
-	username = __settings__.getSetting( "Titulkyuser" )
-	password = __settings__.getSetting( "Titulkypass" )
+	username = __addon__.getSetting( "Titulkyuser" )
+	password = __addon__.getSetting( "Titulkypass" )
 	if password == '' or username == '':
 		log(__name__,'Credentials to Titulky.com not provided')
 	else:
