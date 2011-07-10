@@ -173,7 +173,7 @@ def rem_files(directory):
     except:
       pass 
       
-def copy_files( self, subtitle_file, file_path ):
+def copy_files( subtitle_file, file_path ):
   subtitle_set = False
   try:
     xbmcvfs.copy(subtitle_file, file_path)
