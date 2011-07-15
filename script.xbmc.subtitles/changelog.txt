@@ -1,5 +1,5 @@
 2.9.17
-- handle ACTION_NAV_BACK top close the script
+- handle ACTION_NAV_BACK to close the script(id 92)
 
 2.9.16
 - fix: detecting of existing subs will crash the script if on SMB://
