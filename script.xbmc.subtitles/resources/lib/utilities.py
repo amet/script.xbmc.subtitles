@@ -149,6 +149,9 @@ def languageTranslate(lang, lang_from, lang_to):
 def pause():
   if not xbmc.getCondVisibility('Player.Paused'):
     xbmc.Player().pause()
+    return True
+  else:
+    return False  
     
 def unpause():
   if xbmc.getCondVisibility('Player.Paused'):
