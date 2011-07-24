@@ -53,7 +53,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
   def set_allparam(self):       
     self.list           = []
     service_list        = []
-    self.stackSecond    = ""
+    self.stackPaths     = []
     service             = ""    
     self.newWindow      = True
     self.temp           = False
@@ -90,9 +90,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.sub_folder = os.path.dirname(os.path.dirname( movieFullPath ))
     
     elif ( movieFullPath.find("stack://") > -1 ):
-      movieFullPath, stackSecond = movieFullPath.split(" , ")
-      movieFullPath = movieFullPath[8:]
-      self.stackSecond = os.path.basename(stackSecond)
+      self.stackPath = movieFullPath.split(" , ")
+      movieFullPath = self.stackPath[0][8:]
       self.stack = True
 
     if not path:
@@ -359,11 +358,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
           if ( movie_sub or len(files) < 2 or int(episode) == int(self.episode) ):
             if self.stack:
               try:
-                if (re.split("(?x)(?i)\CD(\d)", zip_entry)[1]) == (re.split("(?x)(?i)\CD(\d)", sub_filename)[1]):
-                  subtitle_file, file_path = self.create_name(zip_entry,sub_filename,subtitle_lang)          
-                elif (re.split("(?x)(?i)\CD(\d)", zip_entry)[1]) == (re.split("(?x)(?i)\CD(\d)", self.stackSecond)[1]):
-                  subtitle_file, file_path = self.create_name(zip_entry,self.stackSecond,subtitle_lang)                
-                subtitle_set,file_path = copy_files( subtitle_file, file_path ) 
+                for subName in self.stackPath:
+                  if (re.split("(?x)(?i)\CD(\d)", zip_entry)[1]) == (re.split("(?x)(?i)\CD(\d)", urllib.unquote ( subName ))[1]):
+                    subtitle_file, file_path = self.create_name(zip_entry,urllib.unquote ( subName ),subtitle_lang)                              
+                    subtitle_set,file_path = copy_files( subtitle_file, file_path ) 
                 if re.split("(?x)(?i)\CD(\d)", zip_entry)[1] == "1":
                   subToActivate = file_path
               except:
