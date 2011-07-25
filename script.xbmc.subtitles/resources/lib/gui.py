@@ -355,7 +355,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
           else:
             if os.path.splitext( zip_entry )[1] in exts:
               movie_sub = True
-          if ( movie_sub or len(files) < 2 or int(episode) == int(self.episode) ):
+          if ( movie_sub or int(episode) == int(self.episode) ):
             if self.stack:
               try:
                 for subName in self.stackPath:
