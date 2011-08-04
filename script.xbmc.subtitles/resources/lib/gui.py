@@ -428,12 +428,9 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.getControl( window_list ).addItem( listitem )    
 
   def keyboard(self, parent):
-    dir, self.year = xbmc.getCleanMovieTitle(os.path.split(os.path.split(self.file_original_path)[0])[1])
-    if self.rar:
-      tmp_dir = os.path.split(os.path.split(os.path.split(self.file_original_path)[0])[0])[1]
-      dir, self.year = xbmc.getCleanMovieTitle( tmp_dir )
+    dir, self.year = xbmc.getCleanMovieTitle(self.file_original_path, self.parsearch)
     if not parent:
-      kb = xbmc.Keyboard("%s ()" % (dir,), _( 751 ), False)
+      kb = xbmc.Keyboard("%s (%s)" % (dir,self.year,), _( 751 ), False)
       text = self.file_name
       kb.doModal()
       if (kb.isConfirmed()): text, self.year = xbmc.getCleanMovieTitle(kb.getText())
