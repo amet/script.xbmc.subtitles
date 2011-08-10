@@ -463,6 +463,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
           self.Download_Subtitles( int(selection) )
           
     elif controlId == SERVICES_LIST:
+      xbmc.executebuiltin("Skin.Reset(SubtitleSourceChooserVisible)")
       selection = str(self.list[self.getControl( SERVICES_LIST ).getSelectedPosition()]) 
       self.setFocusId( 120 )
    
