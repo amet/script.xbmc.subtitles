@@ -130,9 +130,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
           self.tvshow = title
         else:
           self.title, self.year = xbmc.getCleanMovieTitle( self.title )
-
-      else:
-        self.title = self.title  
     else:
       self.year = ""
 
