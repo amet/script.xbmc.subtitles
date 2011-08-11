@@ -102,7 +102,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       if self.sub_folder.find("smb://") > -1:
         if self.temp:
           dialog = xbmcgui.Dialog()
-          self.sub_folder = dialog.browse( 0, "Choose Subtitle folder", "files")
+          self.sub_folder = dialog.browse( 0, _( 766 ), "files")
         else:
           self.sub_folder = os.path.dirname( movieFullPath )
       else:
