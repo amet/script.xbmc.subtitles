@@ -6,8 +6,9 @@
 # Credits to amet, Guilherme Jardim, and many more.
 # mrto
 
-import urllib2, re, string, xbmc, sys, os, time
+import urllib2, re, string, xbmc, sys, os
 from utilities import log, languageTranslate
+
 
 _ = sys.modules[ "__main__" ].__language__
 
@@ -47,6 +48,12 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     subtitles_list = []
     msg = ""
     if len(tvshow) > 0:
+      for rok in re.finditer(' \(\d\d\d\d\)', tvshow):
+          rok = rok.group()
+          if len(rok) > 0:
+              tvshow = tvshow.replace(rok, "")
+          else:
+              continue
       tvshow_plus = tvshow.replace(" ","+")
       if len(season) < 2:
         season_full = '0%s' % (season)
