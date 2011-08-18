@@ -9,7 +9,6 @@
 import urllib2, re, string, xbmc, sys, os
 from utilities import log, languageTranslate
 
-
 _ = sys.modules[ "__main__" ].__language__
 
 main_url = "http://napisy.me/search.php?str="
