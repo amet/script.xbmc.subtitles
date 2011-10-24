@@ -1,3 +1,7 @@
+2.9.26
+- Added ability to choose subtitles type for Napisy24.pl & Napisy.me, thx mrto
+- fixed: Turkish translation, thx queeup
+
 2.9.25
 - fixed: typo in Napisy24pl
 
