@@ -10,7 +10,7 @@
 # Created by: Ori Varon
 #===============================================================================
 import os, re, xbmc, xbmcgui, string, time, urllib2
-from utilities import languageTranslate, twotofull, log
+from utilities import languageTranslate, log
 
 BASE_URL = "http://www.subscenter.org"
 debug_pretext = ""
