@@ -1,3 +1,6 @@
+2.9.31
+- fix: Subdivx, thx Enric Godes
+
 2.9.30
 - fix: stacked movie subs were not saved properly
 
