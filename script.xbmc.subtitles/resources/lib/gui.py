@@ -302,7 +302,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       files_list = [(file_from,file_to)]
       # If the subtitle's extension sub, check if an idx file exists and if so
       # add it to the list
-      if ((sub_ext == ".sub") and (os.path.exists(file[:-3]+"idx"))):
+      if ((sub_ext == ".sub") and (os.path.exists(unicode(file[:-3]+"idx", 'utf-8')))):
           log( __name__ ,"found .sub+.idx pair %s + %s" % (file_from,file_from[:-3]+"idx"))
           files_list.append((file_from[:-3]+"idx",file_to[:-3]+"idx"))
       for cur_file_from, cur_file_to in files_list:
