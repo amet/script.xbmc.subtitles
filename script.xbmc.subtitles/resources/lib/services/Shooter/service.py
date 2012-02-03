@@ -134,10 +134,10 @@ def downloadSubs(fpath, lang):
                     if len(resp) > 1024:
                         return resp
                     else:
-                        print >> sys.stderr, "response data less than 1KiB, ignore"
+                        return ''
                 except Exception, e:
                     traceback.print_exc()
-    raise Exception("can not download sub from server")
+    return ''
 
 class Package(object):
     def __init__(self, s):
@@ -180,14 +180,16 @@ class SubFile(object):
             self.FileData = gzipper.read()
 
 def getSub(fpath, languagesearch, languageshort, languagelong, subtitles_list):
-    package = Package(StringIO(downloadSubs(fpath, languagesearch)))
-    basename = os.path.basename(fpath)
-    barename = basename.rsplit(".",1)[0]
-    for sub in package.SubPackages:
-        for file in sub.Files:
-            if (file.ExtName in ["srt", "txt", "ssa", "smi", "sub"]):
-                filename = ".".join([barename, file.ExtName])
-                subtitles_list.append({'filedata': sub.Files,'filename': filename,'language_name': languagelong,'language_flag':'flags/' + languageshort + '.gif',"rating":'0',"sync": True})
+    subdata = downloadSubs(fpath, languagesearch)
+    if (subdata):
+        package = Package(StringIO(subdata))
+        basename = os.path.basename(fpath)
+        barename = basename.rsplit(".",1)[0]
+        for sub in package.SubPackages:
+            for file in sub.Files:
+                if (file.ExtName in ["srt", "txt", "ssa", "smi", "sub"]):
+                    filename = ".".join([barename, file.ExtName])
+                    subtitles_list.append({'filedata': sub.Files,'filename': filename,'language_name': languagelong,'language_flag':'flags/' + languageshort + '.gif',"rating":'0',"sync": True})
 
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack ): #standard input
     subtitles_list = []
