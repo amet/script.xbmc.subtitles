@@ -388,10 +388,14 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.getControl( window_list ).selectItem( 0 )
 
   def create_name(self,zip_entry,sub_filename,subtitle_lang): 
-    if (__addon__.getSetting( "lang_to_end" ) == "true"):
-      file_name = "%s.%s%s" % ( os.path.splitext( sub_filename )[0], subtitle_lang, os.path.splitext( zip_entry )[1] )
+    if self.temp:
+      name = "temp_sub"
     else:
-      file_name = "%s%s" % ( os.path.splitext( sub_filename )[0], os.path.splitext( zip_entry )[1] )
+      name = os.path.splitext( sub_filename )[0]
+    if (__addon__.getSetting( "lang_to_end" ) == "true"):
+      file_name = "%s.%s%s" % ( name, subtitle_lang, os.path.splitext( zip_entry )[1] )
+    else:
+      file_name = "%s%s" % ( os.path.splitext( name, os.path.splitext( zip_entry )[1] )
     return os.path.join(self.tmp_sub_dir, zip_entry), os.path.join(self.sub_folder, file_name)
 
   def list_services( self ):
