@@ -395,7 +395,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     if (__addon__.getSetting( "lang_to_end" ) == "true"):
       file_name = "%s.%s%s" % ( name, subtitle_lang, os.path.splitext( zip_entry )[1] )
     else:
-      file_name = "%s%s" % ( os.path.splitext( name, os.path.splitext( zip_entry )[1] )
+      file_name = "%s%s" % ( name, os.path.splitext( zip_entry )[1] )
     return os.path.join(self.tmp_sub_dir, zip_entry), os.path.join(self.sub_folder, file_name)
 
   def list_services( self ):
