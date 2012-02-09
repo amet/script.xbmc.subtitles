@@ -54,7 +54,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.list           = []
     service_list        = []
     self.stackPath      = []
-    service             = ""    
+    service             = ""
+    self.man_search_str = ""   
     self.newWindow      = True
     self.temp           = False
     self.rar            = False
@@ -435,11 +436,16 @@ class GUI( xbmcgui.WindowXMLDialog ):
   def keyboard(self, parent):
     dir, self.year = xbmc.getCleanMovieTitle(self.file_original_path, self.parsearch)
     if not parent:
-      kb = xbmc.Keyboard("%s (%s)" % (dir,self.year,), _( 751 ), False)
+      if self.man_search_str != "":
+        srchstr = self.man_search_str
+      else:
+        srchstr = "%s (%s)" % (dir,self.year,)  
+      kb = xbmc.Keyboard(srchstr, _( 751 ), False)
       text = self.file_name
       kb.doModal()
       if (kb.isConfirmed()): text, self.year = xbmc.getCleanMovieTitle(kb.getText())
       self.title = text
+      self.man_search_str = text
     else:
       self.title = dir   
 
