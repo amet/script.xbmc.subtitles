@@ -75,7 +75,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.tmp_sub_dir    = os.path.join( __profile__ ,"sub_tmp" )                        # Temporary subtitle extraction directory   
     self.stream_sub_dir = os.path.join( __profile__ ,"sub_stream" )                     # Stream subtitle directory    
 
-    if ( movieFullPath.find("http://") > -1 ):
+    if ( movieFullPath.find("http") > -1 ):
       if not xbmcvfs.exists(self.stream_sub_dir):
         os.makedirs(self.stream_sub_dir)
       else:
