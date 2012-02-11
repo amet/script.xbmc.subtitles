@@ -1,3 +1,6 @@
+2.9.33
+- fix: BetaSeries service and series  with ' in it
+
 2.9.32
 - added: Chinese (Simple) localization , thanks taxigps
 - added: new service , Shooter. thanks taxigps
