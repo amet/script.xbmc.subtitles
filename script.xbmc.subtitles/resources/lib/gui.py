@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 import os
 import re
@@ -61,7 +61,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.rar            = False
     self.stack          = False
     self.autoDownload   = False
-    movieFullPath       = urllib.unquote(xbmc.Player().getPlayingFile())                # Full path of a playing file
+    movieFullPath       = urllib.unquote(xbmc.Player().getPlayingFile()).decode('utf-8')# Full path of a playing file
     path                = __addon__.getSetting( "subfolder" ) == "true"                 # True for movie folder
     self.sub_folder     = xbmc.translatePath(__addon__.getSetting( "subfolderpath" ))   # User specified subtitle folder
     self.year           = xbmc.getInfoLabel("VideoPlayer.Year")                         # Year
@@ -187,13 +187,13 @@ class GUI( xbmcgui.WindowXMLDialog ):
       log( __name__ ,"Services : [%s]"             % self.service_list)
       log( __name__ ,"Temp?: [%s]"                 % self.temp)
       log( __name__ ,"Rar?: [%s]"                  % self.rar)
-      log( __name__ ,"File Path: [%s]"             % self.file_original_path)
+      log( __name__ ,"File Path: [%s]"             % self.file_original_path.encode('utf-8'))
       log( __name__ ,"Year: [%s]"                  % str(self.year))
       log( __name__ ,"Tv Show Title: [%s]"         % self.tvshow)
       log( __name__ ,"Tv Show Season: [%s]"        % self.season)
       log( __name__ ,"Tv Show Episode: [%s]"       % self.episode)
       log( __name__ ,"Movie/Episode Title: [%s]"   % self.title)
-      log( __name__ ,"Subtitle Folder: [%s]"       % self.sub_folder)
+      log( __name__ ,"Subtitle Folder: [%s]"       % self.sub_folder.encode('utf-8'))
       log( __name__ ,"Languages: [%s] [%s] [%s]"   % (self.language_1, self.language_2, self.language_3,))
       log( __name__ ,"Parent Folder Search: [%s]"  % self.parsearch)
       log( __name__ ,"Stacked(CD1/CD2)?: [%s]"     % self.stack)
@@ -364,8 +364,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
                   subToActivate = file_path
               except:
                 subtitle_set = False              
-            else:            
-              subtitle_set,subToActivate = copy_files( subtitle_file, file_path )
+            else:
+              subtitle_set,subToActivate = copy_files( subtitle_file.encode("utf-8"), file_path.encode("utf-8") )
 
       if not subtitle_set:
         for zip_entry in files:
