@@ -307,7 +307,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
           log( __name__ ,"found .sub+.idx pair %s + %s" % (file_from,file_from[:-3]+"idx"))
           files_list.append((file_from[:-3]+"idx",file_to[:-3]+"idx"))
       for cur_file_from, cur_file_to in files_list:
-         subtitle_set,file_path  = copy_files( cur_file_from, cur_file_to )  
+         subtitle_set,file_path  = copy_files( cur_file_from.encode("utf-8"), cur_file_to.encode("utf-8") )  
       # Choose the last pair in the list, second item (destination file)
       if subtitle_set:
         xbmc.Player().setSubtitles(files_list[-1][1])
@@ -359,7 +359,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
                 for subName in self.stackPath:
                   if (re.split("(?x)(?i)\CD(\d)", zip_entry)[1]) == (re.split("(?x)(?i)\CD(\d)", urllib.unquote ( subName ))[1]):
                     subtitle_file, file_path = self.create_name(zip_entry,urllib.unquote ( os.path.basename(subName[8:]) ),subtitle_lang)
-                    subtitle_set,file_path = copy_files( subtitle_file, file_path ) 
+                    subtitle_set,file_path = copy_files( subtitle_file.encode("utf-8"), file_path.encode("utf-8") ) 
                 if re.split("(?x)(?i)\CD(\d)", zip_entry)[1] == "1":
                   subToActivate = file_path
               except:
@@ -371,7 +371,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         for zip_entry in files:
           if os.path.splitext( zip_entry )[1] in exts:
             subtitle_file, file_path = self.create_name(zip_entry,sub_filename,subtitle_lang)
-            subtitle_set,subToActivate  = copy_files( subtitle_file, file_path )
+            subtitle_set,subToActivate  = copy_files( subtitle_file.encode("utf-8"), file_path.encode("utf-8") )
 
     if subtitle_set :
       xbmc.Player().setSubtitles(subToActivate)
