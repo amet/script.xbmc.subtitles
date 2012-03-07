@@ -310,7 +310,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
          subtitle_set,file_path  = copy_files( cur_file_from.encode("utf-8"), cur_file_to.encode("utf-8") )  
       # Choose the last pair in the list, second item (destination file)
       if subtitle_set:
-        xbmc.Player().setSubtitles(files_list[-1][1])
+        subtitle = files_list[-1][1]
+        xbmc.Player().setSubtitles(subtitle.encode("utf-8"))
         self.close()
       else:
         if gui:
