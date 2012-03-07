@@ -297,7 +297,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       else:
         file_name = "%s%s" % ( sub_name, sub_ext )
       file_from = file.replace('\\','/')
-      file_to = os.path.join(self.sub_folder, file_name).replace('\\','/')
+      file_to = os.path.join(self.sub_folder.encode("utf-8"), file_name).replace('\\','/')
       # Create a files list of from-to tuples so that multiple files may be
       # copied (sub+idx etc')
       files_list = [(file_from,file_to)]
