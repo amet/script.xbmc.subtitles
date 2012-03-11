@@ -1,4 +1,5 @@
 2.9.35
+- Added Subtitles.gr service, lambda81
 - fix the whole lot of utf-8 issues
 - fix Titlovi
 - add language and minor cleanup in utilities
