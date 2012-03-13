@@ -2,9 +2,10 @@
 
 #===============================================================================
 # RegieLive.ro subtitles service.
-# Version: 1.0
+# Version: 1.1
 #
 # Change log:
+# 1.1 - Year is used for filtering (if available)
 # 1.0 - First release.
 #
 # Created by: ThumbGen (2012)
@@ -23,10 +24,10 @@ opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 # Regular expression patterns
 #===============================================================================
 
-SEARCH_RESULTS_PATTERN = "Subtitrari: </strong><a href=\"http://subtitrari\\.regielive\\.ro/([^/]+)/\""
+SEARCH_RESULTS_PATTERN = "An:</strong> (\d{4})<br/>.*?Subtitrari: </strong><a href=\"http://subtitrari\\.regielive\\.ro/([^/]+)/\""
 SUBTITLE_LIST_PATTERN = 'subtitle_details left">[^<]+<a href="[^\"]+" class="b">(?P<title>[^<]+)</a> &nbsp;&nbsp;&nbsp;\[<a href="(?P<link>[^"]+)"  title="Download">Download</a>\]<br/>[^<]+<strong>Nr\. CD:</strong> (?P<cd>\d)(?P<opt>[^<]*<strong>Framerate:</strong>\s(?P<frame>[^\s]+) FPS)?.*?nota=\'(?P<rating>[\d\.]+)\' voturi'
 
-TV_SEARCH_RESULTS_PATTERN = "Subtitrari: </strong><a href=\"http://subtitrari\\.regielive\\.ro/([^/]+)/\""
+TV_SEARCH_RESULTS_PATTERN = "An:</strong> (\d{4})<br/>.*?Subtitrari: </strong><a href=\"http://subtitrari\\.regielive\\.ro/([^/]+)/\""
 TVSHOW_LIST_PATTERN_PREFIX = '</li>.*?<li class="subtitrare vers_\d+ ep_'
 TVSHOW_LIST_PATTERN_SUFFIX = '">.*?<a href="[^"]+" class="download left" title="Download"></a>.*?<div class="subtitle_details left">[^<]+<a href="[^"]+" class="b">(?P<title>[^<]+)</a> &nbsp;&nbsp;&nbsp;\[<a href="(?P<link>[^"]+)"  title="Download">Download</a>\]<br/>(?P<opt2>[^<]+<strong>Nr\. CD:</strong> (?P<cd>\d))?(?P<opt>[^<]*<strong>Framerate:</strong>\s(?P<frame>[^\s]+) FPS)?.*?nota=\'(?P<rating>[\d\.]+)\' voturi'
 
@@ -125,6 +126,9 @@ def getAllTVSubtitles(file_original_path, subtitlePageID, subtitlesList, season,
         #log( __name__ ,"title:%s link: %s  cd: %s, rating: %s" % (title, link, cd, getFormattedRating(rating)))
         addSubtitle(subtitlesList, isSync(title, file_original_path), title, link, referer, rating, cd)
 
+def isYearMatch(year, syear):
+    return (year == syear) or str(year) == "" or str(syear) == "";
+
 #===============================================================================
 # Public interface functions
 #===============================================================================
@@ -167,17 +171,19 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     # only retrieve subtitles from the right result pages.
     if tvshow:
         # Find sratim's subtitle page IDs
-        subtitleIDs = re.findall(TV_SEARCH_RESULTS_PATTERN, searchResults)
+        subtitleIDs = re.findall(TV_SEARCH_RESULTS_PATTERN, searchResults, re.IGNORECASE | re.DOTALL)
         # Go over all the subtitle pages and add results to our list if season
         # and episode match
-        for sid in subtitleIDs:
-            getAllTVSubtitles(file_original_path,sid,subtitlesList,season,episode)
+        for (syear, sid) in subtitleIDs:
+            if(isYearMatch(year,syear)):
+                getAllTVSubtitles(file_original_path,sid,subtitlesList,season,episode)
     else:
         # Find sratim's subtitle page IDs
-        subtitleIDs = re.findall(SEARCH_RESULTS_PATTERN, searchResults)
+        subtitleIDs = re.findall(SEARCH_RESULTS_PATTERN, searchResults, re.IGNORECASE | re.DOTALL)
         # Go over all the subtitle pages and add results to our list
-        for sid in subtitleIDs:
-            getAllSubtitles(file_original_path,sid,subtitlesList)
+        for (syear,sid) in subtitleIDs:
+            if(isYearMatch(year,syear)):
+                getAllSubtitles(file_original_path,sid,subtitlesList)
     # sort the subtitles list first by sync then by rating
     sortSubtitlesList(subtitlesList)
     
