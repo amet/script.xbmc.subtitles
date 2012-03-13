@@ -85,7 +85,10 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
     xbmc.executebuiltin("XBMC.Extract(" + zip_subs + "," + tmp_new_dir +")")
     xbmc.sleep(1000)
     for file in os.listdir(tmp_new_dir_2): file=os.path.join(tmp_new_dir_2, file)
-    shutil.copy(file, tmp_sub_dir)
+    if re.search('.rar',file) is not None:
+        xbmc.executebuiltin("XBMC.Extract(" + file + "," + tmp_sub_dir +")")
+        xbmc.sleep(1000)
+    else: shutil.copy(file, tmp_sub_dir)
     os.remove(zip_subs)
     shutil.rmtree(tmp_new_dir)
     return True,language, "" #standard output
