@@ -5,10 +5,9 @@ from utilities import log
 
 _                = sys.modules[ "__main__" ].__language__
 __profile__      = sys.modules[ "__main__" ].__profile__
+__version__      = sys.modules[ "__main__" ].__version__
 
-addon            = xbmcaddon.Addon(id='script.xbmc.subtitles')
-version          = addon.getAddonInfo('version')
-useragent        = 'script.xbmc.subtitles/' + version
+useragent        = 'script.xbmc.subtitles/' + __version__
 apiurl           = "http://api.bierdopje.com/"
 apikey           = "369C2ED4261DE9C3"
 showids_filename = os.path.join( __profile__ ,"bierdopje_show_ids.txt" )
