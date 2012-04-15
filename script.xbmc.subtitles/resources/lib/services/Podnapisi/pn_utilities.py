@@ -142,6 +142,7 @@ class OSDBServer:
           link = ""
           format = "srt"
           no_files = ""
+          hearing_imp = False
           if subtitle.getElementsByTagName("title")[0].firstChild:
             movie = subtitle.getElementsByTagName("title")[0].firstChild.data
           if subtitle.getElementsByTagName("release")[0].firstChild:
