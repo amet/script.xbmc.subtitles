@@ -95,7 +95,7 @@ class OSDBServer:
               sync1 = False
             else:
               sync1 = True
-            self.subtitles_hash_list.append({'filename':name,'link':link,"language_name":languageTranslate((item["lang"]),2,0),"language_flag":flag_image,"language_id":item["lang"],"ID":item["id"],"sync":sync1, "format":"srt", "rating": str(int(item['rating'])*2) })
+            self.subtitles_hash_list.append({'filename':name,'link':link,"language_name":languageTranslate((item["lang"]),2,0),"language_flag":flag_image,"language_id":item["lang"],"ID":item["id"],"sync":sync1, "format":"srt", "rating": str(int(item['rating'])*2)})
         self.mergesubtitles(stack)
       return self.subtitles_list,pod_session
     except :
@@ -157,11 +157,13 @@ class OSDBServer:
             lang_name = languageTranslate(subtitle.getElementsByTagName("languageId")[0].firstChild.data, 1,2)
           if subtitle.getElementsByTagName("id")[0].firstChild:
             subtitle_id = subtitle.getElementsByTagName("id")[0].firstChild.data
+          if subtitle.getElementsByTagName("flags")[0].firstChild:
+              hearing_imp = "n" in subtitle.getElementsByTagName("flags")[0].firstChild.data
           flag_image = "flags/%s.gif" % ( lang_name, )
           link = str(subtitle_id)
           if subtitle.getElementsByTagName("cds")[0].firstChild:
             no_files = int(subtitle.getElementsByTagName("cds")[0].firstChild.data)
-          self.subtitles_name_list.append({'filename':filename,'link':link,'language_name':languageTranslate((lang_name),2,0),'language_id':lang_id,'language_flag':flag_image,'movie':movie,"ID":subtitle_id,"rating":str(rating),"format":format,"sync":False, "no_files":no_files})
+          self.subtitles_name_list.append({'filename':filename,'link':link,'language_name':languageTranslate((lang_name),2,0),'language_id':lang_id,'language_flag':flag_image,'movie':movie,"ID":subtitle_id,"rating":str(rating),"format":format,"sync":False, "no_files":no_files, "hearing_imp":hearing_imp})
         self.mergesubtitles(stack)
       return self.subtitles_list
     except :
