@@ -1,3 +1,9 @@
+3.0.2
+- Added custom useragent for Bierdopje, thx mr-blobby
+- Added an alternative method for looking up Bierdopje show id, thx mr-blobby
+- Show icon for hearing impaired, thx Martin Wallgren
+- Finnish localization update, thx Troopie
+
 3.0.1
 - Fixed argenteam subtitle search, thx Esteban Mendoza
 - fix LegendasTV bugs, thx gfjardim
