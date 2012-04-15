@@ -136,8 +136,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
     self.file_original_path = urllib.unquote ( movieFullPath )              # Movie Path
 
-    if __addon__.getSetting( "disable_hash_search" ) == "true":
-      self.temp = True
 
     if (__addon__.getSetting( "fil_name" ) == "true"):                   # Display Movie name or search string
       self.file_name = os.path.basename( movieFullPath )
