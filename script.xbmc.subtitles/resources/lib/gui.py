@@ -61,6 +61,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.rar            = False
     self.stack          = False
     self.autoDownload   = False
+    use_subs_folder     = __addon__.getSetting( "use_subs_folder" ) == "true"           # use 'Subs' subfolder for storing subtitles
     movieFullPath       = urllib.unquote(xbmc.Player().getPlayingFile()).decode('utf-8')# Full path of a playing file
     path                = __addon__.getSetting( "subfolder" ) == "true"                 # True for movie folder
     self.sub_folder     = xbmc.translatePath(__addon__.getSetting( "subfolderpath" )).decode("utf-8")   # User specified subtitle folder
@@ -87,7 +88,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
       self.rar = True
       movieFullPath = movieFullPath[6:]
       if path:
-        self.sub_folder = os.path.dirname(os.path.dirname( movieFullPath ))
+        if use_subs_folder:
+          self.sub_folder = os.path.join(os.path.dirname(os.path.dirname( movieFullPath )),'Subs')
+        else:
+          self.sub_folder = os.path.dirname(os.path.dirname( movieFullPath ))  
     
     elif ( movieFullPath.find("stack://") > -1 ):
       self.stackPath = movieFullPath.split(" , ")
@@ -96,17 +100,20 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
     if not path:
       if len(self.sub_folder) < 1 :
-        self.sub_folder = os.path.dirname( movieFullPath )
+        if use_subs_folder:
+          self.sub_folder = os.path.join(os.path.dirname( movieFullPath ),'Subs')
+        else:
+          self.sub_folder = os.path.dirname( movieFullPath )
 
     if path and not self.rar and not self.temp:
+      if use_subs_folder:
+        self.sub_folder = os.path.join(os.path.dirname( movieFullPath ),'Subs')
+      else:
+        self.sub_folder = os.path.dirname( movieFullPath )    
       if self.sub_folder.find("smb://") > -1:
         if self.temp:
           dialog = xbmcgui.Dialog()
           self.sub_folder = dialog.browse( 0, _( 766 ), "files")
-        else:
-          self.sub_folder = os.path.dirname( movieFullPath )
-      else:
-        self.sub_folder = os.path.dirname( movieFullPath )
     
     if self.episode.lower().find("s") > -1:                                 # Check if season is "Special"             
       self.season = "0"                                                     #
