@@ -12,19 +12,10 @@ import unicodedata
 
 from utilities import *
 
-STATUS_LABEL   = 100
-LOADING_IMAGE  = 110
-SUBTITLES_LIST = 120
-SERVICES_LIST  = 150
-CANCEL_DIALOG  = ( 9, 10, 92, 216, 247, 257, 275, 61467, 61448, )
-
 _              = sys.modules[ "__main__" ].__language__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __addon__      = sys.modules[ "__main__" ].__addon__
-__cwd__        = sys.modules[ "__main__" ].__cwd__
 __profile__    = sys.modules[ "__main__" ].__profile__ 
-
-SERVICE_DIR    = os.path.join(__cwd__, "resources", "lib", "services")
 
 class GUI( xbmcgui.WindowXMLDialog ):
         
