@@ -422,10 +422,11 @@ class GUI( xbmcgui.WindowXMLDialog ):
     else:
       name = os.path.splitext( sub_filename )[0]
     if (__addon__.getSetting( "lang_to_end" ) == "true"):
-      file_name = "%s.%s%s" % ( name, subtitle_lang, os.path.splitext( zip_entry )[1] )
+      file_name = u"%s.%s%s" % ( name, subtitle_lang, os.path.splitext( zip_entry )[1] )
     else:
-      file_name = "%s%s" % ( name, os.path.splitext( zip_entry )[1] )
-    return os.path.join(self.tmp_sub_dir, zip_entry), os.path.join(self.sub_folder, file_name)
+      file_name = u"%s%s" % ( name, os.path.splitext( zip_entry )[1] )
+    log( __name__ ,"Sub in Zip [%s], File Name [%s]" % (zip_entry.encode("utf-8"), file_name.encode("utf-8"),))
+    return os.path.join(self.tmp_sub_dir, zip_entry.encode("utf-8")), os.path.join(self.sub_folder, file_name.encode("utf-8"))
 
   def list_services( self ):
     self.list = []
