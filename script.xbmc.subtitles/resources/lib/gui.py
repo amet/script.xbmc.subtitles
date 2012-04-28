@@ -58,8 +58,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.language_1     = languageTranslate(__addon__.getSetting( "Lang01" ), 4, 0)     # Full language 1
     self.language_2     = languageTranslate(__addon__.getSetting( "Lang02" ), 4, 0)     # Full language 2  
     self.language_3     = languageTranslate(__addon__.getSetting( "Lang03" ), 4, 0)     # Full language 3
-    self.tmp_sub_dir    = os.path.join( __profile__ ,"sub_tmp" )                        # Temporary subtitle extraction directory   
-    self.stream_sub_dir = os.path.join( __profile__ ,"sub_stream" )                     # Stream subtitle directory    
+    self.tmp_sub_dir    = os.path.join( __profile__ ,"sub_tmp" ).encode("utf-8")        # Temporary subtitle extraction directory   
+    self.stream_sub_dir = os.path.join( __profile__ ,"sub_stream" ).encode("utf-8")     # Stream subtitle directory    
 
     if ( movieFullPath.find("http") > -1 ):
       if not xbmcvfs.exists(self.stream_sub_dir):
