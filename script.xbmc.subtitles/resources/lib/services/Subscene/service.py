@@ -98,10 +98,10 @@ def find_movie(content, title, year):
 def find_tv_show_season(content, tvshow, season):
     url_found = None
     for matches in re.finditer(movie_season_pattern, content, re.IGNORECASE | re.DOTALL):
-        log( __name__ ,"%s Found tv show season on search page: %s" % (debug_pretext, matches.group(2)))
+        log( __name__ ,"%s Found tv show season on search page: %s" % (debug_pretext, matches.group(2).decode("utf-8")))
         if string.find(string.lower(matches.group(2)),string.lower(tvshow) + " ") > -1:
             if string.find(string.lower(matches.group(2)),string.lower(season)) > -1:
-                log( __name__ ,"%s Matching tv show season found on search page: %s" % (debug_pretext, matches.group(2)))
+                log( __name__ ,"%s Matching tv show season found on search page: %s" % (debug_pretext, matches.group(2).decode("utf-8")))
                 url_found = matches.group(1)
                 break
     return url_found
