@@ -2,7 +2,7 @@
 
 #===============================================================================
 # Subscenter.org subtitles service.
-# Version: 1.3
+# Version: 1.4
 #
 # Change log:
 # 1.1 - Fixed downloading of non-Hebrew subtitles.
@@ -218,8 +218,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
     subtitle_id = subtitles_list[pos][ "subtitle_id" ]
     filename = subtitles_list[pos][ "filename" ]
-	filename = subtitles_list[pos][ "filename" ]
-	key = subtitles_list[pos][ "key" ]
+    key = subtitles_list[pos][ "key" ]
     url = BASE_URL + "/subtitle/download/"+languageTranslate(subtitles_list[pos][ "language_name" ], 0, 2)+"/"+str(subtitle_id)+"/?v="+filename+"&key="+key
     log( __name__ ,"%s Fetching subtitles using url %s" % (debug_pretext, url))
     # Get the intended filename (don't know if it's zip or rar)
