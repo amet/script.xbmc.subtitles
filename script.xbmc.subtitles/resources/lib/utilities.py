@@ -167,11 +167,13 @@ def unpause():
     xbmc.Player().pause()  
 
 def rem_files(directory):
-  if xbmcvfs.exists(directory):
-    shutil.rmtree(directory)
+  try:
+    if xbmcvfs.exists(directory):
+      shutil.rmtree(directory)
+  except:
+    pass
+
   xbmcvfs.mkdir(directory)
-
-
       
 def copy_files( subtitle_file, file_path ):
   subtitle_set = False
