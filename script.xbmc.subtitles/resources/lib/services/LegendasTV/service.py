@@ -58,7 +58,8 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 	xbmc.executebuiltin("XBMC.Extract(" + fname + "," + extract_path +")")
 	time.sleep(2)
 	legendas_tmp = []
-	for root, dirs, files in os.walk(extract_path, topdown=False):
+	fs_encoding = sys.getfilesystemencoding()
+	for root, dirs, files in os.walk(extract_path.encode(fs_encoding), topdown=False):
 		for file in files:
 			dirfile = os.path.join(root, file)
 			ext = os.path.splitext(dirfile)[1][1:].lower()
