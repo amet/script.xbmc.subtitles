@@ -1,15 +1,8 @@
-
 This Addon will search, display and then download subtitles for the currently running movie from various subtitle sites.
 
 #########################################################
 
 please understand that we cant even begin to help without [debuglog][1], do not post "do you need [debuglog][1]". YES, we always need [debuglog][1] to debug the addon.
-
-1. if you dont provide [debuglog][1], we cannot provide any help.
-2. did you provide [debuglog][1]?
-3. did you read this?
-4. did you provide [debuglog][1]?
-5. FULL DEBUGLOG is always needed
 
 #########################################################
 
