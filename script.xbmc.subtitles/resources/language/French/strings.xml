@@ -11,10 +11,10 @@
     <string id="652">Fichier de sous-titres téléchargé et extrait</string>
     <string id="653">Echec de connexion</string>
     <string id="654">Erreur d'extraction des sous-titres</string>
-    <string id="655">Sous-titres disponibles en local</string> 
+    <string id="655">Des sous-titres sont disponibles en local</string> 
     <string id="656">Délai d'attente dépassé</string>
     <string id="657">Pas de sous-titres trouvés !</string>       
-    <string id="744">sous-titres trouvés pour</string>
+    <string id="744">fichier(s) sous-titres trouvé(s) pour</string>
     <string id="747">Chercher à partir du dossier parent</string>
     <string id="748">Impossible de sauver les sous-titres à l'emplacement choisi</string>
     <string id="750">Voulez-vous activer ces sous-titres temporairement ?</string>

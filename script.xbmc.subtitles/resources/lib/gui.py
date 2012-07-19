@@ -264,7 +264,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
           break
         else:
           if gui:
-            listitem = xbmcgui.ListItem(label=item["language_name"],
+            listitem = xbmcgui.ListItem(label=_( languageTranslate(item["language_name"],0,5) ),
                                         label2=item["filename"],
                                         iconImage=item["rating"],
                                         thumbnailImage=item["language_flag"]
