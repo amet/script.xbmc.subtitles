@@ -2,9 +2,8 @@
 
 import sys
 import os
-from utilities import languageTranslate, log
+from utilities import languageTranslate, log, hashFile
 from pn_utilities import OSDBServer
-import xbmc
 import urllib
 
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack ): #standard input     
@@ -24,7 +23,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     SubHash     = "000000000000"
   else:
     try:
-      file_size, SubHash   = xbmc.subHashAndFileSize(file_original_path)
+      file_size, SubHash   = hashFile(file_original_path)
       log( __name__ ,"xbmc module hash and size")
       hash_search = True
     except:  
