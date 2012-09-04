@@ -144,7 +144,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     else:
       self.item['year'] = ""
 
-    self.file_original_path = urllib.unquote ( movieFullPath )             # Movie Path
+    self.item['file_original_path'] = urllib.unquote ( movieFullPath )             # Movie Path
 
     if (__addon__.getSetting( "fil_name" ) == "true"):                     # Display Movie name or search string
       self.item['file_name'] = os.path.basename( movieFullPath )
@@ -179,21 +179,21 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
     if len(service_list) > 0:  
       if len(service) < 1:
-        self.service = service_list[0]
+        self.item['service'] = service_list[0]
       else:
-        self.service = service  
+        self.item['service'] = service  
 
-      self.service_list = service_list
+      self.item['service_list'] = service_list
       self.next = list(service_list)
       self.controlId = -1
 
       log( __name__ ,"Addon Version: [%s]"         % __version__)
       log( __name__ ,"Manual Search : [%s]"        % self.item['mansearch'])
-      log( __name__ ,"Default Service : [%s]"      % self.service)
-      log( __name__ ,"Services : [%s]"             % self.service_list)
+      log( __name__ ,"Default Service : [%s]"      % self.item['service'])
+      log( __name__ ,"Services : [%s]"             % self.item['service_list'])
       log( __name__ ,"Temp?: [%s]"                 % self.item['temp'])
       log( __name__ ,"Rar?: [%s]"                  % self.item['rar'])
-      log( __name__ ,"File Path: [%s]"             % self.file_original_path)
+      log( __name__ ,"File Path: [%s]"             % self.item['file_original_path'])
       log( __name__ ,"Year: [%s]"                  % str(self.item['year']))
       log( __name__ ,"Tv Show Title: [%s]"         % self.item['tvshow'])
       log( __name__ ,"Tv Show Season: [%s]"        % self.item['season'])
@@ -214,10 +214,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
                                        xbmc.translatePath(
                                          os.path.join(
                                            SERVICE_DIR,
-                                           self.service,
+                                           self.item['service'],
                                            "logo.png")))
 
-    exec ( "from services.%s import service as Service" % (self.service))
+    exec ( "from services.%s import service as Service" % (self.item['service']))
     self.Service = Service
     if gui:
       self.getControl( STATUS_LABEL ).setLabel( _( 646 ) )
@@ -225,7 +225,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     socket.setdefaulttimeout(float(__addon__.getSetting( "timeout" )))
     try: 
       self.subtitles_list, self.session_id, msg = self.Service.search_subtitles( 
-                                                       self.file_original_path,
+                                                       self.item['file_original_path'],
                                                        self.item['title'],
                                                        self.item['tvshow'],
                                                        self.item['year'],
@@ -254,13 +254,13 @@ class GUI( xbmcgui.WindowXMLDialog ):
     if not self.subtitles_list:
       if __addon__.getSetting( "search_next" )== "true" and len(self.next) > 1:
         xbmc.sleep(1500)
-        self.next.remove(self.service)
-        self.service = self.next[0]
+        self.next.remove(self.item['service'])
+        self.item['service'] = self.next[0]
         self.show_service_list(gui)
-        log( __name__ ,"Auto Searching '%s' Service" % (self.service,) )
+        log( __name__ ,"Auto Searching '%s' Service" % (self.item['service'],) )
         self.Search_Subtitles(gui)
       else:
-        self.next = list(self.service_list)
+        self.next = list(self.item['service_list'])
         if gui:
           select_index = 0
           if msg != "":
@@ -280,7 +280,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
             )):
           self.Download_Subtitles(itemCount, True, gui)
           __addon__.setSetting("auto_download_file",
-                               os.path.basename( self.file_original_path ))
+                               os.path.basename( self.item['file_original_path'] ))
           return True
           break
         else:
@@ -300,7 +300,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
             else:
               listitem.setProperty( "hearing_imp", "false" )
               
-            self.list.append(subscounter)
+            self.item['list'].append(subscounter)
             subscounter = subscounter + 1
             list_subs.append(listitem)                                 
         itemCount += 1
@@ -333,7 +333,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       self.Extract_Subtitles(zip_subs,sub_lang, gui)
     else:
       sub_ext  = os.path.splitext( file )[1]
-      sub_name = os.path.splitext( os.path.basename( self.file_original_path ) )[0]
+      sub_name = os.path.splitext( os.path.basename( self.item['file_original_path'] ) )[0]
       if (__addon__.getSetting( "lang_to_end" ) == "true"):
         file_name = u"%s.%s%s" % ( sub_name, sub_lang, sub_ext )
       else:
@@ -364,7 +364,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     xbmc.executebuiltin(('XBMC.Extract("%s","%s")' % (zip_subs,self.item['tmp_sub_dir'],)).encode('utf-8'))
     xbmc.sleep(1000)
     files = os.listdir(self.item['tmp_sub_dir'])
-    sub_filename = os.path.basename( self.file_original_path )
+    sub_filename = os.path.basename( self.item['file_original_path'] )
     exts = [".srt", ".sub", ".txt", ".smi", ".ssa", ".ass" ]
     subtitle_set = False
     if len(files) < 1 :
@@ -428,7 +428,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       
   def show_service_list(self,gui):
     try:
-      select_index = self.service_list.index(self.service)
+      select_index = self.item['service_list'].index(self.item['service'])
     except IndexError:
       select_index = 0
     if gui:
@@ -456,32 +456,32 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.item['list'] = []
     all_items = []
     self.getControl( SERVICES_LIST ).reset() 
-    for serv in self.service_list:
+    for serv in self.item['service_list']:
       listitem = xbmcgui.ListItem( serv )
-      self.list.append(serv)
+      self.item['list'].append(serv)
       listitem.setProperty( "man", "false" )
       all_items.append(listitem)
 
     if self.item['mansearch'] :
         listitem = xbmcgui.ListItem( _( 612 ) )
         listitem.setProperty( "man", "true" )
-        self.list.append("Man")
+        self.item['list'].append("Man")
         all_items.append(listitem)
 
     if self.item['parsearch'] :
         listitem = xbmcgui.ListItem( _( 747 ) )
         listitem.setProperty( "man", "true" )
-        self.list.append("Par")
+        self.item['list'].append("Par")
         all_items.append(listitem)
       
     listitem = xbmcgui.ListItem( _( 762 ) )
     listitem.setProperty( "man", "true" )
-    self.list.append("Set")
+    self.item['list'].append("Set")
     all_items.append(listitem)
     self.getControl( SERVICES_LIST ).addItems( all_items )    
 
   def keyboard(self, parent):
-    dir, self.item['year'] = xbmc.getCleanMovieTitle(self.file_original_path, self.item['parsearch'])
+    dir, self.item['year'] = xbmc.getCleanMovieTitle(self.item['file_original_path'], self.item['parsearch'])
     if not parent:
       if self.item['man_search_str'] != "":
         srchstr = self.item['man_search_str']
@@ -502,7 +502,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     else:
       self.item['file_name'] = self.item['title']   
     self.item['tvshow'] = ""
-    self.next = list(self.service_list)
+    self.next = list(self.item['service_list'])
     self.Search_Subtitles() 
 
   def onClick( self, controlId ):
@@ -523,14 +523,14 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.set_allparam()
         self.on_run()        
       else:
-        self.service = selection
-        self.next = list(self.service_list)
+        self.item['service'] = selection
+        self.next = list(self.item['service_list'])
         self.Search_Subtitles()      
 
   def onFocus( self, controlId ):
     if controlId == 150:
       try:
-        select_index = self.service_list.index(self.service)
+        select_index = self.item['service_list'].index(self.item['service'])
       except IndexError:
         select_index = 0
       self.getControl( SERVICES_LIST ).selectItem(select_index)
