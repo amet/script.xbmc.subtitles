@@ -163,12 +163,22 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 
 def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
     cj = CookieJar()
+    headers = {
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Charset': 'UTF-8,*;q=0.5',
+          'Accept-Encoding': 'gzip,deflate,sdch',
+          'Accept-Language': 'pl,pl-PL;q=0.8,en-US;q=0.6,en;q=0.4',
+          'Connection': 'keep-alive',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.83 Safari/537.1',
+          'Referer': 'http://napisy24.pl/'
+    }
+    values = { 'form_logowanieMail' : __addon__.getSetting( "n24user" ), 'form_logowanieHaslo' :  __addon__.getSetting( "n24pass" ), 'postAction' : 'sendLogowanie' }
+    data = urlencode(values)
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-    opener.addheaders = [("Referer", "http://napisy24.pl"),  ('User-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6')]
-    data = urlencode([('form_logowanieMail', __addon__.getSetting( "n24user" )), ('form_logowanieHaslo', __addon__.getSetting( "n24pass" )), ('postAction', 'sendLogowanie')])
-    opener.open("http://napisy24.pl/logowanie/", data)
-    f = opener.open(subtitles_list[pos][ "link" ])
-
+    request = urllib2.Request("http://napisy24.pl/logowanie/", data, headers)
+    response = opener.open(request)
+    request = urllib2.Request(subtitles_list[pos][ "link" ], "", headers)
+    f = opener.open(request)
     local_tmp_file = os.path.join(tmp_sub_dir, "zipsubs.zip")
     log( __name__ ,"Saving subtitles to '%s'" % (local_tmp_file))
     
@@ -176,6 +186,6 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
     local_file.write(f.read())
     local_file.close()
     opener.open("http://napisy24.pl/index.php?sendAction=Wyloguj")
-
+    
     language = subtitles_list[pos][ "language_name" ]
-    return True,language, "" #standard output
+    return True, language, "" #standard output
