@@ -32,8 +32,6 @@
     <string id="30101">Idioma Principal</string>
     <string id="30102">Idiama Secundario</string>
     <string id="30103">Servicios</string>
-    <string id="30104">-Usuario Podnapisi.net</string>
-    <string id="30105">-Contraseña Podnapisi.net</string>
     <string id="30106">Opciones Avanzadas</string>
     <string id="30107">Descargar Subtítulos en la carpeta de la película</string>
     <string id="30108">- Directorio de Descarga Personalizado</string>
@@ -45,23 +43,8 @@
     <string id="30119">Buscar Usando el Directorio Padre</string>
     <string id="30121">Añadir Idioma al Nombre de Archivo </string>
     <string id="30122">Tiempo de espera predeterminado</string>
-    <string id="30123">- Usuario Legendas.TV</string>
-    <string id="30124">- Contraseña Legendas.TV</string>
-    <string id="30125"></string>
-    <string id="30126">- Usuario Itasa</string>
-    <string id="30127">- Contraseña Itasa</string>
-    <string id="30128">- Usuario Titulky</string>
-    <string id="30129">- Contraseña Titulky</string>
     <string id="30130">Buscar con el siguiente servicio disponible si no se encuentran resultados</string>
     <string id="30131">Descargar automáticamente el primer resultado "sincronizado"</string>
-    <string id="30132">- Usuario LegendasDivx</string>
-    <string id="30133">- Contraseña LegendasDivx</string>
-    <string id="30134">- Usuario PTSubs</string>
-    <string id="30135">- Contraseña PTSubs</string>
-    <string id="30136">- Usuario OmniSubs</string>
-    <string id="30137">- Contraseña OmniSubs</string>
-    <string id="30138">- Usuario LegendasZone</string>
-    <string id="30139">- Contraseña LegendasZone</string>
   
   <!-- Languages  -->  
   
