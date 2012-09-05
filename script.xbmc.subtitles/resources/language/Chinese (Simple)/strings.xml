@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
     
   <!-- Chinese -->
@@ -38,8 +38,6 @@
     <string id="30101">首选语种</string>
     <string id="30102">备选语种1</string>
     <string id="30103">服务</string>
-    <string id="30104">- Podnapisi.net 用户名</string>
-    <string id="30105">- Podnapisi.net 密码</string>
     <string id="30106">高级选项</string>
     <string id="30107">字幕下载到电影目录</string>
     <string id="30108">- 设置自定义字幕下载目录</string>
@@ -51,28 +49,8 @@
     <string id="30119">用父目录搜索</string>
     <string id="30121">将语种加入到文件名</string>
     <string id="30122">设置默认超时值</string>
-    <string id="30123">- Legendas.TV 用户名</string>
-    <string id="30124">- Legendas.TV 密码</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa 用户名</string>
-    <string id="30127">- Itasa 密码</string>
-    <string id="30128">- Titulky 用户名</string>
-    <string id="30129">- Titulky 密码</string>
     <string id="30130">如果没有找到结果，搜索下一个可用的服务</string>
     <string id="30131">自动下载匹配率第一的字幕</string>
-    <string id="30132">- LegendasDivx 用户名</string>
-    <string id="30133">- LegendasDivx 密码</string>
-    <string id="30134">- PTSubs 用户名</string>
-    <string id="30135">- PTSubs 密码</string>
-    <string id="30136">- OmniSubs 用户名</string>
-    <string id="30137">- OmniSubs 密码</string>
-    <string id="30138">- LegendasZone 用户名</string>
-    <string id="30139">- LegendasZone 密码</string>
-    <string id="30140">- 选择字幕类型：</string>
-    <string id="30141">SubRip</string>
-    <string id="30142">TMPlayer</string>
-    <string id="30143">MicroDVD</string>
-    <string id="30144">MPl2</string>
     
   <!-- Languages  -->
   

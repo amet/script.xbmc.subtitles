@@ -2,8 +2,8 @@
 
 import sys
 import os
-from utilities import languageTranslate, log, hashFile
-from pn_utilities import OSDBServer
+from utilities import languageTranslate, log
+from pn_utilities import OSDBServer, hashFile
 import urllib
 
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack ): #standard input     

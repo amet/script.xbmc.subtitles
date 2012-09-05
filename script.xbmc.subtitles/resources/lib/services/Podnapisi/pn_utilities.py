@@ -25,6 +25,30 @@ USER_AGENT = "%s_v%s" % (__scriptname__.replace(" ","_"),__version__ )
 def compare_columns(b,a):
   return cmp( b["language_name"], a["language_name"] )  or cmp( a["sync"], b["sync"] ) 
 
+def hashFile(file_path):
+    longlongformat = 'q'  # long long
+    bytesize = struct.calcsize(longlongformat)
+    f = xbmcvfs.File(file_path)
+    
+    filesize = f.size()
+    hash = filesize
+    
+    if filesize < 65536 * 2:
+        return "SizeError"
+    
+    buffer = f.read(65536)
+    f.seek(max(0,filesize-65536),0)
+    buffer += f.read(65536)
+    f.close()
+    for x in range((65536/bytesize)*2):
+        size = x*bytesize
+        (l_value,)= struct.unpack(longlongformat, buffer[size:size+bytesize])
+        hash += l_value
+        hash = hash & 0xFFFFFFFFFFFFFFFF
+    
+    returnHash = "%016x" % hash
+    return filesize,returnHash
+
 class OSDBServer:
   def create(self):
     self.subtitles_hash_list = []

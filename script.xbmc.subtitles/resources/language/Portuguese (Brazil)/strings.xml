@@ -39,8 +39,6 @@
     <string id="30101">Idioma Principal</string>
     <string id="30102">Idioma Secundário</string>
     <string id="30103">Seleção de Serviços</string>
-    <string id="30104">- Podnapisi.net Nome Do Usuário</string>
-    <string id="30105">- Podnapisi.net Senha</string>
     <string id="30106">Opções Avançadas</string>
     <string id="30107">Gravar Legenda na Pasta do Vídeo</string>
     <string id="30108">- Selecione a Pasta Personalizada</string>
@@ -52,28 +50,8 @@
     <string id="30119">Pesquise Usando o Nome da Pasta</string>
     <string id="30121">Adicionar Língua ao Nome do Arquivo </string>
     <string id="30122">Tempo Padrão de Timeout</string>
-    <string id="30123">- Legendas.TV Nome do Usuário</string>
-    <string id="30124">- Legendas.TV Senha</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa Nome do Usuário</string>
-    <string id="30127">- Itasa Senha</string>
-    <string id="30128">- Titulky Nome do Usuário</string>
-    <string id="30129">- Titulky Senha</string>
     <string id="30130">Procurar Próximo Serviço Disponível, se resultado não for encontrado</string>
     <string id="30131">Auto download primeira legenda "sinc"</string>
-    <string id="30132">- LegendasDivx Usuário</string>
-    <string id="30133">- LegendasDivx Senha</string>
-    <string id="30134">- PTSubs Usuário</string>
-    <string id="30135">- PTSubs Senha</string>
-    <string id="30136">- OmniSubs Usuário</string>
-    <string id="30137">- OmniSubs Senha</string>
-    <string id="30138">- LegendasZone Usuário</string>
-    <string id="30139">- LegendasZone Senha</string>
-	<string id="30140">- Escolha Tipo subs:</string>
-    <string id="30141">SubRip</string>
-    <string id="30142">TMPlayer</string>
-    <string id="30143">MicroDVD</string>
-    <string id="30144">MPl2</string>
     <string id="30145">Use 'Subs' subfolder para armazenar legendas</string>
     
   

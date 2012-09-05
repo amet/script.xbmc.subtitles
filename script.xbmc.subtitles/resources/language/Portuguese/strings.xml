@@ -32,8 +32,6 @@
     <string id="30101">Idioma Principal</string>
     <string id="30102">Idioma Secundário</string>
     <string id="30103">Selecção de Serviços</string>
-    <string id="30104">- Podnapisi.net Nome Do Utilizador</string>
-    <string id="30105">- Podnapisi.net Password</string>
     <string id="30106">Opções Avançadas</string>
     <string id="30107">Gravar Legenda na Pasta do Vídeo</string>
     <string id="30108">- Selecione a Pasta Personalizada</string>
@@ -45,24 +43,9 @@
     <string id="30119">Pesquisar Usando o Nome da Pasta</string>
     <string id="30121">Adicionar Língua ao Nome do Arquivo </string>
     <string id="30122">Tempo Padrão de Timeout</string>
-    <string id="30123">- Legendas.TV Nome do Utilizador</string>
-    <string id="30124">- Legendas.TV Password</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa Nome do Utilizador</string>
-    <string id="30127">- Itasa Password</string>
-    <string id="30128">- Titulky Nome do Utilizador</string>
-    <string id="30129">- Titulky Password</string>
     <string id="30130">Procurar o serviço seguinte se não houver resultados</string>
     <string id="30131">Descarregar a primeira legenda sincronizada ("sync") automaticamente</string>
-    <string id="30132">- LegendasDivx Utilizador</string>
-    <string id="30133">- LegendasDivx Password</string>
-    <string id="30134">- PTSubs Utilizador</string>
-    <string id="30135">- PTSubs Password</string>
-    <string id="30136">- OmniSubs Utilizador</string>
-    <string id="30137">- OmniSubs Password</string>
-    <string id="30138">- LegendasZone Username</string>
-    <string id="30139">- LegendasZone Password</string>
-  
+
   <!-- Languages  -->
 
     <string id="30201">Albanês</string>

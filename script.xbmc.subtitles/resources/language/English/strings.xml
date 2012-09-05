@@ -38,8 +38,6 @@
     <string id="30101">Primary Language</string>
     <string id="30102">Secondary Language</string>
     <string id="30103">Services</string>
-    <string id="30104">- Podnapisi.net Username</string>
-    <string id="30105">- Podnapisi.net Password</string>
     <string id="30106">Advanced Options</string>
     <string id="30107">Subtitle Download Folder Same As Movie</string>
     <string id="30108">- Set Custom Subtitle Download Path</string>
@@ -51,31 +49,9 @@
     <string id="30119">Search Using Parent Folder</string>
     <string id="30121">Add Language To Filename </string>
     <string id="30122">Set Default Timeout</string>
-    <string id="30123">- Legendas.TV Username</string>
-    <string id="30124">- Legendas.TV Password</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa Username</string>
-    <string id="30127">- Itasa Password</string>
-    <string id="30128">- Titulky Username</string>
-    <string id="30129">- Titulky Password</string>
     <string id="30130">Search next available service if no results are found</string>
     <string id="30131">Auto download first "sync" subtitle</string>
-    <string id="30132">- LegendasDivx Username</string>
-    <string id="30133">- LegendasDivx Password</string>
-    <string id="30134">- PTSubs Username</string>
-    <string id="30135">- PTSubs Password</string>
-    <string id="30136">- OmniSubs Username</string>
-    <string id="30137">- OmniSubs Password</string>
-    <string id="30138">- LegendasZone Username</string>
-    <string id="30139">- LegendasZone Password</string>
-    <string id="30140">- Choose subs type:</string>
-    <string id="30141">SubRip</string>
-    <string id="30142">TMPlayer</string>
-    <string id="30143">MicroDVD</string>
-    <string id="30144">MPl2</string>
     <string id="30145">Use 'Subs' subfolder for storing subtitles</string>
-    <string id="30146">- napisy24.pl Username</string>
-    <string id="30147">- napisy24.pl Password</string>
     
   <!-- Languages  -->
   

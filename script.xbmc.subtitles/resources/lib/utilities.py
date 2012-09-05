@@ -101,8 +101,6 @@ REGEX_EXPRESSIONS = [ '[Ss]([0-9]+)[][._-]*[Ee]([0-9]+)([^\\\\/]*)$',
                       '[\\\\/\\._ \\[\\(-]([0-9]+)x([0-9]+)([^\\\\/]*)$'
                      ]
 
-
-
 class UserNotificationNotifier:
   def __init__(self, title, initialMessage, time = -1):
     self.__title = title
@@ -191,26 +189,3 @@ def copy_files( subtitle_file, file_path ):
 
   return subtitle_set, file_path
 
-def hashFile(file_path):
-    longlongformat = 'q'  # long long
-    bytesize = struct.calcsize(longlongformat)
-    f = xbmcvfs.File(file_path)
-    
-    filesize = f.size()
-    hash = filesize
-    
-    if filesize < 65536 * 2:
-        return "SizeError"
-    
-    buffer = f.read(65536)
-    f.seek(max(0,filesize-65536),0)
-    buffer += f.read(65536)
-    f.close()
-    for x in range((65536/bytesize)*2):
-        size = x*bytesize
-        (l_value,)= struct.unpack(longlongformat, buffer[size:size+bytesize])
-        hash += l_value
-        hash = hash & 0xFFFFFFFFFFFFFFFF
-    
-    returnHash = "%016x" % hash
-    return filesize,returnHash

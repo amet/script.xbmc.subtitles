@@ -32,8 +32,6 @@
     <string id="30101">Eerste taal</string>
     <string id="30102">Tweede taal</string>
     <string id="30103">Services</string>
-    <string id="30104">- Gebruikersnaam Podnapisi.net</string>
-    <string id="30105">- Wachtwoord Podnapisi.net</string>
     <string id="30106">Geavanceerde opties</string>
     <string id="30107">Ondertitels opslaan in dezelfde map als film</string>
     <string id="30108">- Een aparte map voor ondertitels instellen</string>
@@ -45,11 +43,6 @@
     <string id="30119">Op basis van mapnaam zoeken</string>
     <string id="30121">Taalcode aan bestandsnaam toevoegen</string>
     <string id="30122">Standaard time-out instellen</string>
-    <string id="30123">- Gebruikersnaam Legendas.TV</string>
-    <string id="30124">- Wachtwoord Legendas.TV</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa gebruikersnaam</string>
-    <string id="30127">- Itasa wachtwoord</string>
        
   <!-- Languages  -->
     

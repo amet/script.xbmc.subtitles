@@ -36,8 +36,6 @@
     <string id="30101">Основной язык</string>
     <string id="30102">Второй язык</string>
     <string id="30103">Службы</string>
-    <string id="30104">- Имя пользователя Podnapisi.net</string>
-    <string id="30105">- Пароль Podnapisi.net</string>
     <string id="30106">Дополнительно</string>
     <string id="30107">Загружать субтитры в папку с видеофайлом</string>
     <string id="30108">- Выбрать путь для загрузки субтитров</string>
@@ -49,28 +47,8 @@
     <string id="30119">Использовать имя папки для поиска</string>
     <string id="30121">Добавлять код языка к имени файла </string>
     <string id="30122">Интервал ожидания по умолчанию</string>
-    <string id="30123">- Имя пользователя Legendas.TV</string>
-    <string id="30124">- Пароль Legendas.TV</string>
-    <string id="30125"></string>
-    <string id="30126">- Имя пользователя Itasa</string>
-    <string id="30127">- Пароль Itasa</string>
-    <string id="30128">- Имя пользователя Titulky</string>
-    <string id="30129">- Пароль Titulky</string>
     <string id="30130">Использовать следующую службу, если ничего не найдено</string>
     <string id="30131">Автоматически загружать 1-е синхронизированные субтитры</string>
-    <string id="30132">- Имя пользователя LegendasDivx</string>
-    <string id="30133">- Пароль LegendasDivx</string>
-    <string id="30134">- Имя пользователя PTSubs</string>
-    <string id="30135">- Пароль PTSubs</string>
-    <string id="30136">- Имя пользователя OmniSubs</string>
-    <string id="30137">- Пароль OmniSubs</string>
-    <string id="30138">- Имя пользователя LegendasZone</string>
-    <string id="30139">- Пароль LegendasZone</string>
-    <string id="30140">- Выбрать тип субтитров:</string>
-    <string id="30141">SubRip (srt)</string>
-    <string id="30142">TMPlayer</string>
-    <string id="30143">MicroDVD (sub)</string>
-    <string id="30144">MPl2</string>
     <string id="30145">Сохранять субтитры в подпапку "Subs"</string>
     
   <!-- Languages  -->

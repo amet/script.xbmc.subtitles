@@ -28,28 +28,7 @@
     
   <!-- Script Settings -->
 
-    <string id="30100">Languages</string>
-    <string id="30101">Primary Language</string>
-    <string id="30102">Secondary Language</string>
-    <string id="30103">Services</string>
-    <string id="30104">- Podnapisi.net Username</string>
-    <string id="30105">- Podnapisi.net Password</string>
-    <string id="30106">Advanced Options</string>
-    <string id="30107">Subtitle Download Folder Same As Movie</string>
-    <string id="30108">- Set Custom Subtitle Download Path</string>
-    <string id="30110">Manually Enter Search String</string>
-    <string id="30111">Third Language</string>  
-    <string id="30113">Select Default Movie Service</string>
-    <string id="30114">Select Default TV Show Service</string>
-    <string id="30118">Display file name in results page</string>
-    <string id="30119">Search Using Parent Folder</string>
-    <string id="30121">Add Language To Filename </string>
-    <string id="30122">Set Default Timeout</string>
-    <string id="30123">- Legendas.TV Username</string>
-    <string id="30124">- Legendas.TV Password</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa Username</string>
-    <string id="30127">- Itasa Password</string>
+
   
   <!-- Languages  -->
   

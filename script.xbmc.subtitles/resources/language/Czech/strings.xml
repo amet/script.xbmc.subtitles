@@ -34,8 +34,6 @@
     <string id="30101">Primární jazyk</string>
     <string id="30102">Sekundární jazyk</string>
     <string id="30103">Služby</string>
-    <string id="30104">- Podnapisi.net jméno</string>
-    <string id="30105">- Podnapisi.net heslo</string>
     <string id="30106">Pokročilé</string>
     <string id="30107">Složka pro stahování titulků shodná se složkou filmu</string>
     <string id="30108">- Nastavit vlastní složku titulků</string>
@@ -47,23 +45,9 @@
     <string id="30119">Hledat pomocí názvu složky s filmem</string>
     <string id="30121">Připojovat jazyk k názvu souboru </string>
     <string id="30122">Časový limit služby</string>
-    <string id="30123">- Legendas.TV jméno</string>
-    <string id="30124">- Legendas.TV heslo</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa jméno</string>
-    <string id="30127">- Itasa heslo</string>
-    <string id="30128">- Titulky jméno</string>
-    <string id="30129">- Titulky heslo</string>
     <string id="30130">Pokud nejsou titulky nalezeny, použít jinou službu</string>
     <string id="30131">Automaticky stáhnout první "sync" titulky</string>
-    <string id="30132">- LegendasDivx jméno</string>
-    <string id="30133">- LegendasDivx heslo</string>
-    <string id="30134">- PTSubs jméno</string>
-    <string id="30135">- PTSubs heslo</string>
-    <string id="30136">- OmniSubs jméno</string>
-    <string id="30137">- OmniSubs heslo</string>
-    <string id="30138">- LegendasZone jméno</string>
-    <string id="30139">- LegendasZone heslo</string>
+    
   <!-- Languages  -->
   
     <string id="30201">Albanian</string>

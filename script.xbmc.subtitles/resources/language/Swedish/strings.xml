@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--Language file translated with Team XBMC Translator-->
 <!--Translator: blittan-->
 <!--Email: blittan@xbmc.org-->
@@ -33,12 +33,13 @@
   <string id="764">Laddar ner första synkade texten</string>
   <string id="765">första synkade undertexten nedladdad</string>
   <string id="766">Välj undertextmapp</string>
+  
+  <!-- Script Settings -->
+  
   <string id="30100">Språk</string>
   <string id="30101">Förstahandsspråk</string>
   <string id="30102">Andrahandsspråk</string>
   <string id="30103">Tjänster</string>
-  <string id="30104">- Podnapisi.net användarnamn</string>
-  <string id="30105">- Podnapisi.net lösenord</string>
   <string id="30106">Avancerade alternativ</string>
   <string id="30107">Undertextens målmapp är samma som videon</string>
   <string id="30108">- Välj anpassad målmapp för undertext</string>
@@ -50,30 +51,12 @@
   <string id="30119">Använd överordnat mappnamn vid Sök</string>
   <string id="30121">Lägg till språk i filnamnet </string>
   <string id="30122">Ställ standardtimeout</string>
-  <string id="30123">- Legendas.TV användarnamn</string>
-  <string id="30124">- Legendas.TV lösenord</string>
-  <string id="30125">
-  </string>
-  <string id="30126">- Itasa användarnamn</string>
-  <string id="30127">- Itasa lösenord</string>
-  <string id="30128">- Titulky användarnamn</string>
-  <string id="30129">- Titulky lösenord</string>
   <string id="30130">Sök på nästa tjänst om inga resultat hittas</string>
   <string id="30131">Ladda automatisk ner första synkade undertexten</string>
-  <string id="30132">- LegendasDivx användarnamn</string>
-  <string id="30133">- LegendasDivx lösenord</string>
-  <string id="30134">- PTSubs användarnamn</string>
-  <string id="30135">- PTSubs lösenord</string>
-  <string id="30136">- OmniSubs användarnamn</string>
-  <string id="30137">- OmniSubs lösenord</string>
-  <string id="30138">- LegendasZone användarnamn</string>
-  <string id="30139">- LegendasZone lösenord</string>
-  <string id="30140">- Välj undertexttyp</string>
-  <string id="30141">SubRip</string>
-  <string id="30142">TMPlayer</string>
-  <string id="30143">MicroDVD</string>
-  <string id="30144">MPl2</string>
   <string id="30145">Använd 'Subs' undermapp för lagring av undertexter</string>
+  
+  <!-- Languages  -->
+  
   <string id="30201">Albaniska</string>
   <string id="30202">Arabiska</string>
   <string id="30203">Belarusian</string>

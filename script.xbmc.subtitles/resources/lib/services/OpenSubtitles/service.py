@@ -2,8 +2,8 @@
 
 import sys
 import os
-from utilities import log, hashFile
-from os_utilities import OSDBServer
+from utilities import log
+from os_utilities import OSDBServer, hashFile
 import xbmc
 
 _ = sys.modules[ "__main__" ].__language__   

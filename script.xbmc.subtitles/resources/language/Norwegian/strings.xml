@@ -32,8 +32,6 @@
     <string id="30101">Primærspråk</string>
     <string id="30102">Sekundærspråk</string>
     <string id="30103">Velg tjeneste</string>
-    <string id="30104">- Podnapisi.net brukernavn</string>
-    <string id="30105">- Podnapisi.net passord</string>
     <string id="30106">Avanserte innstillinger</string>
     <string id="30107">Last ned undertekster i samme mappe som filmen</string>
     <string id="30108">- Sett mappe for nedlasting av undertekster</string>
@@ -45,11 +43,6 @@
     <string id="30119">Søk med mappenavn</string>
     <string id="30121">Inkludèr språk i filnavn</string>
     <string id="30122">Standard tidsgrense</string>
-    <string id="30123">- Legendas.TV Brukernavn</string>
-    <string id="30124">- Legendas.TV Passord</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa Brukernavn</string>
-    <string id="30127">- Itasa Passord</string>
       
   <!-- Languages  -->
       

@@ -32,8 +32,6 @@
     <string id="30101">Ensisijainen kieli</string>
     <string id="30102">Toissijainen kieli</string>
     <string id="30103">Valitse palvelut</string>
-    <string id="30104">- Podnapisi.net Käyttäjätunnus</string>
-    <string id="30105">- Podnapisi.net Salasana</string>
     <string id="30106">Lisäasetukset</string>
     <string id="30107">Tekstitystiedostoston talletuskansio sama kuin elokuvalla</string>
     <string id="30108">- Aseta mukautettu tekstitystiedostojen talletuskansio</string>
@@ -45,11 +43,6 @@
     <string id="30119">Sisällytä yläkansiot hakuun </string>
     <string id="30121">Lisää kielitieto tiedoston nimeen </string>
     <string id="30122">Aseta oletusaikaraja</string>
-    <string id="30123">- Legendas.TV Käyttäjätunnus</string>
-    <string id="30124">- Legendas.TV Salasana</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa Käyttäjätunnus</string>
-    <string id="30127">- Itasa Salasana</string>
 
  <!-- Languages  -->
       

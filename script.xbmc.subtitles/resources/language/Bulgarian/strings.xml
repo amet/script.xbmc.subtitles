@@ -54,28 +54,8 @@
     <string id="30119">Ползвай името на папката за търсене</string>
     <string id="30121">Добавяй означение за език към името на файла </string>
     <string id="30122">Определете макс. време за отговор при търсене</string>
-    <string id="30123">- Въведете име за Legendas.TV</string>
-    <string id="30124">- Въведете парола за Legendas.TV</string>
-    <string id="30125"></string>
-    <string id="30126">- Въведете име за Itasa</string>
-    <string id="30127">- Въведете парола за Itasa</string>
-    <string id="30128">- Въведете име за Titulky</string>
-    <string id="30129">- Въведете парола за Titulky</string>
     <string id="30130">Търси в следващата налична услуга ако няма резултати</string>
     <string id="30131">Сваляй автоматично първите субтитри, които са синхронни</string>
-    <string id="30132">- Въведете име за </string>
-    <string id="30133">- Въведете парола за LegendasDivx</string>
-    <string id="30134">- Въведете име за PTSubs</string>
-    <string id="30135">- Въведете парола за PTSubs</string>
-    <string id="30136">- Въведете име за OmniSubs</string>
-    <string id="30137">- Въведете парола за OmniSubs</string>
-    <string id="30138">- Въведете име за LegendasZone</string>
-    <string id="30139">- Въведете парола за LegendasZone</string>
-    <string id="30140">- Изберете тип субтитри:</string>
-    <string id="30141">SubRip</string>
-    <string id="30142">TMPlayer</string>
-    <string id="30143">MicroDVD</string>
-    <string id="30144">MPl2</string>
 	
   <!-- Languages  -->
   

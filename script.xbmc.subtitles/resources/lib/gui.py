@@ -46,41 +46,23 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.item['stack']          = False
     self.item['autoDownload']   = False
     self.item['sub_folder']     = xbmc.translatePath(__addon__.getSetting( "subfolderpath" )).decode("utf-8")   # User specified subtitle folder
-    self.item['year']           = xbmc.getInfoLabel("VideoPlayer.Year")                         # Year  
-    self.item['season']         = str(xbmc.getInfoLabel("VideoPlayer.Season"))                  # Season
-    self.item['episode']        = str(xbmc.getInfoLabel("VideoPlayer.Episode"))                 # Episode
-    self.item['mansearch']      = __addon__.getSetting( "searchstr" ) == "true"                # Manual search string??
-    self.item['parsearch']      = __addon__.getSetting( "par_folder" ) == "true"               # Parent folder as search string
-    self.item['language_1']     = languageTranslate(__addon__.getSetting( "Lang01" ), 4, 0)     # Full language 1
-    self.item['language_2']     = languageTranslate(__addon__.getSetting( "Lang02" ), 4, 0)     # Full language 2
-    self.item['language_3']     = languageTranslate(__addon__.getSetting( "Lang03" ), 4, 0)     # Full language 3
-    self.item['tmp_sub_dir']    = os.path.join( __profile__ ,"sub_tmp" )                        # Temporary subtitle extraction directory
+    self.item['year']           = xbmc.getInfoLabel("VideoPlayer.Year")                                         # Year  
+    self.item['season']         = str(xbmc.getInfoLabel("VideoPlayer.Season"))                                  # Season
+    self.item['episode']        = str(xbmc.getInfoLabel("VideoPlayer.Episode"))                                 # Episode
+    self.item['mansearch']      = __addon__.getSetting( "searchstr" ) == "true"                                 # Manual search string??
+    self.item['parsearch']      = __addon__.getSetting( "par_folder" ) == "true"                                # Parent folder as search string
+    self.item['language_1']     = languageTranslate(__addon__.getSetting( "Lang01" ), 4, 0)                     # Full language 1
+    self.item['language_2']     = languageTranslate(__addon__.getSetting( "Lang02" ), 4, 0)                     # Full language 2
+    self.item['language_3']     = languageTranslate(__addon__.getSetting( "Lang03" ), 4, 0)                     # Full language 3
+    self.item['tmp_sub_dir']    = os.path.join( __profile__ ,"sub_tmp" )                                        # Temporary subtitle extraction directory
     self.item['stream_sub_dir'] = os.path.join( __profile__ ,"sub_stream" )
 
 
-#    self.list           = []
     service_list        = []
-#    self.stackPath      = []
     service             = ""
-#    self.man_search_str = ""   
-#    self.temp           = False
-#    self.rar            = False
-#    self.stack          = False
-#    self.autoDownload   = False
     use_subs_folder     = __addon__.getSetting( "use_subs_folder" ) == "true"           # use 'Subs' subfolder for storing subtitles
     movieFullPath       = urllib.unquote(xbmc.Player().getPlayingFile().decode('utf-8'))# Full path of a playing file
     path                = __addon__.getSetting( "subfolder" ) == "true"                 # True for movie folder
-#    self.sub_folder     = xbmc.translatePath(__addon__.getSetting( "subfolderpath" )).decode("utf-8")   # User specified subtitle folder
-#    self.year           = xbmc.getInfoLabel("VideoPlayer.Year")                         # Year
-#    self.season         = str(xbmc.getInfoLabel("VideoPlayer.Season"))                  # Season
-#    self.episode        = str(xbmc.getInfoLabel("VideoPlayer.Episode"))                 # Episode
-#    self.mansearch      =  __addon__.getSetting( "searchstr" ) == "true"                # Manual search string??
-#    self.parsearch      =  __addon__.getSetting( "par_folder" ) == "true"               # Parent folder as search string
-#    self.language_1     = languageTranslate(__addon__.getSetting( "Lang01" ), 4, 0)     # Full language 1
-#    self.language_2     = languageTranslate(__addon__.getSetting( "Lang02" ), 4, 0)     # Full language 2  
-#    self.language_3     = languageTranslate(__addon__.getSetting( "Lang03" ), 4, 0)     # Full language 3
-#    self.tmp_sub_dir    = os.path.join( __profile__ ,"sub_tmp" )                        # Temporary subtitle extraction directory   
-#    self.stream_sub_dir = os.path.join( __profile__ ,"sub_stream" )                     # Stream subtitle directory    
 #    
     self.clean_temp()                                                                   # clean temp dirs
     
@@ -121,16 +103,16 @@ class GUI( xbmcgui.WindowXMLDialog ):
     
     if self.item['episode'].lower().find("s") > -1:                                 # Check if season is "Special"             
       self.item['season'] = "0"                                                     #
-      self.item['episode'] = self.item['episode'][-1:]                                      #
+      self.item['episode'] = self.item['episode'][-1:]                              #
 
     self.item['tvshow']    = unicodedata.normalize('NFKD',
                       unicode(unicode(xbmc.getInfoLabel
                       ("VideoPlayer.TVshowtitle"), 'utf-8'))
-                      ).encode('ascii','ignore')                            # Show
+                      ).encode('ascii','ignore')                                    # Show
     self.item['title']     = unicodedata.normalize('NFKD', 
                       unicode(unicode(xbmc.getInfoLabel
                       ("VideoPlayer.Title"), 'utf-8'))
-                      ).encode('ascii','ignore')                            # Title
+                      ).encode('ascii','ignore')                                    # Title
 
     if self.item['tvshow'] == "":
       if str(self.item['year']) == "":
@@ -146,7 +128,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
     self.item['file_original_path'] = urllib.unquote ( movieFullPath )             # Movie Path
 
-    if (__addon__.getSetting( "fil_name" ) == "true"):                     # Display Movie name or search string
+    if (__addon__.getSetting( "fil_name" ) == "true"):                             # Display Movie name or search string
       self.item['file_name'] = os.path.basename( movieFullPath )
     else:
       if (len(str(self.item['year'])) < 1 ) :
@@ -165,7 +147,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
          __addon__.setSetting("auto_download_file", "")
 
     for name in os.listdir(SERVICE_DIR):
-      if os.path.isdir(os.path.join(SERVICE_DIR,name)) and __addon__.getSetting( name ) == "true":
+#     FIX this to list from VFS of installed services    
+      if os.path.isdir(os.path.join(SERVICE_DIR,name)): # and __addon__.getSetting( name ) == "true":
         service_list.append( name )
         service = name
 
@@ -176,13 +159,14 @@ class GUI( xbmcgui.WindowXMLDialog ):
       
     if service_list.count(def_service) > 0:
       service = def_service
-
+    print "Amet", service_list
     if len(service_list) > 0:  
       if len(service) < 1:
         self.item['service'] = service_list[0]
       else:
         self.item['service'] = service  
 
+      
       self.item['service_list'] = service_list
       self.next = list(service_list)
       self.controlId = -1
