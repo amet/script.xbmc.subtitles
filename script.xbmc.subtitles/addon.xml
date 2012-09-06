@@ -10,7 +10,9 @@
              library="default.py" />
   <extension point="xbmc.addon.metadata">
     <summary lang="en">XBMC Subtitles</summary>
+    <summary lang="es">Subtítulos XBMC</summary>
     <description lang="en">Search and download subtitles from multipe providers</description>
+    <description lang="es">Busca y descarga subtítulos de múltiples proveedores</description>
     <platform>all</platform>
   </extension>
 </addon>
