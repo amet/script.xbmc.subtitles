@@ -2,7 +2,7 @@
 <addon id="script.xbmc.subtitles"
        name="XBMC Subtitles"
        version="4.0.0"
-       provider-name="amet,jurrabi">
+       provider-name="amet,mr_blobby,jurrabi">
   <requires>
     <import addon="xbmc.python" version="2.1"/>
   </requires>
