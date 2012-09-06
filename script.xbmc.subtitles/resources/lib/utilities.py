@@ -23,7 +23,7 @@ SERVICE_DIR    = os.path.join(__cwd__, "resources", "lib", "services")
 
 LANGUAGES      = (
     
-    # Full Language name[0]     podnapisi[1]  ISO 639-1[2]   ISO 639-1 Code[3]   Script Setting Language[4]   localized name id number[5]
+    # Full Language name[0]     podnapisi[1]  ISO 639-1[2]   ISO 639-2 Code[3]   Script Setting Language[4]   localized name id number[5]
     
     ("Albanian"                   , "29",       "sq",            "alb",                 "0",                     30201  ),
     ("Arabic"                     , "12",       "ar",            "ara",                 "1",                     30202  ),
@@ -164,6 +164,10 @@ def pause():
 def unpause():
   if xbmc.getCondVisibility('Player.Paused'):
     xbmc.Player().pause()  
+
+def clean_temp( item ):
+  for temp_dir in [item['stream_sub_dir'],item['tmp_sub_dir']]:
+    rem_files(temp_dir) 
 
 def rem_files(directory):
   try:
