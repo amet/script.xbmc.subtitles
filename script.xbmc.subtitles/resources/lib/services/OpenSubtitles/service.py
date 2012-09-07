@@ -4,6 +4,8 @@ import os
 import sys
 import xbmc
 import urllib
+import struct
+import xbmcvfs
 import xmlrpclib
 
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
@@ -23,19 +25,19 @@ class OSDBServer:
     if( len ( self.subtitles_list ) > 0 ):
       self.subtitles_list.sort(key=lambda x: [not x['sync'],x['lang_index']])
 
-  def searchsubtitles( self, srch_string , lang1,lang2,lang3,hash_search, _hash = "000000000", size = "000000000"):
+  def searchsubtitles( self, srch_string, languages, hash_search, _hash = "000000000", size = "000000000"):
     msg                      = ""
     lang_index               = 3
     searchlist               = []
     self.subtitles_hash_list = []
-    self.langs_ids           = [lang1, lang2, lang3]    
-    language                 = lang1
+    search_language          = languages[0]
     
-    if lang1 != lang2:
-      language += "," + lang2
-    if lang3 != lang1 and lang3 != lang2:
-      language += "," + lang3
+    if languages[0] != languages[1]:
+      search_language += "," + languages[1]
+    if languages[2] != languages[0] and languages[2] != languages[1]:
+      search_language += "," + languages[2]
   
+    print search_language, languages
     self.server = xmlrpclib.Server( BASE_URL_XMLRPC, verbose=0 )
     login = self.server.LogIn("", "", "en", "XBMC_Subtitles")
   
@@ -45,14 +47,14 @@ class OSDBServer:
     try:
       if ( self.osdb_token ) :
         if hash_search:
-          searchlist.append({'sublanguageid':language, 'moviehash':_hash, 'moviebytesize':str( size ) })
-        searchlist.append({'sublanguageid':language, 'query':srch_string })
+          searchlist.append({'sublanguageid':search_language, 'moviehash':_hash, 'moviebytesize':str( size ) })
+        searchlist.append({'sublanguageid':search_language, 'query':srch_string })
         search = self.server.SearchSubtitles( self.osdb_token, searchlist )
         if search["data"]:
           for item in search["data"]:
             if item["ISO639"]:
               lang_index=0
-              for user_lang_id in self.langs_ids:
+              for user_lang_id in languages:
                 if user_lang_id == item["ISO639"]:
                   break
                 lang_index+=1
@@ -148,7 +150,7 @@ def search_subtitles( item ):
     log( __name__ ,"File Hash [%s]" % SubHash)
   
   log( __name__ ,"Search by hash and name %s" % (os.path.basename( item['file_original_path'] ),))
-  item['subtitles_list'], item['msg'] = OSDBServer().searchsubtitles( OS_search_string, item['language_1_3let'], item['language_2_3let'], item['language_3_3let'], hash_search, SubHash, file_size  )
+  item['subtitles_list'], item['msg'] = OSDBServer().searchsubtitles( OS_search_string, item['3let_language'], hash_search, SubHash, file_size  )
 
   return item
 

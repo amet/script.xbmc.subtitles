@@ -4,14 +4,16 @@ import os
 import re
 import sys
 import xbmc
+import shutil
 import xbmcvfs
 import xbmcgui
-import shutil
-import struct
+import unicodedata
 
 _              = sys.modules[ "__main__" ].__language__
+__addon__      = sys.modules[ "__main__" ].__addon__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __cwd__        = sys.modules[ "__main__" ].__cwd__
+
 
 STATUS_LABEL   = 100
 LOADING_IMAGE  = 110
@@ -193,3 +195,26 @@ def copy_files( subtitle_file, file_path ):
 
   return subtitle_set, file_path
 
+def set_languages(item):
+  lang1                  = __addon__.getSetting( "Lang01" )
+  lang2                  = __addon__.getSetting( "Lang02" )
+  lang3                  = __addon__.getSetting( "Lang03" )
+
+  item['full_language']  = [languageTranslate(lang1, 4, 0),
+                            languageTranslate(lang2, 4, 0),
+                            languageTranslate(lang3, 4, 0)]
+
+  item['2let_language']  = [languageTranslate(lang1, 4, 2),
+                            languageTranslate(lang2, 4, 2),
+                            languageTranslate(lang3, 4, 2)]
+
+  item['3let_language']  = [languageTranslate(lang1, 4, 3),
+                            languageTranslate(lang2, 4, 3),
+                            languageTranslate(lang3, 4, 3)]
+
+  return item
+
+def normalize(str):
+  return unicodedata.normalize(
+         'NFKD', unicode(unicode(str, 'utf-8'))
+         ).encode('ascii','ignore')
