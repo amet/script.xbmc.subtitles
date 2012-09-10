@@ -203,9 +203,9 @@ def set_languages(item):
                                               languageTranslate(__addon__.getSetting( "Lang03" ), 4, 0)])
 
   for language in item['full_language']:
-    item['2let_language'].append(languageTranslate(language, 4, 2))
-    item['3let_language'].append(languageTranslate(language, 4, 3))
-
+    item['2let_language'].append(languageTranslate(language, 0, 2))
+    item['3let_language'].append(languageTranslate(language, 0, 3))
+ 
   return item
 
 def remove_duplicates(list):
