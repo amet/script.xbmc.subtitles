@@ -234,10 +234,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
       itemCount = 0
       list_subs = []
       for item in self.item['subtitles_list']:
+        item["language_name"] = get_language(item["language_name"])
         if (self.item['autoDownload'] and 
             item["sync"] and  
-            (item["language_name"] == languageTranslate(
-                languageTranslate(self.language_1,0,2),2,0)
+            (item["language_name"] == languageTranslate(__addon__.getSetting( "Lang01" ), 3, 0)
             )):
           self.Download_Subtitles(itemCount, True, gui)
           __addon__.setSetting("auto_download_file",
@@ -246,7 +246,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
           break
         else:
           if gui:
-            listitem = xbmcgui.ListItem(label=_( languageTranslate(item["language_name"],0,5) ),
+            listitem = xbmcgui.ListItem(label=_( languageTranslate(item["language_name"],0,4) ),
                                         label2=item["filename"],
                                         iconImage=item["rating"],
                                         thumbnailImage=item["language_flag"]
@@ -283,7 +283,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.item['zip_subs'] = os.path.join( self.item['tmp_sub_dir'], "zipsubs.zip")
     self.item['pos'] = pos
     self.item = self.Service.download_subtitles(self.item)
-    sub_lang = str(languageTranslate(self.item['language'],0,2))
+    sub_lang = str(languageTranslate(self.item['language'],0,1))
 
     if self.item['zipped'] :
       self.Extract_Subtitles(self.item['zip_subs'],sub_lang, gui)
