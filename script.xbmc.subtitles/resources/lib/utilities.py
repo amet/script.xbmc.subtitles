@@ -196,23 +196,24 @@ def copy_files( subtitle_file, file_path ):
   return subtitle_set, file_path
 
 def set_languages(item):
-  lang1                  = __addon__.getSetting( "Lang01" )
-  lang2                  = __addon__.getSetting( "Lang02" )
-  lang3                  = __addon__.getSetting( "Lang03" )
+  item['2let_language'] = []
+  item['3let_language'] = []
+  item['full_language']  = remove_duplicates([languageTranslate(__addon__.getSetting( "Lang01" ), 4, 0),
+                                              languageTranslate(__addon__.getSetting( "Lang02" ), 4, 0),
+                                              languageTranslate(__addon__.getSetting( "Lang03" ), 4, 0)])
 
-  item['full_language']  = [languageTranslate(lang1, 4, 0),
-                            languageTranslate(lang2, 4, 0),
-                            languageTranslate(lang3, 4, 0)]
-
-  item['2let_language']  = [languageTranslate(lang1, 4, 2),
-                            languageTranslate(lang2, 4, 2),
-                            languageTranslate(lang3, 4, 2)]
-
-  item['3let_language']  = [languageTranslate(lang1, 4, 3),
-                            languageTranslate(lang2, 4, 3),
-                            languageTranslate(lang3, 4, 3)]
+  for language in item['full_language']:
+    item['2let_language'].append(languageTranslate(language, 4, 2))
+    item['3let_language'].append(languageTranslate(language, 4, 3))
 
   return item
+
+def remove_duplicates(list):
+    seen = set()
+    seen_add = seen.add
+    item = [ x for x in list if x not in seen and not seen_add(x)]
+    return item
+
 
 def normalize(str):
   return unicodedata.normalize(
