@@ -3,7 +3,7 @@
 import os
 import re
 import sys
-import xbmc
+import xbmc, xbmcaddon
 import urllib
 import socket
 import xbmcgui
@@ -38,6 +38,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
   def set_allparam(self):
     self.item                   = dict()
     self.item['list']           = []
+    self.item['services']       = []
     self.item['stackPath']      = []
     self.item['man_search_str'] = ""
     self.item['temp']           = False
@@ -125,7 +126,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       if (len(str(self.item['year'])) < 1 ) :
         self.item['file_name'] = self.item['title'].encode('utf-8')
         if (len(self.item['tvshow']) > 0):
-          self.item['file_name'] = "%s S%.2dE%.2d" % (self.tvshow.encode('utf-8'),
+          self.item['file_name'] = "%s S%.2dE%.2d" % (self.item['tvshow'].encode('utf-8'),
                                               int(self.item['season']),
                                               int(self.item['episode'])
                                              )
@@ -137,26 +138,29 @@ class GUI( xbmcgui.WindowXMLDialog ):
          self.item['autoDownload'] = True
          __addon__.setSetting("auto_download_file", "")
 
-    for name in os.listdir(SERVICE_DIR):
-#     FIX this to list from VFS of installed services    
-      if os.path.isdir(os.path.join(SERVICE_DIR,name)): # and __addon__.getSetting( name ) == "true":
-        service_list.append( name )
-        service = name
+    service_id_list = xbmcvfs.listdir("addons://enabled/xbmc.subtitle.module/")[1]
+    print service_id_list
+    for id in service_id_list:
+      name = xbmcaddon.Addon(id).getAddonInfo('name')
+      logo = xbmcaddon.Addon(id).getAddonInfo('icon')
+      self.item['services'].append({"name":name, "logo": logo})
+      service_list.append( name )
+      service = name
+
 
     if len(self.item['tvshow']) > 0:
       def_service = __addon__.getSetting( "deftvservice")
     else:
       def_service = __addon__.getSetting( "defmovieservice")
       
-    if service_list.count(def_service) > 0:
-      service = def_service
+    if service_id_list.count(def_service) > 0:
+      service = xbmcaddon.Addon(def_service).getAddonInfo('name')
     if len(service_list) > 0:  
       if len(service) < 1:
         self.item['service'] = service_list[0]
       else:
         self.item['service'] = service  
 
-      
       self.item['service_list'] = service_list
       self.next = list(service_list)
       self.controlId = -1
@@ -184,14 +188,12 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.item['subtitles_list'] = []
     if gui:
       self.getControl( SUBTITLES_LIST ).reset()
-      self.getControl( LOADING_IMAGE ).setImage(
-                                       xbmc.translatePath(
-                                         os.path.join(
-                                           SERVICE_DIR,
-                                           self.item['service'],
-                                           "logo.png")))
+      for s in self.item['services']:
+        if s["name"] == self.item['service']:
+          self.getControl( LOADING_IMAGE ).setImage(s["logo"])
+          break
 
-    exec ( "from services.%s import service as Service" % (self.item['service']))
+    exec ( "from %s import service as Service" % (self.item['service']))
     self.Service = Service
     if gui:
       self.getControl( STATUS_LABEL ).setLabel( _( 646 ) )
@@ -234,9 +236,12 @@ class GUI( xbmcgui.WindowXMLDialog ):
       itemCount = 0
       list_subs = []
       for item in self.item['subtitles_list']:
+        # this will check what was returned from service, 
+        # full language, 2 letter code or 3 letter code and always thanslate it to full language if needed
         item["language_name"] = get_language(item["language_name"])
+        
         if (self.item['autoDownload'] and 
-            item["sync"] and  
+            item.get("sync", True) and  
             (item["language_name"] == languageTranslate(__addon__.getSetting( "Lang01" ), 3, 0)
             )):
           self.Download_Subtitles(itemCount, True, gui)
@@ -249,9 +254,9 @@ class GUI( xbmcgui.WindowXMLDialog ):
             listitem = xbmcgui.ListItem(label=_( languageTranslate(item["language_name"],0,4) ),
                                         label2=item["filename"],
                                         iconImage=item["rating"],
-                                        thumbnailImage=item["language_flag"]
+                                        thumbnailImage="flags/%s.gif" % languageTranslate(item["language_name"],0,1)
                                        )
-            if item["sync"]:
+            if item.get("sync", True):
               listitem.setProperty( "sync", "true" )
             else:
               listitem.setProperty( "sync", "false" )
@@ -294,7 +299,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         file_name = u"%s.%s%s" % ( sub_name, sub_lang, sub_ext )
       else:
         file_name = u"%s%s" % ( sub_name, sub_ext )
-      file_from = file.replace('\\','/')
+      file_from = self.item['file'].replace('\\','/')
       file_to = os.path.join(self.item['sub_folder'], file_name).replace('\\','/')
       # Create a files list of from-to tuples so that multiple files may be
       # copied (sub+idx etc')

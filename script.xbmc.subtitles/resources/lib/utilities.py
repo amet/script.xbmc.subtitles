@@ -178,7 +178,7 @@ def rem_files(directory):
   except:
     pass
 
-  xbmcvfs.mkdir(directory)
+  os.makedirs(directory)
       
 def copy_files( subtitle_file, file_path ):
   subtitle_set = False
