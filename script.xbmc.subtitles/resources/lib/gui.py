@@ -6,7 +6,7 @@ import sys
 import xbmc, xbmcaddon
 import urllib
 import socket
-import xbmcgui
+import xbmcgui, xbmcvfs
 
 from utilities import *
 
@@ -200,7 +200,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
     socket.setdefaulttimeout(float(__addon__.getSetting( "timeout" )))
     try: 
-      self.item = self.Service.search_subtitles(self.item)
+      self.item = self.Service.Search(self.item)
     except socket.error:
       errno, errstr = sys.exc_info()[:2]
       if errno == socket.timeout:
@@ -238,11 +238,11 @@ class GUI( xbmcgui.WindowXMLDialog ):
       for item in self.item['subtitles_list']:
         # this will check what was returned from service, 
         # full language, 2 letter code or 3 letter code and always thanslate it to full language if needed
-        item["language_name"] = get_language(item["language_name"])
+        item["language"] = get_language(item["language"])
         
         if (self.item['autoDownload'] and 
             item.get("sync", True) and  
-            (item["language_name"] == languageTranslate(__addon__.getSetting( "Lang01" ), 3, 0)
+            (item["language"] == languageTranslate(__addon__.getSetting( "Lang01" ), 3, 0)
             )):
           self.Download_Subtitles(itemCount, True, gui)
           __addon__.setSetting("auto_download_file",
@@ -251,10 +251,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
           break
         else:
           if gui:
-            listitem = xbmcgui.ListItem(label=_( languageTranslate(item["language_name"],0,4) ),
+            listitem = xbmcgui.ListItem(label=_( languageTranslate(item["language"],0,4) ),
                                         label2=item["filename"],
                                         iconImage=item["rating"],
-                                        thumbnailImage="flags/%s.gif" % languageTranslate(item["language_name"],0,1)
+                                        thumbnailImage="flags/%s.gif" % languageTranslate(item["language"],0,1)
                                        )
             if item.get("sync", True):
               listitem.setProperty( "sync", "true" )
@@ -279,108 +279,116 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.getControl( SUBTITLES_LIST ).selectItem( 0 )
       return False
 
-  def Download_Subtitles( self, pos, auto = False, gui = True ):
+  def Download_Subtitles( self, pos, auto = False, gui = True ): 
+    
+    self.item['pos'] = pos
+    
     if gui:
       if auto:
         self.getControl( STATUS_LABEL ).setLabel(  _( 763 ) )
       else:
         self.getControl( STATUS_LABEL ).setLabel(  _( 649 ) )
-    self.item['zip_subs'] = os.path.join( self.item['tmp_sub_dir'], "zipsubs.zip")
-    self.item['pos'] = pos
-    self.item = self.Service.download_subtitles(self.item)
-    sub_lang = str(languageTranslate(self.item['language'],0,1))
 
-    if self.item['zipped'] :
-      self.Extract_Subtitles(self.item['zip_subs'],sub_lang, gui)
-    else:
-      sub_ext  = os.path.splitext( self.item['file'] )[1]
-      sub_name = os.path.splitext( os.path.basename( self.item['file_original_path'] ) )[0]
-      if (__addon__.getSetting( "lang_to_end" ) == "true"):
-        file_name = u"%s.%s%s" % ( sub_name, sub_lang, sub_ext )
-      else:
-        file_name = u"%s%s" % ( sub_name, sub_ext )
-      file_from = self.item['file'].replace('\\','/')
-      file_to = os.path.join(self.item['sub_folder'], file_name).replace('\\','/')
-      # Create a files list of from-to tuples so that multiple files may be
-      # copied (sub+idx etc')
-      files_list = [(file_from,file_to)]
-      # If the subtitle's extension sub, check if an idx file exists and if so
-      # add it to the list
-      if ((sub_ext == ".sub") and (os.path.exists(self.item['file'][:-3]+"idx"))):
-          log( __name__ ,"found .sub+.idx pair %s + %s" % (file_from,file_from[:-3]+"idx"))
-          files_list.append((file_from[:-3]+"idx",file_to[:-3]+"idx"))
-      for cur_file_from, cur_file_to in files_list:
-         subtitle_set,file_path  = copy_files( cur_file_from, cur_file_to )
-      # Choose the last pair in the list, second item (destination file)
-      if subtitle_set:
-        subtitle = files_list[-1][1]
+    downloadedSubtitleList = self.Service.Download(self.item)
+
+    if downloadedSubtitleList != None:     
+  
+
+      for downloadedSubtitle in downloadedSubtitleList:
+        files_list = self.copyFiles(downloadedSubtitle)
+
+      # Choose the first pair in the list, second item (destination file)
+      subtitle = files_list[0][1]
+      if xbmcvfs.exists(subtitle):
         xbmc.Player().setSubtitles(subtitle.encode("utf-8"))
         self.close()
-      else:
-        if gui:
-          self.getControl( STATUS_LABEL ).setLabel( _( 654 ) )
-          self.show_service_list(gui)
-
-  def Extract_Subtitles( self, zip_subs, subtitle_lang, gui = True ):
-    xbmc.executebuiltin(('XBMC.Extract("%s","%s")' % (zip_subs,self.item['tmp_sub_dir'],)).encode('utf-8'))
-    xbmc.sleep(1000)
-    files = os.listdir(self.item['tmp_sub_dir'])
-    sub_filename = os.path.basename( self.item['file_original_path'] )
-    exts = [".srt", ".sub", ".txt", ".smi", ".ssa", ".ass" ]
-    subtitle_set = False
-    if len(files) < 1 :
-      if gui:
-        self.getControl( STATUS_LABEL ).setLabel( _( 654 ) )
-        self.show_service_list(gui)
-    else :
-      if gui:
-        self.getControl( STATUS_LABEL ).setLabel( _( 652 ) )
-      subtitle_set = False
-      movie_sub = False
-      episode = 0
-      for zip_entry in files:
-        if os.path.splitext( zip_entry )[1] in exts:
-          subtitle_file, file_path = self.create_name(zip_entry,sub_filename,subtitle_lang)
-          if len(self.item['tvshow']) > 0:
-            title, season, episode = regex_tvshow(False, zip_entry)
-            if not episode : episode = -1
-          else:
-            if os.path.splitext( zip_entry )[1] in exts:
-              movie_sub = True
-          if ( movie_sub or int(episode) == int(self.item['episode']) ):
-            if self.item['stack']:
-              try:
-                for subName in self.item['stackPath']:
-                  if (re.split("(?x)(?i)\CD(\d)",
-                      zip_entry)[1]) == (re.split("(?x)(?i)\CD(\d)",
-                      urllib.unquote ( subName ))[1]
-                      ):
-                    subtitle_file, file_path = self.create_name(
-                                                    zip_entry,
-                                                    urllib.unquote(os.path.basename(subName[8:])),
-                                                    subtitle_lang
-                                                               )
-                    subtitle_set,file_path = copy_files( subtitle_file, file_path ) 
-                if re.split("(?x)(?i)\CD(\d)", zip_entry)[1] == "1":
-                  subToActivate = file_path
-              except:
-                subtitle_set = False              
-            else:
-              subtitle_set,subToActivate = copy_files( subtitle_file, file_path )
-
-      if not subtitle_set:
-        for zip_entry in files:
-          if os.path.splitext( zip_entry )[1] in exts:
-            subtitle_file, file_path = self.create_name(zip_entry,sub_filename,subtitle_lang)
-            subtitle_set,subToActivate  = copy_files( subtitle_file, file_path )
-
-    if subtitle_set :
-      xbmc.Player().setSubtitles(subToActivate.encode("utf-8"))
-      self.close()
+    if gui:
+      self.getControl( STATUS_LABEL ).setLabel( _( 654 ) )
+      self.show_service_list(gui)
+      
+  def copyFiles(self,downloadedSubtitle):
+    if (__addon__.getSetting( "lang_to_end" ) == "true"):
+      sub_lang = str(languageTranslate(self.item['subtitles_list'][self.item['pos']][ "language" ],0,1))
     else:
-      if gui:
-        self.getControl( STATUS_LABEL ).setLabel( _( 654 ) )
-        self.show_service_list(gui)
+      sub_lang = ""  
+    sub_ext  = os.path.splitext( downloadedSubtitle )[1]
+    sub_name = os.path.splitext( os.path.basename( self.item['file_original_path'] ) )[0]
+  
+    file_name = u"%s.%s%s" % ( sub_name, sub_lang, sub_ext )
+  
+    # Create a files list of from-to tuples so that multiple files may be
+    # copied (sub+idx etc')
+    files_list = [(downloadedSubtitle.replace('\\','/'),
+                  os.path.join(self.item['sub_folder'], file_name).replace('\\','/'))]
+    # If the subtitle's extension sub, check if an idx file exists and if so
+    # add it to the list
+    if ((sub_ext == ".sub") and (xbmcvfs.exists(downloadedSubtitle[:-3]+"idx"))):
+      log( __name__ ,"found .sub+.idx pair %s + %s" % (file_from,file_from[:-3]+"idx"))
+      files_list.append((file_from[:-3]+"idx",file_to[:-3]+"idx"))
+    for cur_file_from, cur_file_to in files_list:
+      xbmcvfs.copy( cur_file_from, cur_file_to )
+    return files_list  
+        
+#  def Extract_Subtitles( self, zip_subs, subtitle_lang, gui = True ):
+#    xbmc.executebuiltin(('XBMC.Extract("%s","%s")' % (zip_subs,self.item['tmp_sub_dir'],)).encode('utf-8'))
+#    xbmc.sleep(1000)
+#    files = os.listdir(self.item['tmp_sub_dir'])
+#    sub_filename = os.path.basename( self.item['file_original_path'] )
+#    exts = [".srt", ".sub", ".txt", ".smi", ".ssa", ".ass" ]
+#    subtitle_set = False
+#    if len(files) < 1 :
+#      if gui:
+#        self.getControl( STATUS_LABEL ).setLabel( _( 654 ) )
+#        self.show_service_list(gui)
+#    else :
+#      if gui:
+#        self.getControl( STATUS_LABEL ).setLabel( _( 652 ) )
+#      subtitle_set = False
+#      movie_sub = False
+#      episode = 0
+#      for zip_entry in files:
+#        if os.path.splitext( zip_entry )[1] in exts:
+#          subtitle_file, file_path = self.create_name(zip_entry,sub_filename,subtitle_lang)
+#          if len(self.item['tvshow']) > 0:
+#            title, season, episode = regex_tvshow(False, zip_entry)
+#            if not episode : episode = -1
+#          else:
+#            if os.path.splitext( zip_entry )[1] in exts:
+#              movie_sub = True
+#          if ( movie_sub or int(episode) == int(self.item['episode']) ):
+#            if self.item['stack']:
+#              try:
+#                for subName in self.item['stackPath']:
+#                  if (re.split("(?x)(?i)\CD(\d)",
+#                      zip_entry)[1]) == (re.split("(?x)(?i)\CD(\d)",
+#                      urllib.unquote ( subName ))[1]
+#                      ):
+#                    subtitle_file, file_path = self.create_name(
+#                                                    zip_entry,
+#                                                    urllib.unquote(os.path.basename(subName[8:])),
+#                                                    subtitle_lang
+#                                                               )
+#                    subtitle_set,file_path = copy_files( subtitle_file, file_path ) 
+#                if re.split("(?x)(?i)\CD(\d)", zip_entry)[1] == "1":
+#                  subToActivate = file_path
+#              except:
+#                subtitle_set = False              
+#            else:
+#              subtitle_set,subToActivate = copy_files( subtitle_file, file_path )
+#
+#      if not subtitle_set:
+#        for zip_entry in files:
+#          if os.path.splitext( zip_entry )[1] in exts:
+#            subtitle_file, file_path = self.create_name(zip_entry,sub_filename,subtitle_lang)
+#            subtitle_set,subToActivate  = copy_files( subtitle_file, file_path )
+#
+#    if subtitle_set :
+#      xbmc.Player().setSubtitles(subToActivate.encode("utf-8"))
+#      self.close()
+#    else:
+#      if gui:
+#        self.getControl( STATUS_LABEL ).setLabel( _( 654 ) )
+#        self.show_service_list(gui)
       
       
   def show_service_list(self,gui):
@@ -394,7 +402,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
   def create_name(self,zip_entry,sub_filename,subtitle_lang): 
     if self.item['temp']:
-      name = "temp_sub"
+      name = "TemporarySubtitle"
     else:
       name = os.path.splitext( sub_filename )[0]
     if (__addon__.getSetting( "lang_to_end" ) == "true"):

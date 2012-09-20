@@ -179,21 +179,6 @@ def rem_files(directory):
     pass
 
   os.makedirs(directory)
-      
-def copy_files( subtitle_file, file_path ):
-  subtitle_set = False
-  try:
-    xbmcvfs.copy(subtitle_file, file_path)
-    log( __name__ ,"vfs module copy %s -> %s" % (subtitle_file, file_path))
-    subtitle_set = True
-  except :
-    dialog = xbmcgui.Dialog()
-    selected = dialog.yesno( __scriptname__ , _( 748 ), _( 750 ),"" )
-    if selected == 1:
-      file_path = subtitle_file
-      subtitle_set = True
-
-  return subtitle_set, file_path
 
 def set_languages(item):
   item['2let_language'] = []
