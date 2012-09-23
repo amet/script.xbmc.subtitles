@@ -312,7 +312,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
       self.Extract_Subtitles(zip_subs,sub_lang, gui)
     else:
       sub_ext  = os.path.splitext( file )[1]
-      sub_name = os.path.splitext( os.path.basename( self.file_original_path ) )[0]
+      if self.temp:
+        sub_name = "temp_sub"
+      else:  
+        sub_name = os.path.splitext( os.path.basename( self.file_original_path ) )[0]
       if (__addon__.getSetting( "lang_to_end" ) == "true"):
         file_name = u"%s.%s%s" % ( sub_name, sub_lang, sub_ext )
       else:
