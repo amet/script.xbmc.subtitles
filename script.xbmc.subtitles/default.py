@@ -26,7 +26,7 @@ if ( __name__ == "__main__" ):
   __unpause__ = False
   ui = gui.GUI( "script-XBMC-Subtitles-main.xml" , __cwd__ , "Default")
   if (ui.set_allparam()):
-    notification = UserNotificationNotifier(__scriptname__, __language__(764), 2000)    
+    notification = UserNotificationNotifier(__scriptname__, __language__(764))    
     if not ui.Search_Subtitles(False):
       __unpause__ = pause()
       ui.doModal()
