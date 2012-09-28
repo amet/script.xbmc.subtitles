@@ -103,18 +103,19 @@ REGEX_EXPRESSIONS = [ '[Ss]([0-9]+)[][._-]*[Ee]([0-9]+)([^\\\\/]*)$',
                       '[\\\\/\\._ \\[\\(-]([0-9]+)x([0-9]+)([^\\\\/]*)$'
                      ]
 
-class UserNotificationNotifier:
-  def __init__(self, title, initialMessage, time = -1):
-    self.__title = title
-    xbmc.executebuiltin((u"Notification(%s,%s,%i)" % (title, initialMessage, time)).encode('utf-8'))
-    
-  def update(self, message, time = -1):
-    xbmc.executebuiltin((u"Notification(%s,%s,-1)" % (self.__title, message, time)).encode("utf-8"))
 
-  def close(self, message, time = -1):
-    xbmc.executebuiltin((u"Notification(%s,%s,%i)" % (self.__title, message, time)).encode("utf-8")) 
+class Pause:
+  def __init__(self):
+    self.player_state = xbmc.getCondVisibility('Player.Paused')
 
-   
+  def restore(self):
+    if self.player_state != xbmc.getCondVisibility('Player.Paused'):
+      xbmc.Player().pause()
+      
+  def pause(self):
+    if not xbmc.getCondVisibility('Player.Paused'):
+      xbmc.Player().pause()
+
 def log(module,msg):
   xbmc.log((u"### [%s-%s] - %s" % (__scriptname__,module,msg,)).encode('utf-8'),level=xbmc.LOGDEBUG ) 
 
@@ -130,9 +131,10 @@ def regex_tvshow(compare, file, sub = ""):
       if not compare :
         title = re.split(regex, file)[0]
         for char in ['[', ']', '_', '(', ')','.','-']: 
-           title = title.replace(char, ' ')
-        if title.endswith(" "): title = title[:-1]
-        return title,response_file[0][0], response_file[0][1]
+          title = title.replace(char, ' ')
+        if title.endswith(" "):
+          title = title[:-1]
+        return title, response_file[0][0], response_file[0][1]
       else:
         break
   
@@ -156,17 +158,6 @@ def languageTranslate(lang, lang_from, lang_to):
     if lang == x[lang_from] :
       return x[lang_to]
 
-def pause():
-  if not xbmc.getCondVisibility('Player.Paused'):
-    xbmc.Player().pause()
-    return True
-  else:
-    return False  
-    
-def unpause():
-  if xbmc.getCondVisibility('Player.Paused'):
-    xbmc.Player().pause()  
-
 def clean_temp( item ):
   for temp_dir in [item['stream_sub_dir'],item['tmp_sub_dir']]:
     rem_files(temp_dir) 
@@ -185,7 +176,8 @@ def set_languages(item):
   item['3let_language'] = []
   item['full_language']  = remove_duplicates([languageTranslate(__addon__.getSetting( "Lang01" ), 3, 0),
                                               languageTranslate(__addon__.getSetting( "Lang02" ), 3, 0),
-                                              languageTranslate(__addon__.getSetting( "Lang03" ), 3, 0)])
+                                              languageTranslate(__addon__.getSetting( "Lang03" ), 3, 0)]
+                                             )
 
   for language in item['full_language']:
     item['2let_language'].append(languageTranslate(language, 0, 1))

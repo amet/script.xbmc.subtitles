@@ -22,13 +22,13 @@ class GUI( xbmcgui.WindowXMLDialog ):
     pass
 
   def onInit( self ):
-    self.on_run()
+    self.runGUI()
 
-  def on_run( self ):
+  def runGUI( self ):
     if not xbmc.getCondVisibility("VideoPlayer.HasSubtitles"):
       self.getControl( 111 ).setVisible( False )
     self.list_services()
-    self.Search_Subtitles()     
+    self.Search_Subtitles()
 
   def set_allparam(self):
     self.item                   = dict()
@@ -49,7 +49,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.item['tmp_sub_dir']    = os.path.join( __profile__ ,"sub_tmp" )                                        # Temporary subtitle extraction directory
     self.item['stream_sub_dir'] = os.path.join( __profile__ ,"sub_stream" )
     self.item['lang_to_end']    =__addon__.getSetting( "lang_to_end" ) == "true"
-
+    
+    
     service_list        = []
     service             = ""
     use_subs_folder     = __addon__.getSetting( "use_subs_folder" ) == "true"                                  # use 'Subs' subfolder for storing subtitles
@@ -106,6 +107,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
         (__addon__.getSetting( "auto_download_file" ) != os.path.basename( movieFullPath ))):
          self.item['autoDownload'] = True
          __addon__.setSetting("auto_download_file", "")
+         xbmc.executebuiltin((u"Notification(%s,%s,-1)" % (__scriptname__, _(763))).encode("utf-8"))
+         
 
     service_id_list = xbmcvfs.listdir("addons://enabled/xbmc.subtitle.module/")[1]
     for id in service_id_list:
@@ -149,22 +152,22 @@ class GUI( xbmcgui.WindowXMLDialog ):
       log( __name__ ,"Languages: [%s]"             % self.item['full_language'])
       log( __name__ ,"Parent Folder Search: [%s]"  % self.item['parsearch'])
       log( __name__ ,"Stacked(CD1/CD2)?: [%s]"     % self.item['stack'])
+      log( __name__ ,"Auto Download: [%s]"         % self.item['autoDownload'])
   
     return self.item['autoDownload']
 
   def Search_Subtitles( self, gui = True ):
     self.item['subtitles_list'] = []
     if gui:
+      self.getControl( STATUS_LABEL ).setLabel( _( 646 ) )
       self.getControl( SUBTITLES_LIST ).reset()
       for s in self.item['services']:
         if s["name"] == self.item['service']:
           self.getControl( LOADING_IMAGE ).setImage(s["logo"])
           break
-
+      
     exec ( "from %s import service as Service" % (self.item['service']))
     self.Service = Service
-    if gui:
-      self.getControl( STATUS_LABEL ).setLabel( _( 646 ) )
 
     socket.setdefaulttimeout(float(__addon__.getSetting( "timeout" )))
     try: 
@@ -181,7 +184,9 @@ class GUI( xbmcgui.WindowXMLDialog ):
     socket.setdefaulttimeout(None)
     if gui:
       self.getControl( STATUS_LABEL ).setLabel( _( 642 ) % ( "...", ) )
-
+      
+    __addon__.setSetting("auto_download_file",os.path.basename( self.item['file_original_path'] ))
+    
     if not self.item['subtitles_list']:
       if __addon__.getSetting( "search_next" )== "true" and len(self.next) > 1:
         xbmc.sleep(1500)
@@ -199,6 +204,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
           else:
             self.getControl( STATUS_LABEL ).setLabel( _( 657 ) )
           self.show_service_list(gui)
+      if self.item['autoDownload']:
+        xbmc.executebuiltin((u"Notification(%s,%s,%i)" % (__scriptname__, _(767), 1000)).encode("utf-8"))  
     else:
       subscounter = 0
       itemCount = 0
@@ -213,10 +220,9 @@ class GUI( xbmcgui.WindowXMLDialog ):
             (item["language"] == languageTranslate(__addon__.getSetting( "Lang01" ), 3, 0)
             )):
           self.Download_Subtitles(itemCount, True, gui)
-          __addon__.setSetting("auto_download_file",
-                               os.path.basename( self.item['file_original_path'] ))
+          if self.item['autoDownload']:
+            xbmc.executebuiltin((u"Notification(%s,%s,%i)" % (__scriptname__, _(765), 1000)).encode("utf-8"))
           return True
-          break
         else:
           if gui:
             listitem = xbmcgui.ListItem(label=_( languageTranslate(item["language"],0,4) ),
@@ -238,7 +244,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
             subscounter = subscounter + 1
             list_subs.append(listitem)                                 
         itemCount += 1
-      
+           
       if gui:
         label = '%i %s '"' %s '"'' % (len ( self.item['subtitles_list'] ),_( 744 ),self.item['file_name'],)
         self.getControl( STATUS_LABEL ).setLabel( label ) 
@@ -378,7 +384,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       elif selection == "Set":
         __addon__.openSettings()
         self.set_allparam()
-        self.on_run()        
+        self.runGUI()        
       else:
         self.item['service'] = selection
         self.next = list(self.item['service_list'])
