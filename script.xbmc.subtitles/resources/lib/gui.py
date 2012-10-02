@@ -111,6 +111,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
          
 
     service_id_list = xbmcvfs.listdir("addons://enabled/xbmc.subtitle.module/")[1]
+    if not service_id_list:
+      xbmc.executebuiltin('XBMC.ActivateWindow(addonbrowser, addons://all/xbmc.subtitle.module)') # this is something we need to workout once 
+                                                                                                  # repo is setup to use this extension point
+      return True # to close the script
     for id in service_id_list:
       name = xbmcaddon.Addon(id).getAddonInfo('name')
       logo = xbmcaddon.Addon(id).getAddonInfo('icon')
@@ -157,6 +161,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
     return self.item['autoDownload']
 
   def Search_Subtitles( self, gui = True ):
+    if not self.item['services']:
+      return True # no services found, return True to close the script
     self.item['subtitles_list'] = []
     if gui:
       self.getControl( STATUS_LABEL ).setLabel( _( 646 ) )
