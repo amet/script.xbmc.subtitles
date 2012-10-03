@@ -321,7 +321,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       else:
         file_name = u"%s%s" % ( sub_name, sub_ext )
       file_from = file
-      file_to = os.path.join(self.sub_folder, file_name)
+      file_to = xbmc.validatePath(os.path.join(self.sub_folder, file_name))
       # Create a files list of from-to tuples so that multiple files may be
       # copied (sub+idx etc')
       files_list = [(file_from,file_to)]
@@ -430,8 +430,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
       file_name = u"%s%s" % ( name, os.path.splitext( zip_entry )[1] )
     log( __name__ ,"Sub in Zip [%s], File Name [%s]" % (zip_entry,
                                                         file_name,))
-    ret_zip_entry = os.path.join(self.tmp_sub_dir,zip_entry)
-    ret_file_name = os.path.join(self.sub_folder,file_name)
+    ret_zip_entry = xbmc.validatePath(os.path.join(self.tmp_sub_dir,zip_entry))
+    ret_file_name = xbmc.validatePath(os.path.join(self.sub_folder,file_name))
     return ret_zip_entry,ret_file_name
 
   def list_services( self ):
