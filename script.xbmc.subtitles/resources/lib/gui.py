@@ -300,7 +300,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
   
     # Create a files list of from-to tuples so that multiple files may be
     # copied (sub+idx etc')
-    files_list = [(downloadedSubtitle,os.path.join(self.item['sub_folder'], file_name))]
+    files_list = [(downloadedSubtitle,xbmc.validatePath(os.path.join(self.item['sub_folder'], file_name)))]
     
     # If the subtitle's extension sub, check if an idx file exists and if so
     # add it to the list
