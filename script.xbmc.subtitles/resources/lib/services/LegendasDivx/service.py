@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
-# Service LegendasDivx.com version 0.2.4
+# Service LegendasDivx.com version 0.2.5
 # Code based on Undertext service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Help by VaRaTRoN
 # Bugs & Features to highlander@teknorage.com
 # http://www.teknorage.com
 # License: GPL v2
+#
+# NEW on Service LegendasDivx.com v0.2.5:
+# Added PortugueseBrazilian. After a few requests the language is now available.
 #
 # NEW on Service LegendasDivx.com v0.2.4:
 # Added uuid for better file handling, no more hangups.
@@ -122,6 +125,8 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 	page = 1
 	if languageshort == "pt":
 		url = main_url + "modules.php?name=Downloads&file=jz&d_op=search_next&order=&form_cat=28&page=" + str(page) + "&query=" + urllib.quote_plus(searchstring)
+	if languageshort == "pb":
+		url = main_url + "modules.php?name=Downloads&file=jz&d_op=search_next&order=&form_cat=29&page=" + str(page) + "&query=" + urllib.quote_plus(searchstring)
 
 	content = geturl(url)
 	log( __name__ ,"%s Getting '%s' subs ..." % (debug_pretext, languageshort))
@@ -181,7 +186,10 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 			filename = filename + " " + "(" + movieyear + ")" + "  " + hits + "Hits" + " - " + desc
 			subtitles_list.append({'rating': str(downloads), 'no_files': no_files, 'filename': filename, 'desc': desc, 'sync': sync, 'hits' : hits, 'id': id, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
 		page = page + 1
-		url = main_url + "modules.php?name=Downloads&file=jz&d_op=search_next&order=&form_cat=28&page=" + str(page) + "&query=" + urllib.quote_plus(searchstring)
+		if languageshort == "pt":
+			url = main_url + "modules.php?name=Downloads&file=jz&d_op=search_next&order=&form_cat=28&page=" + str(page) + "&query=" + urllib.quote_plus(searchstring)
+		if languageshort == "pb":
+			url = main_url + "modules.php?name=Downloads&file=jz&d_op=search_next&order=&form_cat=29&page=" + str(page) + "&query=" + urllib.quote_plus(searchstring)
 		content = geturl(url)
 
 	if subtitles_list != []:
@@ -268,11 +276,28 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 	elif string.lower(lang2) == "portuguese": portuguese = 2
 	elif string.lower(lang3) == "portuguese": portuguese = 3
 
-	getallsubs(searchstring, "pt", "Portuguese", file_original_path, subtitles_list, searchstring_notclean)
-
-	if portuguese == 0:
-		msg = "Won't work, LegendasDivx is only for Portuguese subtitles!"
+	portuguesebrazil = 0
+	if string.lower(lang1) == "portuguesebrazil": portuguesebrazil = 1
+	elif string.lower(lang2) == "portuguesebrazil": portuguesebrazil = 2
+	elif string.lower(lang3) == "portuguesebrazil": portuguesebrazil = 3
 	
+	if ((portuguese > 0) and (portuguesebrazil == 0)):
+			getallsubs(searchstring, "pt", "Portuguese", file_original_path, subtitles_list, searchstring_notclean)
+
+	if ((portuguesebrazil > 0) and (portuguese == 0)):
+			getallsubs(searchstring, "pb", "PortugueseBrazil", file_original_path, subtitles_list, searchstring_notclean)
+
+	if ((portuguese > 0) and (portuguesebrazil > 0) and (portuguese < portuguesebrazil)):
+			getallsubs(searchstring, "pt", "Portuguese", file_original_path, subtitles_list, searchstring_notclean)
+			getallsubs(searchstring, "pb", "PortugueseBrazil", file_original_path, subtitles_list, searchstring_notclean)
+
+	if ((portuguese > 0) and (portuguesebrazil > 0) and (portuguese > portuguesebrazil)):
+			getallsubs(searchstring, "pb", "PortugueseBrazil", file_original_path, subtitles_list, searchstring_notclean)
+			getallsubs(searchstring, "pt", "Portuguese", file_original_path, subtitles_list, searchstring_notclean)
+
+	if ((portuguese == 0) and (portuguesebrazil == 0)):
+			msg = "Won't work, LegendasDivx.com is only for Portuguese and Portuguese Brazil subtitles."
+
 	return subtitles_list, "", msg #standard output
 	
 def recursive_glob(treeroot, pattern):
@@ -306,8 +331,8 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 	d = resp1.read()
 	#Now you download the subtitles
 	language = subtitles_list[pos][ "language_name" ]
-	if string.lower(language) == "portuguese":
-		content = opener.open('http://www.legendasdivx.com/modules.php?name=Downloads&d_op=getit&lid=' + id + '&username=highlander')
+#	if string.lower(language) == "portuguese" or string.lower(language) == "portuguesebrazilian":
+	content = opener.open('http://www.legendasdivx.com/modules.php?name=Downloads&d_op=getit&lid=' + id + '&username=highlander')
 
 	if content is not None:
 		header = content.info()['Content-Disposition'].split('filename')[1].split('.')[-1].strip("\"")
