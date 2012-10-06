@@ -124,7 +124,9 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 
 	page = 0
 	if languageshort == "pt":
-		url = main_url + "legendas.php?grupo=rel&linguagem=todas&page=" + str(page) + "&release=" + urllib.quote_plus(searchstring)
+		url = main_url + "legendas.php?grupo=rel&linguagem=portugues&page=" + str(page) + "&release=" + urllib.quote_plus(searchstring)
+	if languageshort == "pb":
+		url = main_url + "legendas.php?grupo=rel&linguagem=brasileiro&page=" + str(page) + "&release=" + urllib.quote_plus(searchstring)
 
 	content = geturl(url)
 	content = content.decode('latin1')
@@ -211,7 +213,10 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 			#subtitles_list.append({'rating': str(downloads), 'no_files': no_files, 'filename': filename, 'desc': desc, 'sync': sync, 'hits' : hits, 'id': id, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
 			subtitles_list.append({'rating': str(downloads), 'filename': filename, 'hits': hits, 'desc': desc, 'sync': sync, 'id': id, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
 		page = page + 1
-		url = main_url + "legendas.php?grupo=rel&linguagem=todas&page=" + str(page) + "&release=" + urllib.quote_plus(searchstring)
+		if languageshort == "pt":
+			url = main_url + "legendas.php?grupo=rel&linguagem=portugues&page=" + str(page) + "&release=" + urllib.quote_plus(searchstring)
+		if languageshort == "pb":
+			url = main_url + "legendas.php?grupo=rel&linguagem=brasileiro&page=" + str(page) + "&release=" + urllib.quote_plus(searchstring)
 		content = geturl(url)
 		content = content.decode('latin1')
 
@@ -299,10 +304,27 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
 	elif string.lower(lang2) == "portuguese": portuguese = 2
 	elif string.lower(lang3) == "portuguese": portuguese = 3
 
-	getallsubs(searchstring, "pt", "Portuguese", file_original_path, subtitles_list, searchstring_notclean)
+	portuguesebrazil = 0
+	if string.lower(lang1) == "portuguesebrazil": portuguesebrazil = 1
+	elif string.lower(lang2) == "portuguesebrazil": portuguesebrazil = 2
+	elif string.lower(lang3) == "portuguesebrazil": portuguesebrazil = 3
+	
+	if ((portuguese > 0) and (portuguesebrazil == 0)):
+			getallsubs(searchstring, "pt", "Portuguese", file_original_path, subtitles_list, searchstring_notclean)
 
-	if portuguese == 0:
-		msg = "Won't work, LegendasDivx is only for Portuguese subtitles!"
+	if ((portuguesebrazil > 0) and (portuguese == 0)):
+			getallsubs(searchstring, "pb", "PortugueseBrazil", file_original_path, subtitles_list, searchstring_notclean)
+
+	if ((portuguese > 0) and (portuguesebrazil > 0) and (portuguese < portuguesebrazil)):
+			getallsubs(searchstring, "pt", "Portuguese", file_original_path, subtitles_list, searchstring_notclean)
+			getallsubs(searchstring, "pb", "PortugueseBrazil", file_original_path, subtitles_list, searchstring_notclean)
+
+	if ((portuguese > 0) and (portuguesebrazil > 0) and (portuguese > portuguesebrazil)):
+			getallsubs(searchstring, "pb", "PortugueseBrazil", file_original_path, subtitles_list, searchstring_notclean)
+			getallsubs(searchstring, "pt", "Portuguese", file_original_path, subtitles_list, searchstring_notclean)
+
+	if ((portuguese == 0) and (portuguesebrazil == 0)):
+			msg = "Won't work, Pipocas.tv is only for Portuguese and Portuguese Brazil subtitles."
 	
 	return subtitles_list, "", msg #standard output
 	
@@ -319,27 +341,12 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 	msg("Downloading... Please Wait!", 6000)
 	id = subtitles_list[pos][ "id" ]
 	sync = subtitles_list[pos][ "sync" ]
-	log( __name__ ,"%s Fetching id using url %s" % (debug_pretext, id))
-	#Grabbing login and pass from xbmc settings
-	#username = __addon__.getSetting( "LDivxuser" )
-	#password = __addon__.getSetting( "LDivxpass" )
 	cj = cookielib.CookieJar()
 	opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 	opener.addheaders.append(('User-agent', 'Mozilla/4.0'))
-	#opener.addheaders.append(('Referer', 'http://www.legendasdivx.com/modules.php?name=Your_Account&op=userinfo&bypass=1&username=highlander'))
-	#login_data = urllib.urlencode({'username' : username, 'user_password' : password, 'op' : 'login'})
-	#This is where you are logged in
-	#resp = opener.open('http://www.legendasdivx.com/modules.php?name=Your_Account', login_data)
-	#For DEBUG only uncomment next line
-	#log( __name__ ,"%s resposta '%s' subs ..." % (debug_pretext, resp))
-	#Now you can go to member only pages
-	#resp1 = opener.open('http://www.legendasdivx.com/modules.php?name=Your_Account&op=userinfo&bypass=1&username=highlander')
-	#d = resp1.read()
 	#Now you download the subtitles
 	language = subtitles_list[pos][ "language_name" ]
-	if string.lower(language) == "portuguese":
-		content = opener.open('http://www.pipocas.tv/download.php?id=' + id)
-		log( __name__ ,"%s Fetching file: %s" % (debug_pretext, content))
+	content = opener.open('http://www.pipocas.tv/download.php?id=' + id)
 
 	if content is not None:
 		log( __name__ ,"%s Content-info: %s" % (debug_pretext, content.info()))
