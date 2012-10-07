@@ -1,3 +1,8 @@
+3.4.0
+- New service Pipocas.tv, thx highlandr
+- Pipocas.tv and LegendasDivx.com both with pt-pt and pt-br, thx highlandr
+- [fix] crash - check if temp folder exists before trying to create it
+
 3.3.5
 - [fix] of a previous [fix]
 
