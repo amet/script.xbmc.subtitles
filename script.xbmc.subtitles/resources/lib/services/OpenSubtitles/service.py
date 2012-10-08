@@ -2,7 +2,7 @@
 
 import sys
 import os
-from utilities import log
+from utilities import log, hashFile
 from os_utilities import OSDBServer
 import xbmc
 
@@ -33,7 +33,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     SubHash     = "000000000000"
   else:
     try:
-      file_size, SubHash   = xbmc.subHashAndFileSize(file_original_path)
+      file_size, SubHash = hashFile(file_original_path, rar)
       log( __name__ ,"xbmc module hash and size")
       hash_search = True
     except:  
