@@ -123,6 +123,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
         (__addon__.getSetting( "auto_download_file" ) != os.path.basename( movieFullPath ))):
          self.autoDownload = True
          __addon__.setSetting("auto_download_file", "")
+         xbmc.executebuiltin((u"Notification(%s,%s,10000)" % (__scriptname__, _(763))).encode("utf-8"))
 
     for name in os.listdir(SERVICE_DIR):
       if os.path.isdir(os.path.join(SERVICE_DIR,name)) and __addon__.getSetting( name ) == "true":
@@ -228,6 +229,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
           else:
             self.getControl( STATUS_LABEL ).setLabel( _( 657 ) )
           self.show_service_list(gui)
+      if self.autoDownload:    
+        xbmc.executebuiltin((u"Notification(%s,%s,%i)" % (__scriptname__, _(767), 1000)).encode("utf-8"))    
     else:
       subscounter = 0
       itemCount = 0
@@ -241,8 +244,9 @@ class GUI( xbmcgui.WindowXMLDialog ):
           self.Download_Subtitles(itemCount, True, gui)
           __addon__.setSetting("auto_download_file",
                                os.path.basename( self.file_original_path ))
+          if self.autoDownload:
+            xbmc.executebuiltin((u"Notification(%s,%s,%i)" % (__scriptname__, _(765), 1000)).encode("utf-8"))
           return True
-          break
         else:
           if gui:
             listitem = xbmcgui.ListItem(label=_( languageTranslate(item["language_name"],0,5) ),
@@ -271,6 +275,8 @@ class GUI( xbmcgui.WindowXMLDialog ):
         self.getControl( SUBTITLES_LIST ).addItems( list_subs )
         self.setFocusId( SUBTITLES_LIST )
         self.getControl( SUBTITLES_LIST ).selectItem( 0 )
+      if self.autoDownload:    
+        xbmc.executebuiltin((u"Notification(%s,%s,%i)" % (__scriptname__, _(767), 1000)).encode("utf-8"))
       return False
 
   def Download_Subtitles( self, pos, auto = False, gui = True ):

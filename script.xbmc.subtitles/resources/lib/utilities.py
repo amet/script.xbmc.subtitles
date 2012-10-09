@@ -102,19 +102,17 @@ REGEX_EXPRESSIONS = [ '[Ss]([0-9]+)[][._-]*[Ee]([0-9]+)([^\\\\/]*)$',
                       '[\\\\/\\._ \\[\\(-]([0-9]+)x([0-9]+)([^\\\\/]*)$'
                      ]
 
+class Pause:
+  def __init__(self):
+    self.player_state = xbmc.getCondVisibility('Player.Paused')
 
-
-class UserNotificationNotifier:
-  def __init__(self, title, initialMessage, time = -1):
-    self.__title = title
-    xbmc.executebuiltin((u"Notification(%s,%s,%i)" % (title, initialMessage, time)).encode('utf-8'))
-    
-  def update(self, message, time = -1):
-    xbmc.executebuiltin((u"Notification(%s,%s,-1)" % (self.__title, message, time)).encode("utf-8"))
-
-  def close(self, message, time = -1):
-    xbmc.executebuiltin((u"Notification(%s,%s,%i)" % (self.__title, message, time)).encode("utf-8")) 
-
+  def restore(self):
+    if self.player_state != xbmc.getCondVisibility('Player.Paused'):
+      xbmc.Player().pause()
+      
+  def pause(self):
+    if not xbmc.getCondVisibility('Player.Paused'):
+      xbmc.Player().pause()
    
 def log(module,msg):
   xbmc.log((u"### [%s-%s] - %s" % (__scriptname__,module,msg,)).encode('utf-8'),level=xbmc.LOGDEBUG ) 
