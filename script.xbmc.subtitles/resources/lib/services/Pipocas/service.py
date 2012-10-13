@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
-# Service pipocas.tv version 0.0.2
+# Service pipocas.tv version 0.0.3
 # Code based on Undertext service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Help by VaRaTRoN
 # Bugs & Features to highlander@teknorage.com
 # http://www.teknorage.com
 # License: GPL v2
+#
+# New on Service Pipocas.tv - v0.0.3:
+# Fixed bug on the authentication preventing to download the latest subtitles!
 #
 # New on Service Pipocas.tv - v0.0.2:
 # Added authentication system. Now you don't need to wait 24h to download the new subtitles. Go register on the site!!!
@@ -30,10 +33,12 @@ __addon__ = sys.modules[ "__main__" ].__addon__
 __cwd__        = sys.modules[ "__main__" ].__cwd__
 __language__   = __addon__.getLocalizedString
 
-main_url = "http://www.pipocas.tv/"
+main_url = "http://pipocas.tv/"
 debug_pretext = "Pipocas.tv"
 subext = ['srt', 'aas', 'ssa', 'sub', 'smi']
 packext = ['rar', 'zip']
+username = __addon__.getSetting( "Pipocasuser" )
+password = __addon__.getSetting( "Pipocaspass" )
 
 #====================================================================================================================
 # Regular expression patterns
@@ -247,8 +252,6 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 
 
 
-
-
 def geturl(url):
 	class MyOpener(urllib.FancyURLopener):
 		version = ''
@@ -357,23 +360,23 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 	msgnote(debug_pretext,__language__(30154), 6000)
 	id = subtitles_list[pos][ "id" ]
 	sync = subtitles_list[pos][ "sync" ]
+	language = subtitles_list[pos][ "language_name" ]
+
+	url = main_url + 'vlogin.php'
+	download = main_url + 'download.php?id=' + id
+	req_headers = {
+	'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13',
+	'Referer': main_url}
+	request = urllib2.Request(url, headers=req_headers)
 	cj = cookielib.CookieJar()
 	opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-	opener.addheaders.append(('User-agent', 'Mozilla/4.0'))
-	#Grabbing login and pass from xbmc settings
-	username = __addon__.getSetting( "Pipocasuser" )
-	password = __addon__.getSetting( "Pipocaspass" )
 	login_data = urllib.urlencode({'username' : username, 'password' : password})
-	#This is where you are logged in
-	resp = opener.open('http://www.pipocas.tv/vlogin.php?', login_data)
-	log( __name__ ,"%s logindata: '%s'" % (debug_pretext, login_data))
-	resp = resp.read()
-	#Now you download the subtitles
-	language = subtitles_list[pos][ "language_name" ]
-	content = opener.open('http://www.pipocas.tv/download.php?id=' + id)
+	response = opener.open(request,login_data)
+	download_data = urllib.urlencode({'id' : id})
+	request = urllib2.Request(download, download_data, req_headers)
+	content = opener.open(request)
 
 	if content is not None:
-		log( __name__ ,"%s Content: '%s'" % (debug_pretext, content))
 		log( __name__ ,"%s Content-info: %s" % (debug_pretext, content.info()))
 		header = content.info()['Content-Disposition'].split('filename')[1].split('.')[-1].strip("\"")
 		if header == 'rar':
