@@ -1,6 +1,7 @@
 3.9.0
 - [fix] properly hash rar files on OpenSubtitles
 - use python hash algo since XBMC one has been removed
+- [fix] Shooter services change to get hash value with xbmcvfs to support netshare, taxigps
 
 3.5.0
 - [fix] Bierdopje service, mr-blobby
