@@ -13,7 +13,7 @@ import random
 from urlparse import urlparse
 
 import string
-import xbmc, xbmcgui
+import xbmc, xbmcgui, xbmcvfs
 from utilities import log
 _ = sys.modules[ "__main__" ].__language__
 
@@ -22,19 +22,22 @@ CLIENTKEY = "SP,aerSP,aer %d &e(\xd7\x02 %s %s"
 RETRY = 3
 
 def grapBlock(f, offset, size):
-    f.seek(offset)
+    f.seek(offset, 0)
     return f.read(size)
 
 def getBlockHash(f, offset):
     return hashlib.md5(grapBlock(f, offset, 4096)).hexdigest()
 
 def genFileHash(fpath):
-    ftotallen = os.stat(fpath).st_size
+    f = xbmcvfs.File(fpath)
+    ftotallen = f.size()
     if ftotallen < 8192:
+        f.close()
         return ""
     offset = [4096, ftotallen/3*2, ftotallen/3, ftotallen - 8192]
-    f = open(fpath, "rb")
-    return ";".join(getBlockHash(f, i) for i in offset)
+    hash = ";".join(getBlockHash(f, i) for i in offset)
+    f.close()
+    return hash
 
 def getShortNameByFileName(fpath):
     fpath = os.path.basename(fpath).rsplit(".",1)[0]
