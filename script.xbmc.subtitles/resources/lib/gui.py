@@ -25,8 +25,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.on_run()
 
   def on_run( self ):
-    if not xbmc.getCondVisibility("VideoPlayer.HasSubtitles"):
-      self.getControl( 111 ).setVisible( False )
     self.list_services()
     try:
       self.Search_Subtitles()

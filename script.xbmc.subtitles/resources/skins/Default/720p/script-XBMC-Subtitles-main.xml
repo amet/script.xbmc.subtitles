@@ -285,6 +285,7 @@
 					<visible>Control.IsVisible(120)</visible>
 				</control>
 				<control type="group" id="111">
+				  <visible>VideoPlayer.HasSubtitles</visible>
 					<control type="grouplist">
 						<posx>20</posx>
 						<posy>660</posy>
