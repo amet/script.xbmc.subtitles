@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
     <category label="30100">
-      <setting id="Lang01" type="enum" label="30101" default="11" lvalues="30201|30202|30203|30204|30205|30206|30207|30208|30209|30210|30211|30212|30213|30247|30214|30215|30216|30217|30218|30219|30220|30221|30222|30224|30225|30226|30227|30228|30229|30230|30232|30233|30234|30235|30236|30237|30238|30239|30240|30242|30243|30244|30245|30246" />
-      <setting id="Lang02" type="enum" label="30102" default="35" lvalues="30201|30202|30203|30204|30205|30206|30207|30208|30209|30210|30211|30212|30213|30247|30214|30215|30216|30217|30218|30219|30220|30221|30222|30224|30225|30226|30227|30228|30229|30230|30232|30233|30234|30235|30236|30237|30238|30239|30240|30242|30243|30244|30245|30246" />
-      <setting id="Lang03" type="enum" label="30111" default="11" lvalues="30201|30202|30203|30204|30205|30206|30207|30208|30209|30210|30211|30212|30213|30247|30214|30215|30216|30217|30218|30219|30220|30221|30222|30224|30225|30226|30227|30228|30229|30230|30232|30233|30234|30235|30236|30237|30238|30239|30240|30242|30243|30244|30245|30246" />
+      <setting id="Lang01" type="select" label="30101" default="11" lvalues="30201|30202|30203|30204|30205|30206|30207|30208|30209|30210|30211|30212|30213|30247|30214|30215|30216|30217|30218|30219|30220|30221|30222|30224|30225|30226|30227|30228|30229|30230|30232|30233|30234|30235|30236|30237|30238|30239|30240|30242|30243|30244|30245|30246" />
+      <setting id="Lang02" type="select" label="30102" default="35" lvalues="30201|30202|30203|30204|30205|30206|30207|30208|30209|30210|30211|30212|30213|30247|30214|30215|30216|30217|30218|30219|30220|30221|30222|30224|30225|30226|30227|30228|30229|30230|30232|30233|30234|30235|30236|30237|30238|30239|30240|30242|30243|30244|30245|30246" />
+      <setting id="Lang03" type="select" label="30111" default="11" lvalues="30201|30202|30203|30204|30205|30206|30207|30208|30209|30210|30211|30212|30213|30247|30214|30215|30216|30217|30218|30219|30220|30221|30222|30224|30225|30226|30227|30228|30229|30230|30232|30233|30234|30235|30236|30237|30238|30239|30240|30242|30243|30244|30245|30246" />
     </category>
     <category label="30103">
       <setting id="Argenteam" type="bool" label="Argenteam.net" default="false"/>
@@ -74,8 +74,8 @@
       <setting id="Undertexter" type="bool" label="Undertexter.se (Swedish and English subs only)" default="false"/>
     </category>
     <category label="30106">
-      <setting id="defmovieservice" type="fileenum" mask="/" label="30113" default="OpenSubtitles" values="/resources/lib/services" />
-      <setting id="deftvservice" type="fileenum" mask="/" label="30114" default="OpenSubtitles" values="/resources/lib/services" />    
+      <setting id="defmovieservice" type="select" mask="/" label="30113" default="OpenSubtitles" source="/resources/lib/services" />
+      <setting id="deftvservice" type="select" mask="/" label="30114" default="OpenSubtitles" source="/resources/lib/services" />    
       <setting id="subfolder" type="bool" label="30107" default="true" />
       <setting id="subfolderpath" type="folder" visible= "eq(-1,false)" source="files" label="30108" default="" />
       <setting id="searchstr" type="bool" label="30110" default="false"/>
