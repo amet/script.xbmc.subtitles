@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
- 
-    <!-- Finnish -->
-
+    <!-- English -->
     <string id="610">Hae osoitteesta </string>
     <string id="612">Syötä hakuteksti manuaalisesti</string>
     <string id="642">Etsitään tekstityksiä %s</string>
@@ -11,48 +9,84 @@
     <string id="652">Tekstitystiedosto ladattu ja purettu</string>
     <string id="653">Yhteys epäonnistui</string>
     <string id="654">Virhe tekstitysten purkamisessa</string>
-    <string id="655">Paikalliset tekstitykset saatavilla</string>
+    <string id="655">Paikallisia tekstityksiä saatavilla</string>
     <string id="656">Palvelu ei vastannut aikarajaan mennessä</string>
-    <string id="657">Tekstityksiä ei löytynyt!</string>        
+    <string id="657">Tekstityksiä ei löytynyt!</string>
     <string id="744">tekstitystä löydetty kohteelle</string>
-    <string id="747">Sisällytä yläkansiot hakuun</string>
-    <string id="748">Et voi tallentaa valittuun hakemistoon</string>
-    <string id="750">Haluatko käyttää tekstitystä tilapäisesti?</string>
-    <string id="751">Syötä elokuvan nimi (vuosi)</string>
-    <string id="755">Palvelimessa on ylikuormaa, yritä hetken päästä uudelleen</string>
-    <string id="756">Kirjautuminen epäonnistui. Tarkasta asetuksesi lisäosa asetuksista</string>
-    <string id="757">Palvelin vaatii, että syötät kuvassa olevat merkit</string>
-    <string id="758">Katso ilmoitusalueelle</string> 
-    <string id="759">Syötä ilmoitusalueella olevan kuvan merkit</string>
-    <string id="760">Saatavilla olevat palvelut</string>  
-        
- <!-- Script Settings -->
-   
+    <string id="747">Sisällytä ylakansiot hakuun</string>
+    <string id="748">Tekstitystä ei voi tallentaa tähän kohteeseen</string>
+    <string id="750">Haluatko aktivoida tämän tekstityksen väliaikaisesti?</string>
+    <string id="751">Syötä Elokuvan Nimi (vuosi)</string>
+    <string id="755">Palvelu ei vastaa, yritä myöhemmin uudelleen</string>
+    <string id="756">Tunnus ei kelpaa. Tarkista lisäosan asetukset</string>
+    <string id="757">Server requires you to rewrite code from image</string>
+    <string id="758">Please take look at notification area</string>
+    <string id="759">Enter code of image in notification area</string>
+    <string id="760">Käytettävissä olevat palvelut</string>
+    <string id="761">Kirjaudu sisään ladataksesi näitä tekstityksiä,[CR]tarkista lisäosan asetukset</string>
+    <string id="762">Asetukset</string>
+    <string id="763">Ladataan ensimmäistä 'sync' tekstitystä</string>
+    <string id="764">Lataa ensimmäistä 'sync'-tekstitystä</string>
+    <string id="765">ensimmäinen 'sync'-tekstitys ladattu</string>
+    <string id="766">Valitse tekstityskansio</string>
+    <string id="767">'sync'-tekstitystä ei löytynyt</string>
+
+    <!-- Script Settings -->
     <string id="30100">Valitse kielet</string>
     <string id="30101">Ensisijainen kieli</string>
     <string id="30102">Toissijainen kieli</string>
     <string id="30103">Valitse palvelut</string>
-    <string id="30104">- Podnapisi.net Käyttäjätunnus</string>
-    <string id="30105">- Podnapisi.net Salasana</string>
+    <string id="30104">- Podnapisi.net-käyttäjätunnus</string>
+    <string id="30105">- Podnapisi.net-salasana</string>
     <string id="30106">Lisäasetukset</string>
-    <string id="30107">Tekstitystiedostoston talletuskansio sama kuin elokuvalla</string>
-    <string id="30108">- Aseta mukautettu tekstitystiedostojen talletuskansio</string>
+    <string id="30107">Tekstitystiedoston tallennushakemisto sama kuin elokuvalla</string>
+    <string id="30108">- Aseta oma tekstitystiedostojen tallennushakemisto</string>
     <string id="30110">Syötä hakuteksti manuaalisesti</string>
-    <string id="30111">Kolmas kieli</string>  
+    <string id="30111">Kolmas kieli</string>
     <string id="30113">Valitse oletuspalvelu elokuville</string>
     <string id="30114">Valitse oletuspalvelu tv-sarjoille</string>
-    <string id="30118">Näytä tiedostonimi hakutulos sivulla</string>
-    <string id="30119">Sisällytä yläkansiot hakuun </string>
-    <string id="30121">Lisää kielitieto tiedoston nimeen </string>
-    <string id="30122">Aseta oletusaikaraja</string>
-    <string id="30123">- Legendas.TV Käyttäjätunnus</string>
-    <string id="30124">- Legendas.TV Salasana</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa Käyttäjätunnus</string>
-    <string id="30127">- Itasa Salasana</string>
+    <string id="30118">Näytä tiedostonnimi hakutulos sivulla</string>
+    <string id="30119">Sisällytä ylakansiot hakuun</string>
+    <string id="30121">Lisää kieli tiedoston nimeen</string>
+    <string id="30122">Oletus aikaraja</string>
+    <string id="30123">- Legendas.TV-käyttäjätunnus</string>
+    <string id="30124">- Legendas.TV-salasana</string>
+    <string id="30126">- Itasa-käyttäjätunnus</string>
+    <string id="30127">- Itasa-salasana</string>
+    <string id="30128">- Titulky-käyttäjätunnus</string>
+    <string id="30129">- Titulky-salasana</string>
+    <string id="30130">Etsi seuraavasta mahdollisesta palvelusta, jos tuloksia ei löydy</string>
+    <string id="30131">Lataa automaattisesti ensimmäinen 'sync' tekstitys</string>
+    <string id="30132">- LegendasDivx-käyttäjätunnus</string>
+    <string id="30133">- LegendasDivx-salasana</string>
+    <string id="30134">- PTSubs-käyttäjätunnus</string>
+    <string id="30135">- PTSubs-salasana</string>
+    <string id="30136">- OmniSubs-käyttäjätunnus</string>
+    <string id="30137">- OmniSubs-salasana</string>
+    <string id="30138">- LegendasZone-käyttäjätunnus</string>
+    <string id="30139">- LegendasZone-salasana</string>
+    <string id="30140">- Valitse tekstityksen tyyppi:</string>
+    <string id="30141">SubRip</string>
+    <string id="30142">TMPlayer</string>
+    <string id="30143">MicroDVD</string>
+    <string id="30144">MPl2</string>
+    <string id="30145">Käytä 'subs'-alihakemistoa tekstitysten varastona</string>
+    <string id="30146">- napisy24.pl-käyttäjätunnus</string>
+    <string id="30147">- napisy24.pl-salasana</string>
+    <string id="30148">- euTorrents-käyttäjätunnus</string>
+    <string id="30149">- euTorrents-salasana</string>
+    <string id="30150">Ei tekstityksiä</string>
+    <string id="30151">Etsi käsin tai isäntähakemistosta!</string>
+    <string id="30152">Tekstityksiä löytyi</string>
+    <string id="30153">Etsii... odota!</string>
+    <string id="30154">Lataa... odota!</string>
+    <string id="30155">Purkaa... odota!</string>
+    <string id="30156">Purkaminen valmistui!</string>
+    <string id="30157">Toistetaan!</string>
+    <string id="30158">- Pipocas-käyttäjätunnus</string>
+    <string id="30159">- Pipocas-salasana</string>
 
- <!-- Languages  -->
-      
+    <!-- Languages -->
     <string id="30201">Albania</string>
     <string id="30202">Arabia</string>
     <string id="30203">Valkovenäjä</string>
@@ -97,5 +131,4 @@
     <string id="30245">Ukraina</string>
     <string id="30246">Vietnami</string>
     <string id="30247">Farsi</string>
-       
 </strings>

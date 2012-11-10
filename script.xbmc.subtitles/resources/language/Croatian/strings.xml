@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-
-  <!-- Croatian -->
+    <!-- English -->
     <string id="610">Pretraga </string>
     <string id="612">Ručno unesi ime filma/serije</string>
     <string id="642">Pretraga titlova %s</string>
@@ -21,12 +20,18 @@
     <string id="755">Server je preopterećen, pokušajte ponovo kasnije</string>
     <string id="756">Prijava nije uspjela. Molim, provjerite postavke unutar add-on kofiguratora</string>
     <string id="757">Servis zahtjeva da ponovo napišete kod image datoteke</string>
-    <string id="758">Molim, pogledajte obavijesti</string> 
+    <string id="758">Molim, pogledajte obavijesti</string>
     <string id="759">Upišite kod image datoteke u prijavu</string>
     <string id="760">Dostupni servisi</string>
-      
-  <!-- Script Settings -->
-  
+    <string id="761">Morate biti prijavljeni da biste mogli skinuti ove podnaslove, [CR]provjerite svoje postavke u postavkama dodataka</string>
+    <string id="762">Postavke Dodataka</string>
+    <string id="763">Auto preuzimanje prvog 'Sinkroniziranog' podnaslova</string>
+    <string id="764"></string>
+    <string id="765"></string>
+    <string id="766"></string>
+    <string id="767"></string>
+
+    <!-- Script Settings -->
     <string id="30100">Odaberi jezike</string>
     <string id="30101">Prvi jezik</string>
     <string id="30102">Drugi jezik</string>
@@ -37,7 +42,7 @@
     <string id="30107">Mapa skinutih titlova ista kao film</string>
     <string id="30108">- Postavi putanju za skinute titlove</string>
     <string id="30110">Unesi ručno podatkovni niz (string) za pretragu</string>
-    <string id="30111">Treći jezik</string>  
+    <string id="30111">Treći jezik</string>
     <string id="30113">Odaberi default-ni servis za filmove</string>
     <string id="30114">Odaberi default-ni servis za TV serije</string>
     <string id="30118">Prikaži ime datoteke na stranici s rezultatima</string>
@@ -46,12 +51,42 @@
     <string id="30122">Postavi vremensko ograničenje</string>
     <string id="30123">- legendas.tv Korisničko ime</string>
     <string id="30124">- legendas.tv Zaporka</string>
-    <string id="30125"></string>
     <string id="30126">- Itasa Korisničko ime</string>
     <string id="30127">- Itasa Zaporka</string>
-  
-  <!-- Neobavezno  -->
-  
+    <string id="30128">- Titulky Korisničko ime</string>
+    <string id="30129">- Titulky Lozinka</string>
+    <string id="30130">Pretraži sljedeći dostupni servis ako nema rezultata</string>
+    <string id="30131">Auto preuzimi prvi 'Sinkronizirani' podnaslov</string>
+    <string id="30132">- LegendasDivx Korisničko ime</string>
+    <string id="30133">- LegendasDivx Lozinka</string>
+    <string id="30134">- PTSubs Korisničko ime</string>
+    <string id="30135">- PTSubs Lozinka</string>
+    <string id="30136">- OmniSubs Korisničko ime</string>
+    <string id="30137">- OmniSubs Lozinka</string>
+    <string id="30138">- LegendasZone Korisničko ime</string>
+    <string id="30139">- LegendasZone lozinka</string>
+    <string id="30140"></string>
+    <string id="30141"></string>
+    <string id="30142"></string>
+    <string id="30143"></string>
+    <string id="30144"></string>
+    <string id="30145"></string>
+    <string id="30146"></string>
+    <string id="30147"></string>
+    <string id="30148"></string>
+    <string id="30149"></string>
+    <string id="30150"></string>
+    <string id="30151"></string>
+    <string id="30152"></string>
+    <string id="30153"></string>
+    <string id="30154"></string>
+    <string id="30155"></string>
+    <string id="30156"></string>
+    <string id="30157"></string>
+    <string id="30158"></string>
+    <string id="30159"></string>
+
+    <!-- Languages -->
     <string id="30201">Albanski</string>
     <string id="30202">Arapski</string>
     <string id="30203">Bjeloruski</string>
@@ -96,5 +131,4 @@
     <string id="30245">Ukrainski</string>
     <string id="30246">Vietnamski</string>
     <string id="30247">Farsi</string>
-
- </strings>
+</strings>

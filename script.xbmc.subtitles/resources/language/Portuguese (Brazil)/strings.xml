@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-
-    <!-- Portugues Brasileiro -->
-
+    <!-- English -->
     <string id="610">Buscar em </string>
     <string id="612">Busca manual</string>
     <string id="642">Procurando legendas %s</string>
@@ -15,26 +13,25 @@
     <string id="656">O serviço não respondeu no tempo disponível</string>
     <string id="657">Nenhuma Legenda Encontrada!</string>
     <string id="744">legendas encontradas para</string>
-    <string id="745">O serviço Podnapisi requer usuário e senha</string>
-    <string id="746">Por favor registre em www.podnapisi.net</string>
-    <string id="747">Pesquise Usando o Nome da Pasta</string>
+    <string id="747">Procurar usando diretório raiz</string>
     <string id="748">Você não pode salvar a legenda no destino selecionado</string>
-    <string id="749">Por favor escolha uma pasta diferente para as legendas nas Configurações do Addon.</string>
     <string id="750">Você gostaria de ativar essa legenda temporariamente?</string>
     <string id="751">Digite o Nome do Filme (ano)</string>
     <string id="755">O servidor está sobrecarregado, por favor tente mais tarde</string>
     <string id="756">O login falhou. Verifique seus dados nas Configurações do addon</string>
-    <string id="760">Serviços Disponíveis</string> 
-    <string id="761">Você deve estar logado para efetuar download destas legendas,[CR]verifique seus ajustes de configuração do addon</string>
-    <string id="762">Ajustes do Addon</string>
-    <string id="763">Auto downloading primeira legenda 'sincronizada'</string>
-    <string id="764">Downloading primeira leg 'sinc'</string>
-    <string id="765">Primeira legenda 'sinc' baixada</string>
-    <string id="766">Escolha Pasta Legenda</string>
+    <string id="757">Servidor requer você reescreva código da imagem</string>
+    <string id="758">Por favor verifique a área de notificação</string>
+    <string id="759">Entre código da imagem na área de notificação</string>
+    <string id="760">Serviços Disponíveis</string>
+    <string id="761">Você deve estar logado para efetuar download desta legenda[CR] verifique seus ajustes na configuração do addon.</string>
+    <string id="762">Ajustes Addon</string>
+    <string id="763">Auto downloading primeira legenda sincronizada</string>
+    <string id="764">Downloading primeira legenda sincronizada</string>
+    <string id="765">Primeira legenda sincronizada efetuar o download</string>
+    <string id="766">Escolher pasta Legendas</string>
+    <string id="767">Nenhuma legenda 'sincronizada' encontrada</string>
 
-    
-  <!-- Script Settings -->
-   
+    <!-- Script Settings -->
     <string id="30100">Selecionar Idioma</string>
     <string id="30101">Idioma Principal</string>
     <string id="30102">Idioma Secundário</string>
@@ -45,22 +42,21 @@
     <string id="30107">Gravar Legenda na Pasta do Vídeo</string>
     <string id="30108">- Selecione a Pasta Personalizada</string>
     <string id="30110">Pesquisa Manual</string>
-    <string id="30111">Idioma Terciário</string> 
+    <string id="30111">Idioma Terciário</string>
     <string id="30113">Selecione o Serviço Padrão para Filmes</string>
     <string id="30114">Selecione o Serviço Padrão para Séries</string>
     <string id="30118">Mostre o Nome do Arquivo nos Resultados</string>
-    <string id="30119">Pesquise Usando o Nome da Pasta</string>
+    <string id="30119">Procurar usando diretório raiz</string>
     <string id="30121">Adicionar Língua ao Nome do Arquivo </string>
     <string id="30122">Tempo Padrão de Timeout</string>
     <string id="30123">- Legendas.TV Nome do Usuário</string>
     <string id="30124">- Legendas.TV Senha</string>
-    <string id="30125"></string>
     <string id="30126">- Itasa Nome do Usuário</string>
     <string id="30127">- Itasa Senha</string>
     <string id="30128">- Titulky Nome do Usuário</string>
     <string id="30129">- Titulky Senha</string>
-    <string id="30130">Procurar Próximo Serviço Disponível, se resultado não for encontrado</string>
-    <string id="30131">Auto download primeira legenda "sinc"</string>
+    <string id="30130">Search next available service if no results are found</string>
+    <string id="30131">Auto download first "sync" subtitle</string>
     <string id="30132">- LegendasDivx Usuário</string>
     <string id="30133">- LegendasDivx Senha</string>
     <string id="30134">- PTSubs Usuário</string>
@@ -69,30 +65,28 @@
     <string id="30137">- OmniSubs Senha</string>
     <string id="30138">- LegendasZone Usuário</string>
     <string id="30139">- LegendasZone Senha</string>
-	<string id="30140">- Escolha Tipo subs:</string>
+    <string id="30140">- Escolha tipo de legendas:</string>
     <string id="30141">SubRip</string>
     <string id="30142">TMPlayer</string>
     <string id="30143">MicroDVD</string>
     <string id="30144">MPl2</string>
-    <string id="30145">Use 'Subs' subfolder para armazenar legendas</string>
+    <string id="30145">Usar subpastas 'Subs' para armazenar legendas</string>
     <string id="30146">- napisy24.pl Usuário</string>
     <string id="30147">- napisy24.pl Senha</string>
-    <string id="30148">- euTorrents Usuário</string>
-    <string id="30149">- euTorrents Senha</string>
-    <string id="30150">Sem sub(s) em</string>
-    <string id="30151">Procure manual ou nome da pasta!</string>
-    <string id="30152">Com sub(s) em</string>
-    <string id="30153">Pesquisando... Aguarde!</string>
-    <string id="30154">Baixando... Aguarde!</string>
-    <string id="30155">Extraindo... Aguarde!</string>
-    <string id="30156">Extraido... Aguarde!</string>
-    <string id="30157">Continuando Filme!</string>
+    <string id="30148">-euTorrents Usuário</string>
+    <string id="30149">-euTorrents Senha</string>
+    <string id="30150">Nenhuma legenda(s) em</string>
+    <string id="30151">Procura manual ou diretório raiz!</string>
+    <string id="30152">Encontrado Legenda(s) em</string>
+    <string id="30153">Procurando Título...Por favor aguarde! </string>
+    <string id="30154">Downloading...Por favor aguarde!</string>
+    <string id="30155">Extraíndo...Por favor aguarde!</string>
+    <string id="30156">Extração concluída!</string>
+    <string id="30157">Reproduzindo Título!</string>
     <string id="30158">- Pipocas Usuário</string>
     <string id="30159">- Pipocas Senha</string>
-    
-  
-  <!-- Languages  -->
 
+    <!-- Languages -->
     <string id="30201">Albanês</string>
     <string id="30202">Árabe</string>
     <string id="30203">Bielorrusso</string>
@@ -137,6 +131,4 @@
     <string id="30245">Ucraniano</string>
     <string id="30246">Vietnamita</string>
     <string id="30247">Persa</string>
-
-      
 </strings>

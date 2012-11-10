@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    
-    <!-- Norwegian -->
-
+    <!-- English -->
     <string id="610">Søk</string>
     <string id="612">Legg inn søkestreng manuelt</string>
     <string id="642">Søker undertekster %s</string>
@@ -13,7 +11,7 @@
     <string id="654">Utpakking av undertekster feilet</string>
     <string id="655">Lokal undertekst tilgjengelig</string>
     <string id="656">Tjenesten svarte ikke innen tidsgrensen</string>
-    <string id="657">Ingen undertekster funnet!</string>   
+    <string id="657">Ingen undertekster funnet!</string>
     <string id="744">undertekster funnet for</string>
     <string id="747">Søk med mappenavn</string>
     <string id="748">Du kan ikke lagre undertekster i den valgte mappen</string>
@@ -22,12 +20,18 @@
     <string id="755">Tjenesten er overlastet, prøv igjen senere</string>
     <string id="756">Innlogging feilet. Sjekk innstillingene</string>
     <string id="757">Tjenesten krever at du skriver inn koden fra bildet</string>
-    <string id="758">Vennligst se på meldingsområdet</string> 
+    <string id="758">Vennligst se på meldingsområdet</string>
     <string id="759">Skriv inn koden fra bildet i meldingsområdet</string>
-    <string id="760">Tilgjengelige tjenester</string>     
+    <string id="760">Tilgjengelige tjenester</string>
+    <string id="761"></string>
+    <string id="762"></string>
+    <string id="763"></string>
+    <string id="764"></string>
+    <string id="765"></string>
+    <string id="766"></string>
+    <string id="767"></string>
 
-  <!-- Script Settings -->
-
+    <!-- Script Settings -->
     <string id="30100">Velg språk</string>
     <string id="30101">Primærspråk</string>
     <string id="30102">Sekundærspråk</string>
@@ -47,12 +51,42 @@
     <string id="30122">Standard tidsgrense</string>
     <string id="30123">- Legendas.TV Brukernavn</string>
     <string id="30124">- Legendas.TV Passord</string>
-    <string id="30125"></string>
     <string id="30126">- Itasa Brukernavn</string>
     <string id="30127">- Itasa Passord</string>
-      
-  <!-- Languages  -->
-      
+    <string id="30128"></string>
+    <string id="30129"></string>
+    <string id="30130"></string>
+    <string id="30131"></string>
+    <string id="30132"></string>
+    <string id="30133"></string>
+    <string id="30134"></string>
+    <string id="30135"></string>
+    <string id="30136"></string>
+    <string id="30137"></string>
+    <string id="30138"></string>
+    <string id="30139"></string>
+    <string id="30140"></string>
+    <string id="30141"></string>
+    <string id="30142"></string>
+    <string id="30143"></string>
+    <string id="30144"></string>
+    <string id="30145"></string>
+    <string id="30146"></string>
+    <string id="30147"></string>
+    <string id="30148"></string>
+    <string id="30149"></string>
+    <string id="30150"></string>
+    <string id="30151"></string>
+    <string id="30152"></string>
+    <string id="30153"></string>
+    <string id="30154"></string>
+    <string id="30155"></string>
+    <string id="30156"></string>
+    <string id="30157"></string>
+    <string id="30158"></string>
+    <string id="30159"></string>
+
+    <!-- Languages -->
     <string id="30201">Albansk</string>
     <string id="30202">Arabisk</string>
     <string id="30203">Hviterussisk</string>
@@ -97,5 +131,4 @@
     <string id="30245">Ukrainsk</string>
     <string id="30246">Vietnamesisk</string>
     <string id="30247">Farsi</string>
-     
 </strings>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
     <!-- English -->
-    <string id="610">Search </string>
+    <string id="610">Пошук </string>
     <string id="612">Manually enter search string</string>
     <string id="642">Searching subtitles %s</string>
     <string id="646">Connecting...</string>

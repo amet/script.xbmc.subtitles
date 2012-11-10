@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    
-    <!-- Türkçe -->
-  
+    <!-- English -->
     <string id="610">Ara </string>
     <string id="612">El ile arama dizesi gir</string>
     <string id="642">%s Altyazı aranıyor</string>
@@ -22,18 +20,18 @@
     <string id="755">Sunucu aşırı yüklendi, lütfen daha sonra tekrar deneyin</string>
     <string id="756">Giriş başarısız. Lütfen eklenti yapılandırmasında ayarlarınızı doğrulayın</string>
     <string id="757">Sunucu resim kodunun tekrar girilmesini gerektiriyor</string>
-    <string id="758">Lütfen bildirim alanına bakın</string> 
+    <string id="758">Lütfen bildirim alanına bakın</string>
     <string id="759">Bildirim alanıdaki resim kodunu girin</string>
-    <string id="760">Mevcut Hizmetler</string>        
+    <string id="760">Mevcut Hizmetler</string>
     <string id="761">Bu altyazıları indirebilmek için giriş yapmalısınız,[CR]eklenti yapılandırmasında ayarlarınızı doğrulayın</string>
     <string id="762">Eklenti Ayarları</string>
     <string id="763">Otomatik olarak ilk 'sync' altyazıyı indir</string>
     <string id="764">İlk 'sync' altyazı karşıdan yükleniyor</string>
     <string id="765">ilk 'sync' altyazı karşıdan yüklendi</string>
     <string id="766">Altyazı Klasörü Seç</string>
+    <string id="767"></string>
 
-  <!-- Script Settings -->
-
+    <!-- Script Settings -->
     <string id="30100">Diller</string>
     <string id="30101">Birincil Dil</string>
     <string id="30102">İkincil Dil</string>
@@ -44,7 +42,7 @@
     <string id="30107">Altyazıyı Film Klasörüne İndir</string>
     <string id="30108">- Özel Altyazı İndirme Yolunu Ayarla</string>
     <string id="30110">El İle Arama Dizesi Gir</string>
-    <string id="30111">Üçüncü Dil</string>  
+    <string id="30111">Üçüncü Dil</string>
     <string id="30113">Varsayılan Film Hizmetini Seç</string>
     <string id="30114">Varsayılan Dizi Hizmetini Seç</string>
     <string id="30118">Sonuç sayfasında dosya adını göster</string>
@@ -53,7 +51,6 @@
     <string id="30122">Varsayılan Zaman Aşımını Ayarla</string>
     <string id="30123">- Legendas.TV Kullanıcı Adı</string>
     <string id="30124">- Legendas.TV Parola</string>
-    <string id="30125"></string>
     <string id="30126">- Itasa Kullanıcı Adı</string>
     <string id="30127">- Itasa Parola</string>
     <string id="30128">- Titulky Kullanıcı Adı</string>
@@ -76,9 +73,20 @@
     <string id="30145">Altyazıları depolamak için 'Subs' alt klasörünü kullan</string>
     <string id="30146">- napisy24.pl Kullanıcı Adı</string>
     <string id="30147">- napisy24.pl Parola</string>
-    
-  <!-- Languages  -->
-  
+    <string id="30148"></string>
+    <string id="30149"></string>
+    <string id="30150"></string>
+    <string id="30151"></string>
+    <string id="30152"></string>
+    <string id="30153"></string>
+    <string id="30154"></string>
+    <string id="30155"></string>
+    <string id="30156"></string>
+    <string id="30157"></string>
+    <string id="30158"></string>
+    <string id="30159"></string>
+
+    <!-- Languages -->
     <string id="30201">Arnavutça</string>
     <string id="30202">Arapça</string>
     <string id="30203">Beyaz Rusyaca</string>
@@ -123,5 +131,4 @@
     <string id="30245">Ukraynaca</string>
     <string id="30246">Vietnamca</string>
     <string id="30247">Farsça</string>
-    
 </strings>

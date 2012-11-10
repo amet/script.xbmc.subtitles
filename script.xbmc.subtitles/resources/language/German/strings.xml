@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-
-    <!-- German -->
-
+    <!-- English -->
     <string id="610">Suche </string>
     <string id="612">Suchbegriff manuell eingeben</string>
     <string id="642">Suche Untertitel %s</string>
@@ -11,48 +9,84 @@
     <string id="652">Untertitel geladen und entpackt</string>
     <string id="653">Verbindung fehlgeschlagen</string>
     <string id="654">Fehler beim Entpacken der Untertitel</string>
-    <string id="655">Local subtitle available</string>    
-    <string id="656">Service did not respond within the time out limit</string>
-    <string id="657">No Subtitles Found!</string>
+    <string id="655">Lokale Untertitel verfügbar</string>
+    <string id="656">Dienst antwortete nicht innerhalb des Zeitlimits</string>
+    <string id="657">Keine Untertitel gefunden!</string>
     <string id="744">Untertitel gefunden für</string>
-    <string id="747">Search Using Parent Folder</string>
-    <string id="748">You can't save subtitle to selected destination</string>
-    <string id="750">Would you like to activate this subtitle temporarily?</string>
-    <string id="751">Enter Movie Name (year)</string>
-    <string id="755">Server is overloaded, please try again later</string>
-    <string id="756">Login failed. Please verify your settings at the addon Configuration</string>
+    <string id="747">Suche anhand des Überordners</string>
+    <string id="748">Untertitel können in dem Zielverzeichnis nicht gespeichert werden</string>
+    <string id="750">Sollen diese Untertitel temporär aktiviert werden?</string>
+    <string id="751">Filmtitel eingeben (Jahr)</string>
+    <string id="755">Server ist überlastet, bitte versuchen Sie es später noch einmal</string>
+    <string id="756">Anmelden fehlgeschlagen. Bitte die Addon Einstellungen überprüfen</string>
     <string id="757">Server requires you to rewrite code from image</string>
-    <string id="758">Please take look at notification area</string> 
+    <string id="758">Bitte beachten Sie den Mitteilungsbereich</string>
     <string id="759">Enter code of image in notification area</string>
-    <string id="760">Available Services</string>  
-   
-  <!-- Script Settings -->
-  
+    <string id="760">Verfügbare Dienste</string>
+    <string id="761">Du musst angemeldet sein, um diese Untertitel herunterladen zu können.[CR]Überprüfe deine Einstellungen in der Addon Konfiguration.</string>
+    <string id="762">Addon Einstellungen</string>
+    <string id="763">Ersten 'sync'-Untertitel automatisch herunterladen</string>
+    <string id="764">Lade ersten 'sync'-Untertitel</string>
+    <string id="765">Erster 'sync'-Untertitel heruntergeladen</string>
+    <string id="766">Wähle Untertitel Ordner</string>
+    <string id="767">Kein 'sync'-Untertitel gefunden</string>
+
+    <!-- Script Settings -->
     <string id="30100">Wähle Sprache</string>
     <string id="30101">Erste Sprache</string>
     <string id="30102">Zweite Sprache</string>
     <string id="30103">Wähle Dienst</string>
     <string id="30104">- Podnapisi.net Benutzername</string>
     <string id="30105">- Podnapisi.net Passwort</string>
-    <string id="30106">Advanced Options</string>
-    <string id="30107">Subtitle Download Folder Same As Movie</string>
-    <string id="30108">- Set Custom Subtitle Download Path</string>
+    <string id="30106">Erweiterte Optionen</string>
+    <string id="30107">Speichere Untertitel in den Filmordner</string>
+    <string id="30108">- Setze individuellen Untertitel Downloadpfad</string>
     <string id="30110">Manuelle Eingabe des Suchbegriffs</string>
-    <string id="30111">Third Language</string>  
-    <string id="30113">Select Default Movie Service</string>
-    <string id="30114">Select Default TV Show Service</string>
-    <string id="30118">Display file name in results page</string>
-    <string id="30119">Search Using Parent Folder</string>
-    <string id="30121">Add Language To Filename </string>
-    <string id="30122">Set Default Timeout</string>
-    <string id="30123">- Legendas.TV Username</string>
-    <string id="30124">- Legendas.TV Password</string>
-    <string id="30125"></string>
-    <string id="30126">- Itasa Username</string>
-    <string id="30127">- Itasa Password</string>
-      
- <!-- Languages  -->
- 
+    <string id="30111">Dritte Sprache</string>
+    <string id="30113">Wähle Standard Film-Dienst</string>
+    <string id="30114">Wähle Standard TV-Show-Dienst</string>
+    <string id="30118">Zeige Dateinamen im Suchergebnis</string>
+    <string id="30119">Suche anhand des Überordners</string>
+    <string id="30121">Füge Sprache dem Dateinamen hinzu</string>
+    <string id="30122">Setze Standard Zeitlimit</string>
+    <string id="30123">- Legendas.TV Benutzername</string>
+    <string id="30124">- Legendas.TV Passwort</string>
+    <string id="30126">- Itasa Benutzername</string>
+    <string id="30127">- Itasa Passwort</string>
+    <string id="30128">- Titulky Benutzername</string>
+    <string id="30129">- Titulky Passwort</string>
+    <string id="30130">Suche den nächsten verfügbaren Dienst wenn keine Resultate gefunden wurden.</string>
+    <string id="30131">Lade den ersten 'sync'-Untertitel automatisch herunter.</string>
+    <string id="30132">- LegendasDivx Benutzername</string>
+    <string id="30133">- LegendasDivx Passwort</string>
+    <string id="30134">- PTSubs Benutzername</string>
+    <string id="30135">- PTSubs Passwort</string>
+    <string id="30136">- OmniSubs Benutzername</string>
+    <string id="30137">- OmniSubs Passwort</string>
+    <string id="30138">- LegendasZone Benutzername</string>
+    <string id="30139">- LegendasZone Passwort</string>
+    <string id="30140">- Wähle Untertiteltyp:</string>
+    <string id="30141">SubRip</string>
+    <string id="30142">TMPlayer</string>
+    <string id="30143">MicroDVD</string>
+    <string id="30144">MPl2</string>
+    <string id="30145">Nutze 'Subs'-Unterordner zum speichern</string>
+    <string id="30146">- napisy24.pl Benutzername</string>
+    <string id="30147">- napisy24.pl Passwort</string>
+    <string id="30148">- euTorrents Benutzername</string>
+    <string id="30149">- euTorrents Passwort</string>
+    <string id="30150">Keine Untertitel in</string>
+    <string id="30151">Suche manuell oder anhand des Überordners!</string>
+    <string id="30152">Gefundene Untertitel in</string>
+    <string id="30153">Suche Titel... Bitte warten!</string>
+    <string id="30154">Downloading... Bitte warten!</string>
+    <string id="30155">Entpacke... Bitte warten!</string>
+    <string id="30156">Entpacken fertig!</string>
+    <string id="30157">Spiele Titel!</string>
+    <string id="30158">- Pipocas Benutzername</string>
+    <string id="30159">- Pipocas Passwort</string>
+
+    <!-- Languages -->
     <string id="30201">Albanisch</string>
     <string id="30202">Arabisch</string>
     <string id="30203">Weißrussisch</string>
@@ -96,6 +130,5 @@
     <string id="30244">Türkisch</string>
     <string id="30245">Ukrainisch</string>
     <string id="30246">Vietnamesisch</string>
-    <string id="30247">Farsi</string> 
-     
+    <string id="30247">Farsi</string>
 </strings>

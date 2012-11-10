@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    
-  <!-- Srpski -->    
+    <!-- English -->
     <string id="610">Pretraži </string>
     <string id="612">Ručno uneti ime filma</string>
     <string id="642">Pretraga Prevoda %s</string>
@@ -19,10 +18,20 @@
     <string id="750">Želite li da aktivirate prevod privremeno?</string>
     <string id="751">Unesite ime filma (godinu)</string>
     <string id="755">Server je preopterećen, pokušajte ponovo kasnije</string>
-    <string id="760">Dostupni servisi</string>            
-    
-    
-  <!--  Script Settings-->
+    <string id="756"></string>
+    <string id="757"></string>
+    <string id="758"></string>
+    <string id="759"></string>
+    <string id="760">Dostupni servisi</string>
+    <string id="761"></string>
+    <string id="762"></string>
+    <string id="763"></string>
+    <string id="764"></string>
+    <string id="765"></string>
+    <string id="766"></string>
+    <string id="767"></string>
+
+    <!-- Script Settings -->
     <string id="30100">Izbor Jezika</string>
     <string id="30101">Prvi Jezik</string>
     <string id="30102">Drugi Jezik</string>
@@ -33,7 +42,7 @@
     <string id="30107">Datoteka za skinute prevode ista kao film</string>
     <string id="30108">- Podesi datoteku za skinute prevode</string>
     <string id="30110">Ručno uneti ime filma</string>
-    <string id="30111">Treći Jezik</string>  
+    <string id="30111">Treći Jezik</string>
     <string id="30113">Izaberite podrazumevan Servis za Film</string>
     <string id="30114">Izaberite podrazumevan Servis za TV</string>
     <string id="30118">Prikaži ime fajla na stranici sa rezultatima</string>
@@ -42,11 +51,42 @@
     <string id="30122">Željeni servis tajmout</string>
     <string id="30123">- Legendas.TV Korisničko Ime</string>
     <string id="30124">- Legendas.TV Lozinka</string>
-    <string id="30125"></string>
     <string id="30126">- Itasa Korisničko Ime</string>
     <string id="30127">- Itasa Lozinka</string>
+    <string id="30128"></string>
+    <string id="30129"></string>
+    <string id="30130"></string>
+    <string id="30131"></string>
+    <string id="30132"></string>
+    <string id="30133"></string>
+    <string id="30134"></string>
+    <string id="30135"></string>
+    <string id="30136"></string>
+    <string id="30137"></string>
+    <string id="30138"></string>
+    <string id="30139"></string>
+    <string id="30140"></string>
+    <string id="30141"></string>
+    <string id="30142"></string>
+    <string id="30143"></string>
+    <string id="30144"></string>
+    <string id="30145"></string>
+    <string id="30146"></string>
+    <string id="30147"></string>
+    <string id="30148"></string>
+    <string id="30149"></string>
+    <string id="30150"></string>
+    <string id="30151"></string>
+    <string id="30152"></string>
+    <string id="30153"></string>
+    <string id="30154"></string>
+    <string id="30155"></string>
+    <string id="30156"></string>
+    <string id="30157"></string>
+    <string id="30158"></string>
+    <string id="30159"></string>
 
-  <!-- Languages  -->
+    <!-- Languages -->
     <string id="30201">Albanski</string>
     <string id="30202">Arapski</string>
     <string id="30203">Beloruski</string>
@@ -90,6 +130,5 @@
     <string id="30244">Turski</string>
     <string id="30245">Ukrajinski</string>
     <string id="30246">Vijetnamski</string>
-    <string id="30247">Persijski</string>        
-
+    <string id="30247">Persijski</string>
 </strings>
