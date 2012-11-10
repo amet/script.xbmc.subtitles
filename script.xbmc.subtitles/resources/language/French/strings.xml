@@ -1,82 +1,92 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-
-    <!-- French -->
-
-    <string id="610">Chercher sur </string>
-    <string id="612">Entrer la recherche manuellement</string>
+    <!-- English -->
+    <string id="610">Chercher</string>
+    <string id="612">Saisir le filtre de recherche</string>
     <string id="642">Recherche de sous-titres %s</string>
     <string id="646">Connexion en cours...</string>
-    <string id="649">Téléchargement des sous-titres...</string>f
-    <string id="652">Fichier de sous-titres téléchargé et extrait</string>
-    <string id="653">Echec de connexion</string>
+    <string id="649">Téléchargement des sous-titres...</string>
+    <string id="652">Fichier sous-titre téléchargé et extrait</string>
+    <string id="653">Echec de la connexion</string>
     <string id="654">Erreur d'extraction des sous-titres</string>
-    <string id="655">Des sous-titres sont disponibles en local</string> 
-    <string id="656">Délai d'attente dépassé</string>
-    <string id="657">Pas de sous-titres trouvés !</string>       
-    <string id="744">fichier(s) sous-titres trouvé(s) pour</string>
-    <string id="747">Chercher à partir du dossier parent</string>
-    <string id="748">Impossible de sauver les sous-titres à l'emplacement choisi</string>
-    <string id="750">Voulez-vous activer ces sous-titres temporairement ?</string>
-    <string id="751">Tapez le nom du film (année)</string>
-    <string id="755">Serveur saturé, ré-essayez plus tard</string>
-    <string id="756">Echec de connexion. Vérifiez vos paramètres dans la Configuration de l'addon</string>
-    <string id="757">Le serveur exige que vous retapiez le code de l'image</string>
-    <string id="758">Regardez la zone de notification</string> 
-    <string id="759">Entrez le code de l'image de la zone de notification</string>
-    <string id="760">Services Disponibles</string>      
-    <string id="761">Vous devez être identifié pour télécharger ces sous-titres,[CR]vérifiez vos paramètres dans la Configuration de l'addon</string>
-    <string id="762">Paramètres de l'addon</string>
-    <string id="763">Téléchargement auto des premiers sous-titres 'synchro'</string>
-    <string id="764">Téléchargement des premiers sous-titres 'synchro'</string>
-    <string id="765">premiers sous-titres 'synchro' téléchargés</string>
-    <string id="766">Choisir le dossier des sous-titres</string>
-    
- <!-- Script Settings -->
- 
-    <string id="30100">Langues</string>
-    <string id="30101">Première Langue</string>
-    <string id="30102">Deuxième Langue</string>
-    <string id="30103">Services</string>
-    <string id="30104">- Utilisateur Podnapisi.net</string>
+    <string id="655">Sous-titre disponible localement</string>
+    <string id="656">Le service n'a pas répondu à temps</string>
+    <string id="657">Pas de sous-titre trouvé !</string>
+    <string id="744">Sous-titres trouvés pour</string>
+    <string id="747">Rechercher dans le répertoire parent</string>
+    <string id="748">Impossible d'enregistrer les sous-titres à cet endroit</string>
+    <string id="750">Voulez-vous activer temporairement ces sous-titres ?</string>
+    <string id="751">Saisir le nom du film (année)</string>
+    <string id="755">Serveur surchargé, merci de réessayer ultérieurement</string>
+    <string id="756">Erreur de connexion. Vérifiez vos paramètres de configuration dans l'extension</string>
+    <string id="757">Le service requiers la resaisie du captcha</string>
+    <string id="758">Merci de consulter la zone de notification</string>
+    <string id="759">Saisir le Captcha dans la zone de notification</string>
+    <string id="760">Services disponibles</string>
+    <string id="761">Vous devez être connecté pour télécharger ces sous-titres,[CR]vérifier vos paramètres dans la configuration de l'extension</string>
+    <string id="762">Paramètres de l'extension</string>
+    <string id="763">Téléchargement automatique du premier sous-titre synchronisé</string>
+    <string id="764">Téléchargement du premier sous-titre synchronisé</string>
+    <string id="765">Premier sous-titre synchronisé téléchargé</string>
+    <string id="766">Choisir le répertoire de sous-titre</string>
+    <string id="767">Aucun sous-titre synchronisé trouvé</string>
+
+    <!-- Script Settings -->
+    <string id="30100">Selection des Langues</string>
+    <string id="30101">Langue principale</string>
+    <string id="30102">Seconde Langue</string>
+    <string id="30103">Selection des Services</string>
+    <string id="30104">- Nom d'utilisateur Podnapisi.net</string>
     <string id="30105">- Mot de passe Podnapisi.net</string>
-    <string id="30106">Avancé</string>
-    <string id="30107">Sauver les sous-titres dans le dossier du film</string>
-    <string id="30108">- Chemin personnalisé de téléchargement des sous-titres</string>
-    <string id="30110">Saisie manuelle du texte de recherche</string>
+    <string id="30106">Options avancées</string>
+    <string id="30107">Télécharger les sous-titres dans le répertoire du film</string>
+    <string id="30108">- Définir le chemin d'enregistrement des sous-titres</string>
+    <string id="30110">Saisir la chaine de recherche</string>
     <string id="30111">Troisième Langue</string>
-    <string id="30113">Films - service par défaut</string>
-    <string id="30114">Séries - service par défaut</string>
-    <string id="30118">Afficher le nom de fichier dans les résultats</string>
-    <string id="30119">Chercher à partir du dossier parent</string>
-    <string id="30121">Joindre la langue au nom de fichier</string>
-    <string id="30122">Temps d'attente par défaut</string>
-    <string id="30123">- Utilisateur Legendas.TV</string>
+    <string id="30113">Définir le service par défaut des films</string>
+    <string id="30114">Définir le service par défaut des séries TV</string>
+    <string id="30118">Afficher le nom sur la page des résultats</string>
+    <string id="30119">Rechercher dans le répertoire parent</string>
+    <string id="30121">Ajouter la langue au nom</string>
+    <string id="30122">Définir le délai d'attente par défaut</string>
+    <string id="30123">- Nom d'utilisateur Legendas.TV</string>
     <string id="30124">- Mot de passe Legendas.TV</string>
-    <string id="30125"></string>
-    <string id="30126">- Utilisateur Itasa</string>
+    <string id="30126">- Nom d'utilisateur Itasa</string>
     <string id="30127">- Mot de passe Itasa</string>
-    <string id="30128">- Utilisateur Titulky</string>
+    <string id="30128">- Nom d'utilisateur Titulky</string>
     <string id="30129">- Mot de passe Titulky</string>
-    <string id="30130">Passer au service suivant, si pas de résultat</string>
-    <string id="30131">Télécharger automatiquement les premiers sous-titres "synchro"</string>
-    <string id="30132">- Utilisateur LegendasDivx</string>
+    <string id="30130">Rechercher le prochain service disponible en cas d'absence de résultats</string>
+    <string id="30131">Télécharger automatiquement le premier sous-titre synchonisé</string>
+    <string id="30132">- Nom d'utilisateur LegendasDivx</string>
     <string id="30133">- Mot de passe LegendasDivx</string>
-    <string id="30134">- Utilisateur PTSubs</string>
+    <string id="30134">- Nom d'utilisateur PTSubs</string>
     <string id="30135">- Mot de passe PTSubs</string>
-    <string id="30136">- Utilisateur OmniSubs</string>
-    <string id="30137">- Mot de passe OmniSubs</string>
-    <string id="30138">- Utilisateur LegendasZone</string>
+    <string id="30136">- Nom d'utilisateur Omnisubs</string>
+    <string id="30137">- Mot de passe Omnisubs</string>
+    <string id="30138">- Nom d'utilisateur LegendasZone</string>
     <string id="30139">- Mot de passe LegendasZone</string>
-    <string id="30140">- Choix du type de sous-titres:</string>
-    <string id="30141">SubRip</string>
+    <string id="30140">- Choisir le type de sous-titres :</string>
+    <string id="30141">Extraction de sous-titres</string>
     <string id="30142">TMPlayer</string>
     <string id="30143">MicroDVD</string>
-    <string id="30144">MPl2</string>
-    <string id="30145">Sauver les sous-titres dans un sous-dossier 'Subs'</string>
-    
-   <!-- Languages  -->
-   
+    <string id="30144">MPI2</string>
+    <string id="30145">Utiliser le répertoire 'Subs' pour stocker les sous-titres</string>
+    <string id="30146">- Nom d'utilisateur napisy24.pl</string>
+    <string id="30147">- Mot de passe napisy24.pl</string>
+    <string id="30148">- Nom d'utilisateur euTorrents</string>
+    <string id="30149">- Mot de passe euTorrents</string>
+    <string id="30150">Pas de sous-titre(s) dans</string>
+    <string id="30151">Recherche manuelle ou dans le répertoire parent</string>
+    <string id="30152">Sous-titre(s) trouvé(s) dans</string>
+    <string id="30153">Recherche du titre en cours... Veuillez patienter !</string>
+    <string id="30154">Téléchargement en cours... Veuillez patienter !</string>
+    <string id="30155">Extraction en cours... Veuillez patienter !</string>
+    <string id="30156">Extraction terminée !</string>
+    <string id="30157">Lecture du titre en cours !</string>
+    <string id="30158">- Nom d'utilisateur Pipocas</string>
+    <string id="30159">- Mot de passe Pipocas</string>
+
+    <!-- Languages -->
     <string id="30201">Albanais</string>
     <string id="30202">Arabe</string>
     <string id="30203">Biélorusse</string>
@@ -94,14 +104,14 @@
     <string id="30215">Français</string>
     <string id="30216">Allemand</string>
     <string id="30217">Grec</string>
-    <string id="30218">Hébreu</string>
+    <string id="30218">Israélien</string>
     <string id="30219">Hindi</string>
     <string id="30220">Hongrois</string>
     <string id="30221">Islandais</string>
     <string id="30222">Indonésien</string>
     <string id="30224">Italien</string>
     <string id="30225">Japonais</string>
-    <string id="30226">Coréen</string>
+    <string id="30226">Korean</string>
     <string id="30227">Letton</string>
     <string id="30228">Lituanien</string>
     <string id="30229">Macédonien</string>
@@ -111,15 +121,14 @@
     <string id="30234">Portugais (Brésil)</string>
     <string id="30235">Roumain</string>
     <string id="30236">Russe</string>
-    <string id="30237">Serbe (Latin)</string>
+    <string id="30237">Serbie Latin</string>
     <string id="30238">Slovaque</string>
-    <string id="30239">Slovène</string>
+    <string id="30239">Slovénien</string>
     <string id="30240">Espagnol</string>
     <string id="30242">Suédois</string>
-    <string id="30243">Thaï</string>
+    <string id="30243">Thaïlandais</string>
     <string id="30244">Turc</string>
     <string id="30245">Ukrainien</string>
     <string id="30246">Vietnamien</string>
-    <string id="30247">Persan</string>
-    
+    <string id="30247">Farsi</string>
 </strings>
