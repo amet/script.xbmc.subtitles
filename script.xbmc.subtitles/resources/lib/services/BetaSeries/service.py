@@ -60,18 +60,14 @@ def getShortTV(title):
         log( __name__ , " BetaSeries query : %s" % (searchurl))
 
         dom = minidom.parse(urllib.urlopen(searchurl))
-        url = ""
+        
         if len(dom.getElementsByTagName('url')):
             url = dom.getElementsByTagName('url')[0].childNodes[0]
             url = url.nodeValue
-
-        return url
-        
-        log( __name__ , "'%s %s %s %s'" % (user, password, searchurl, url))
+            return url
 
     except:
         log( __name__ , "getShortTV() failed")
-        return url
 
 
 def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack ): #standard input
@@ -89,7 +85,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     if (len(file_original_path) > 0) and (len(tvshow) > 0) :
 
         show = getShortTV(tvshow)
-        if len(show)>0:
+        if show:
 
             searchurl = 'http://' + apiurl + '/subtitles/show/' + show + '.xml?season=' + season + '&episode=' + episode + '&language=' + querylang + '&key=' + apikey
             log( __name__ , "searchurl = '%s'" % (searchurl))
