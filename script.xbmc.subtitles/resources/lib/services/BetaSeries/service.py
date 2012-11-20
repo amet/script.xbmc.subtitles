@@ -13,7 +13,8 @@ import shutil
 from utilities import log, languageTranslate
 from xml.dom import minidom
 
-
+try: import simplejson as json
+except: import json
   
 _ = sys.modules[ "__main__" ].__language__
 
@@ -47,13 +48,12 @@ def geturl(url):
 def getShortTV(title):
 
     try:
-        # search TVDB's id from tvshow's title
-        query = 'select c12 from tvshow where c00 = "' + unicode(title) + '" limit 1'
-        res = xbmc.executehttpapi("queryvideodatabase(" + query + ")")
-        
-        # get the result
-        tvdbid = re.search('field>(.*?)<\/field',res)
-        tvdbid = tvdbid.group(1)
+        playerid_query = '{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}'
+        playerid = json.loads(xbmc.executeJSONRPC(playerid_query))['result'][0]['playerid']
+        tvshowid_query = '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": {"playerid": ' + str(playerid) + ', "properties": ["tvshowid"]}, "id": 1}'
+        tvshowid = json.loads(xbmc.executeJSONRPC (tvshowid_query))['result']['item']['tvshowid']
+        tvdbid_query = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShowDetails", "params": {"tvshowid": ' + str(tvshowid) + ', "properties": ["imdbnumber"]}, "id": 1}'
+        tvdbid = json.loads(xbmc.executeJSONRPC (tvdbid_query))['result']['tvshowdetails']['imdbnumber']
         
         # get tvshow's url from TVDB's id
         searchurl = 'http://' + apiurl + '/shows/display/' + tvdbid + '.xml?key=' + apikey
