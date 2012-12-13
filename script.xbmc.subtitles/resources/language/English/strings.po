@@ -23,7 +23,9 @@ msgctxt "#610"
 msgid "Search "
 msgstr ""
 
-#empty string with id 611
+msgctxt "#611"
+msgid "Video should be running"
+msgstr ""
 
 msgctxt "#612"
 msgid "Manually enter search string"
