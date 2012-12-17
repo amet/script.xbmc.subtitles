@@ -21,8 +21,6 @@ SUBTITLES_LIST = 120
 SERVICES_LIST  = 150
 CANCEL_DIALOG  = ( 9, 10, 92, 216, 247, 257, 275, 61467, 61448, )
 
-SERVICE_DIR    = os.path.join(__cwd__, "resources", "lib", "services")
-
 LANGUAGES      = (
     
     # Full Language name[0]        ISO 639-1[1]   ISO 639-2 Code[2]   Script Setting Language[3]   localized name id number[4]

@@ -101,7 +101,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
       self.item['year'] = ""
 
     self.item['file_original_path'] = urllib.unquote ( movieFullPath )             # Movie Path
-    self.item['file_name'] = os.path.basename( movieFullPath )                     # Display Movie name or search string
+    self.item['file_name'] = os.path.basename( movieFullPath )                     # Display Movie name
 
     if ((__addon__.getSetting( "auto_download" ) == "true") and 
         (__addon__.getSetting( "auto_download_file" ) != os.path.basename( movieFullPath ))):

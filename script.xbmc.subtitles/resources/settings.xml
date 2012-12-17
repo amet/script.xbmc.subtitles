@@ -11,7 +11,6 @@
       <setting id="subfolder" type="bool" label="30107" default="true" />
       <setting id="subfolderpath" type="folder" visible= "eq(-1,false)" source="files" label="30108" default="" />
       <setting id="searchstr" type="bool" label="30110" default="false"/>
-      <setting id="fil_name" type="bool" label="30118" default="false"/>
       <setting id="par_folder" type="bool" label="30119" default="false"/>
       <setting id="lang_to_end" type="bool" label="30121" default="true" />
       <setting id="use_subs_folder" type="bool" label="30145" default="false" />
