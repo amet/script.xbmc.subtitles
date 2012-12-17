@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.xbmc.subtitles"
        name="XBMC Subtitles"
-       version="4.0.0"
+       version="5.0.0"
        provider-name="amet,mr_blobby,jurrabi">
   <requires>
-    <import addon="xbmc.python" version="2.1"/>
+    <import addon="xbmc.python" version="2.1.0"/>
   </requires>
   <extension point="xbmc.python.subtitles"
              library="default.py" />
