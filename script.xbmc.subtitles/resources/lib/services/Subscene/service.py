@@ -46,8 +46,9 @@ subtitle_pattern = "..<tr>.{5}<td>.{6}<a class=\"a1\" href=\"/([^\n\r]{10,200}?-
 """
 			<a href="/S-Darko-AKA-S-Darko-A-Donnie-Darko-Tale/subtitles-76635.aspx" class=popular>
 				S. Darko AKA S. Darko: A Donnie Darko Tale (2009)
+                                <dfn>(38)</dfn>
 """
-movie_season_pattern = "...<a href=\"/([^\n\r\t]*?/subtitles-\d{1,10}.aspx)\".{1,14}>\r\n.{4}([^\n\r\t]*?) \((\d\d\d\d)\) \r\n"
+movie_season_pattern = "...<a href=\"/([^\n\r\t]*?/subtitles-\d{1,10}.aspx)\".{1,14}>\r\n.{4}([^\n\r\t]*?) \((\d\d\d\d)\) \r\n\s*<dfn>\(([^\)]*)\)</dfn>"
 # group(1) = link, group(2) = movie_season_title,  group(3) = year
 
 
@@ -89,13 +90,18 @@ def find_movie(content, title, year):
 
 def find_tv_show_season(content, tvshow, season):
     url_found = None
+    possible_matches = []
     for matches in re.finditer(movie_season_pattern, content, re.IGNORECASE | re.DOTALL):
-        log( __name__ ,"%s Found tv show season on search page: %s" % (debug_pretext, matches.group(2).decode("utf-8")))
+        #log( __name__ ,"%s Found tv show season on search page: %s" % (debug_pretext, matches.group(2).decode("utf-8")))
         if string.find(string.lower(matches.group(2)),string.lower(tvshow) + " ") > -1:
             if string.find(string.lower(matches.group(2)),string.lower(season)) > -1:
                 log( __name__ ,"%s Matching tv show season found on search page: %s" % (debug_pretext, matches.group(2).decode("utf-8")))
-                url_found = matches.group(1)
-                break
+                possible_matches.append(matches.groups())
+
+    possible_matches = sorted(possible_matches, key=lambda x: -int(x[3]))
+    url_found = possible_matches[0][0]
+
+    log( __name__ ,"%s Selecting matching tv show with most subtitles: %s (%s)" % (debug_pretext, possible_matches[0][1].decode("utf-8"), possible_matches[0][3].decode("utf-8")))
     return url_found
 
 
