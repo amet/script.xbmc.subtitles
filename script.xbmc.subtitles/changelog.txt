@@ -1,3 +1,6 @@
+3.9.2
+- [updated] language files from Transifex
+
 3.9.1
 - [fix] Argenteam service, jurrabi
 - [fix] Napisy24pl service, mrto
