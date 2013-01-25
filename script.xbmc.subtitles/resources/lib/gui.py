@@ -85,11 +85,11 @@ class GUI( xbmcgui.WindowXMLDialog ):
     if not xbmcvfs.exists(self.sub_folder):
       xbmcvfs.mkdir(self.sub_folder)
     
-    if self.episode.lower().find("s") > -1:                                    # Check if season is "Special"             
-      self.season = "0"                                                        #
-      self.episode = self.episode[-1:]                                         #
+    if self.episode.lower().find("s") > -1:                                      # Check if season is "Special"             
+      self.season = "0"                                                          #
+      self.episode = self.episode[-1:]                                           #
 
-    self.tvshow = normalizeString(xbmc.getInfoLabel("VideoPlayer.TVshowtitle"))# Show
+    self.tvshow = normalizeString(xbmc.getInfoLabel("VideoPlayer.TVshowtitle"))  # Show
     self.title  = normalizeString(xbmc.getInfoLabel("VideoPlayer.OriginalTitle"))# try to get original title
     if self.title == "":
       log( __name__, "VideoPlayer.OriginalTitle not found")
