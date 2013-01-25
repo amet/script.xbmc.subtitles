@@ -90,7 +90,10 @@ class GUI( xbmcgui.WindowXMLDialog ):
       self.episode = self.episode[-1:]                                         #
 
     self.tvshow = normalizeString(xbmc.getInfoLabel("VideoPlayer.TVshowtitle"))# Show
-    self.title  = normalizeString(xbmc.getInfoLabel("VideoPlayer.Title"))      # Title
+    self.title  = normalizeString(xbmc.getInfoLabel("VideoPlayer.OriginalTitle"))# try to get original title
+    if self.title == "":
+      log( __name__, "VideoPlayer.OriginalTitle not found")
+      self.title  = normalizeString(xbmc.getInfoLabel("VideoPlayer.Title"))      # no original title, get just Title :)
 
     if self.tvshow == "":
       if str(self.year) == "":
