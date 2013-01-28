@@ -177,7 +177,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
                                 'filename'          : filename,
                                 'link'              : url,
                                 'language_name'     : languageTranslate(language,2,0),
-                                'language_index'    : lang_priorities.index(lang),
+                                'language_index'    : lang_priorities.index(language),
                                 'language_flag'     : 'flags/' + language + '.gif',
                                 'rating'            : rating,
                                 'sync'              : False
