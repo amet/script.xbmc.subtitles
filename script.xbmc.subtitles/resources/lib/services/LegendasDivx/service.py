@@ -73,6 +73,8 @@ __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __addon__ = sys.modules[ "__main__" ].__addon__
 __cwd__        = sys.modules[ "__main__" ].__cwd__
 __language__   = __addon__.getLocalizedString
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 main_url = "http://www.legendasdivx.com/"
 debug_pretext = "LegendasDivx"
