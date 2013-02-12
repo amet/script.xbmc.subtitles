@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Service LegendasDivx.com version 0.2.7
+# Service LegendasDivx.com version 0.2.8
 # Code based on Undertext service and the download function encode fix from legendastv service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Help by VaRaTRoN
@@ -8,11 +8,14 @@
 # http://www.teknorage.com
 # License: GPL v2
 #
+# NEW on Service LegendasDivx.com v0.2.8:
+# Fixed download bug when XBMC is set to Portuguese language and probably others.
+# Some code cleanup
+#
 # NEW on Service LegendasDivx.com v0.2.7:
 # Fixed bug on openelec based XBMC prevent the script to work
 # Removed some XBMC messages from the script who were annoying!
 # Some code cleanup
-#
 #
 # NEW on Service LegendasDivx.com v0.2.6:
 # Added English and Spanish. Now searches all site languages.
