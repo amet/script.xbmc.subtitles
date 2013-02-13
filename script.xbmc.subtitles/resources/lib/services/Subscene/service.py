@@ -52,12 +52,11 @@ movie_season_pattern = "...<a href=\"/([^\n\r\t]*?/subtitles-\d{1,10}.aspx)\".{1
 # group(1) = link, group(2) = movie_season_title,  group(3) = year
 
 
-# <form action="/subtitle/download" id="dl" method="post" name="dl"><button type="submit" onclick="DownloadSubtitle(this)" id="downloadButton" class="Positive">
-#downloadlink_pattern = "\(new WebForm_PostBackOptions\([^\n\r\t]+?\/([^\n\r\t]+?)&quot;, false, true\)\)"
-downloadlink_pattern = '<form action="([^"]*)" id="dl" method="post" name="dl">'
+# <a href="/subtitle/download?mac=YdYi9-p24hR49B2zIIEoUrXDYN2b4yBreI8TJIBfpdxDuDw-sRIvu8_GvuFAUO3w0" rel="nofollow" onclick="DownloadSubtitle(this)" id="downloadButton" class="button Positive">Download English Subtitle
+downloadlink_pattern = '<a href="(/subtitle/download\?mac=[^"]*)"'
 
-# <input type="hidden" name="mac" id="mac" value="iYpZfE2uRLwuOANcMW196bXDYN2b4yBreI8TJIBfpdxYfHbaSkp83VDK3BdyW77J0" />
-mac_pattern = '<input type="hidden" name="mac" id="mac" value="([^"]*)" />'
+# <a href="/subtitle/download?mac=YdYi9-p24hR49B2zIIEoUrXDYN2b4yBreI8TJIBfpdxDuDw-sRIvu8_GvuFAUO3w0" rel="nofollow"
+mac_pattern = 'mac=([^"]*)"'
 
 # Content-Disposition: attachment; filename=dexter-seventh-season-2012_english-661907.zip
 filetype_pattern = 'attachment; filename=.*\.(.*)$'
@@ -242,8 +241,8 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
             local_file_handle = open(local_tmp_file, "w" + "b")
             local_file_handle.write(response.read())
             local_file_handle.close()
-        except:
-            log( __name__ ,"%s Failed to save subtitles to '%s'" % (debug_pretext, local_tmp_file))
+        except Exception as ex:
+            log( __name__ ,"%s Failed to save subtitles to '%s' exception: '%s'" % (debug_pretext, local_tmp_file, str(ex)))
         if packed:
             files = os.listdir(tmp_sub_dir)
             init_filecount = len(files)
@@ -283,5 +282,5 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
         return False, language, subs_file #standard output
 
     except Exception as ex:
-        log( __name__ ,"%s %s" % (debug_pretext, ex.message))
+        log( __name__ ,"%s %s" % (debug_pretext, str(ex)))
         
