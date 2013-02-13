@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Service euTorrents.ph version 0.0.3
+# Service euTorrents.me version 0.0.2
 # Code based on Undertext service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Help by VaRaTRoN
@@ -8,21 +8,16 @@
 # http://www.teknorage.com
 # License: GPL v2
 #
-# NEW on Service euTorrents.ph v0.0.3:
-# Service working again, changed .me to .ph
-# Fixed download bug when XBMC is set to Portuguese language and probably any other lang!
-# Code re-arrange... no more annoying messages!
-#
-# NEW on Service euTorrents.ph v0.0.2:
+# NEW on Service euTorrents.me v0.0.2:
 # Added all site languages.
 # Messages now in xbmc choosen language.
 # Code re-arrange...
 #
-# Initial release of Service euTorrents.ph v0.0.1:
+# Initial release of Service euTorrents.me v0.0.1:
 # First version of the service. Requests are welcome.
 # Works with every language available on the site.
 #
-# euTorrents.ph subtitles, based on a mod of Undertext subtitles
+# euTorrents.me subtitles, based on a mod of Undertext subtitles
 
 import os, sys, re, xbmc, xbmcgui, string, time, urllib, urllib2, cookielib, shutil, fnmatch, uuid
 from utilities import languageTranslate, log
@@ -31,10 +26,8 @@ __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __addon__ = sys.modules[ "__main__" ].__addon__
 __cwd__        = sys.modules[ "__main__" ].__cwd__
 __language__   = __addon__.getLocalizedString
-reload(sys)
-sys.setdefaultencoding("utf-8")
 
-main_url = "http://eutorrents.ph/"
+main_url = "http://bt.eutorrents.me/"
 debug_pretext = "euTorrents"
 subext = ['srt', 'aas', 'ssa', 'sub', 'smi']
 packext = ['rar', 'zip']
@@ -81,14 +74,13 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 	password = __addon__.getSetting( "euTpass" )
 	login_data = urllib.urlencode({'uid' : username, 'pwd' : password})
 	#This is where you are logged in
-	resp = opener.open('http://eutorrents.ph/index.php?page=login', login_data)
+	resp = opener.open('http://bt.eutorrents.me/index.php?page=login', login_data)
 	#log( __name__ ,"%s Getting '%s'  ..." % (debug_pretext, resp))
 
 	url = main_url + "subtitles.php?action=search&language=" + languageshort + "&pages=" + str(page) + "&search=" + urllib.quote_plus(searchstring)
 	content = opener.open(url)
 	content = content.read()
 	content = content.decode('latin1')
-	#log( __name__ ,"%s CONTENT: '%s'" % (debug_pretext, content))
 	
 
 	#log( __name__ ,"%s Getting '%s' subs ..." % (debug_pretext, languageshort))
@@ -156,17 +148,16 @@ def getallsubs(searchstring, languageshort, languagelong, file_original_path, su
 		content = content.decode('latin1')
 	
 		
-### ANNOYING ###
-#	if subtitles_list == []:
-#		msgnote(debug_pretext,"No sub in "  + languagelong + "!", 2000)
-#		msgnote(debug_pretext,"Try manual or parent dir!", 2000)
-#	elif subtitles_list != []:
-#		lst = str(subtitles_list)
-#		if languagelong in lst:
-#			msgnote(debug_pretext,"Found sub(s) in "  + languagelong + ".", 2000)
-#		else:
-#			msgnote(debug_pretext,"No sub in "  + languagelong + "!", 2000)
-#			msgnote(debug_pretext,"Try manual or parent dir!", 2000)
+	if subtitles_list == []:
+		msgnote(debug_pretext,"No sub in "  + languagelong + "!", 2000)
+		msgnote(debug_pretext,"Try manual or parent dir!", 2000)
+	elif subtitles_list != []:
+		lst = str(subtitles_list)
+		if languagelong in lst:
+			msgnote(debug_pretext,"Found sub(s) in "  + languagelong + ".", 2000)
+		else:
+			msgnote(debug_pretext,"No sub in "  + languagelong + "!", 2000)
+			msgnote(debug_pretext,"Try manual or parent dir!", 2000)
 		
 #	Bubble sort, to put syncs on top
 	for n in range(0,len(subtitles_list)):
@@ -270,10 +261,10 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 	password = __addon__.getSetting( "euTpass" )
 	login_data = urllib.urlencode({'uid' : username, 'pwd' : password})
 	#This is where you are logged in
-	resp = opener.open('http://eutorrents.ph/index.php?page=login', login_data)
+	resp = opener.open('http://bt.eutorrents.me/index.php?page=login', login_data)
 	language = subtitles_list[pos][ "language_name" ]
 	#Now you download the subtitles
-	content = opener.open('http://eutorrents.ph/download-subtitle.php?subid=' + id)
+	content = opener.open('http://bt.eutorrents.me/download-subtitle.php?subid=' + id)
 
 	if content is not None:
 		header = content.info()['Content-Disposition'].split('filename')[1].split('.')[-1].strip("\"")
