@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Service LegendasDivx.com version 0.2.8
+# Service LegendasDivx.com version 0.2.7
 # Code based on Undertext service and the download function encode fix from legendastv service
 # Coded by HiGhLaNdR@OLDSCHOOL
 # Help by VaRaTRoN
@@ -8,14 +8,11 @@
 # http://www.teknorage.com
 # License: GPL v2
 #
-# NEW on Service LegendasDivx.com v0.2.8:
-# Fixed download bug when XBMC is set to Portuguese language and probably others.
-# Some code cleanup
-#
 # NEW on Service LegendasDivx.com v0.2.7:
 # Fixed bug on openelec based XBMC prevent the script to work
 # Removed some XBMC messages from the script who were annoying!
 # Some code cleanup
+#
 #
 # NEW on Service LegendasDivx.com v0.2.6:
 # Added English and Spanish. Now searches all site languages.
@@ -74,8 +71,10 @@ from utilities import languageTranslate, log
 _ = sys.modules[ "__main__" ].__language__
 __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __addon__ = sys.modules[ "__main__" ].__addon__
-__cwd__        = sys.modules[ "__main__" ].__cwd__.decode('utf-8')
+__cwd__        = sys.modules[ "__main__" ].__cwd__
 __language__   = __addon__.getLocalizedString
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 main_url = "http://www.legendasdivx.com/"
 debug_pretext = "LegendasDivx"
@@ -131,7 +130,7 @@ subtitle_pattern = "<div\sclass=\"sub_box\">[\r\n\t]{2}<div\sclass=\"sub_header\
 #====================================================================================================================
 def msgnote(site, text, timeout):
 	icon =  os.path.join(__cwd__,"icon.png")
-	xbmc.executebuiltin((u"Notification(%s,%s,%i,%s)" % (site, text, timeout, icon)).encode("utf-8"))
+	xbmc.executebuiltin("XBMC.Notification(%s,%s,%s,%s)" % (site,text,timeout,icon))
 
 
 def getallsubs(searchstring, languageshort, languagelong, file_original_path, subtitles_list, searchstring_notclean):
