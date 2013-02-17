@@ -188,7 +188,7 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
  
     # Check if searching for tv show or movie and build the search string
     if tvshow:
-        searchString = re.split(r'\s\(\d+\)',tvshow)[0].replace(" ","+")
+        searchString = re.split(r'\s\(\d+\)$',tvshow)[0].replace(" ","+")
     else:
         searchString = title.replace(" ","+")
     	
