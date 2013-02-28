@@ -249,7 +249,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
                 myfile.seek(0)
                 if (myfile.read(1) == 'P'):
                     typeid = "zip"
-                    packed = False
+                    packed = True
                     log( __name__ , "Discovered ZIP Archive")
                 else:
                     typeid = "srt"
@@ -259,9 +259,9 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
             myfile.close()
             local_tmp_file = os.path.join(tmp_sub_dir, "subscene." + typeid)
             os.rename(os.path.join(tmp_sub_dir, "subscene.xxx"), local_tmp_file)
-            log( __name__ , "Saving to %s", local_tmp_file)
+            log( __name__ , "%s Saving to %s" % (debug_pretext,local_tmp_file))
         except:
-            log( __name__ ,"%s I don't know why this exception happens!" % (debug_pretext))
+            log( __name__ ,"%s Failed to save subtitle to %s" % (debug_pretext, local_tmp_file))
         if packed:
             files = os.listdir(tmp_sub_dir)
             init_filecount = len(files)
