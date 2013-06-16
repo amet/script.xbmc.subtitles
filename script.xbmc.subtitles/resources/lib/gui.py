@@ -45,6 +45,7 @@ class GUI( xbmcgui.WindowXMLDialog ):
     self.rar             = False
     self.stack           = False
     self.autoDownload    = False
+    self.focused         = False
     use_subs_folder      = __addon__.getSetting( "use_subs_folder" ) == "true"           # use 'Subs' subfolder for storing subtitles
     movieFullPath        = urllib.unquote(xbmc.Player().getPlayingFile().decode('utf-8'))# Full path of a playing file
     useMovieFolderForSubs= __addon__.getSetting( "subfolder" ) == "true"                 # True for movie folder
@@ -501,11 +502,15 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
   def onFocus( self, controlId ):
     if controlId == 150:
-      try:
-        select_index = self.service_list.index(self.service)
-      except IndexError:
-        select_index = 0
-      self.getControl( SERVICES_LIST ).selectItem(select_index)
+      if not self.focused:
+        try:
+          select_index = self.service_list.index(self.service)
+        except IndexError:
+          select_index = 0
+        self.getControl( SERVICES_LIST ).selectItem(select_index)
+        self.focused = True
+    else:
+      self.focused = False
 
   def onAction( self, action ):
     if ( action.getId() in CANCEL_DIALOG):
