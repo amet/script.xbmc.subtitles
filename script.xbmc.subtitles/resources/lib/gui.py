@@ -149,7 +149,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
 
       self.service_list = service_list
       self.next = list(service_list)
-      self.controlId = -1
 
       log( __name__ ,"Addon Version: [%s]"         % __version__)
       log( __name__ ,"Manual Search : [%s]"        % self.mansearch)
@@ -507,7 +506,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
       except IndexError:
         select_index = 0
       self.getControl( SERVICES_LIST ).selectItem(select_index)
-    self.controlId = controlId
 
   def onAction( self, action ):
     if ( action.getId() in CANCEL_DIALOG):
