@@ -508,11 +508,6 @@ class GUI( xbmcgui.WindowXMLDialog ):
         select_index = 0
       self.getControl( SERVICES_LIST ).selectItem(select_index)
     self.controlId = controlId
-    try:
-      if controlId == 8999:
-        self.setFocusId( 150 )
-    except:
-      pass
 
   def onAction( self, action ):
     if ( action.getId() in CANCEL_DIALOG):
