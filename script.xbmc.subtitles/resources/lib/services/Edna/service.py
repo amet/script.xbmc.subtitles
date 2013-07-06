@@ -114,13 +114,21 @@ class EdnaClient(object):
 		enc_title = urllib.urlencode({ "q" : title})
 		res = urllib.urlopen(self.server_url + "/vyhledavani/?" + enc_title)
 		shows = []
-		res_body = re.search("<ul class=\"list serieslist\">(.+?)</ul>",res.read(),re.IGNORECASE | re.DOTALL)
-		if res_body:
-			for row in re.findall("<li>(.+?)</li>", res_body.group(1), re.IGNORECASE | re.DOTALL):
-				show = {}
-				show_reg_exp = re.compile("<h3><a href=\"(.+?)\">(.+?)</a></h3>",re.IGNORECASE | re.DOTALL)
-				show['url'], show['title'] = re.search(show_reg_exp, row).groups()
-				shows.append(show)
+		if re.search("/vyhledavani/\?q=",res.geturl()):
+			log(__name__,"Parsing search result")
+			res_body = re.search("<ul class=\"list serieslist\">(.+?)</ul>",res.read(),re.IGNORECASE | re.DOTALL)
+			if res_body:
+				for row in re.findall("<li>(.+?)</li>", res_body.group(1), re.IGNORECASE | re.DOTALL):
+					show = {}
+					show_reg_exp = re.compile("<h3><a href=\"(.+?)\">(.+?)</a></h3>",re.IGNORECASE | re.DOTALL)
+					show['url'], show['title'] = re.search(show_reg_exp, row).groups()
+					shows.append(show)
+		else:
+			log(__name__,"Parsing redirect to show URL")
+			show = {}
+			show['url'] = re.search(self.server_url + "(.+)",res.geturl()).group(1)
+			show['title'] = title
+			shows.append(show)
 		return shows
 
 	def list_show_subtitles(self, show_url, show_series):
