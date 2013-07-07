@@ -34,7 +34,7 @@ def apicall(command, paramslist):
         if hasattr(e, 'reason'):
             log( __name__ ," failed to reach Bierdopje site, reason: '%s'." % e.reason )
             okdialog = xbmcgui.Dialog()
-            ok = okdialog.ok("Error", "Failed to reach Bierdopje." % e.reason)
+            ok = okdialog.ok("Error", "Failed to reach Bierdopje: '%s'." % e.reason)
         elif hasattr(e, 'code'):
             if e.code == 429: # HTTP Error 429 means: "Too Many Requests"
                 log( __name__ ," Bierdopje is overloaded (HTTP error 429: Too many requests). Reply from bierdopje:\n%s" % e.read() )
