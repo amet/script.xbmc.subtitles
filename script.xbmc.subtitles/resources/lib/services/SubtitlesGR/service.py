@@ -81,6 +81,7 @@ def unpack_subtitles(local_tmp_file, zip_subs, tmp_sub_dir, sub_folder):
             if (string.split(file, '.')[-1] in ['srt', 'sub', 'txt']) and (os.stat(os.path.join(tmp_sub_dir, file)).st_mtime > init_max_mtime): # unpacked file is a newly created subtitle file
                 log( __name__ ," Unpacked subtitles file '%s'" % (file))
                 subs_file = os.path.join(tmp_sub_dir, file)
+                return subs_file
 
 def search_subtitles(file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack): #standard input
     subtitles_list = []
@@ -161,17 +162,17 @@ def download_subtitles(subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, s
             local_tmp_file = os.path.join(tmp_sub_dir, file)
             if (file.endswith('.rar') or file.endswith('.zip')):
                 shutil.copy(local_tmp_extract_file, tmp_sub_dir)
-                unpack_subtitles(local_tmp_file, zip_subs, tmp_sub_dir, sub_folder)
-                return True,language, "" #standard output
+                subs_file = unpack_subtitles(local_tmp_file, zip_subs, tmp_sub_dir, sub_folder)
+                return False,language, subs_file #standard output
             elif (file.endswith('.srt') or file.endswith('.sub')):
                 shutil.copy(local_tmp_extract_file, tmp_sub_dir)
                 subs_file = local_tmp_file
-                return True,language, "" #standard output
+                return False,language, subs_file #standard output
     except:
         log( __name__ ,"%s Failed to save subtitles to '%s'" % (debug_pretext, local_tmp_file))
         pass
 
-    return True,language, "" #standard output
+    return False,language, "" #standard output
 
 def get_subtitles_list(searchstring, languageshort, languagelong, subtitles_list):
     url = '%s/search.php?name=%s&sort=downloads+desc' % (main_url, urllib.quote_plus(searchstring))
