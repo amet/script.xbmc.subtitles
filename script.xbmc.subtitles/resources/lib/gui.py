@@ -239,12 +239,11 @@ class GUI( xbmcgui.WindowXMLDialog ):
       subscounter = 0
       itemCount = 0
       list_subs = []
+      mainLangISO = languageTranslate(self.language_1, 0, 3)
       for item in self.subtitles_list:
-        if (self.autoDownload and 
-            item["sync"] and  
-            (item["language_name"] == languageTranslate(
-                languageTranslate(self.language_1,0,2),2,0)
-            )):
+        if (self.autoDownload and item["sync"] and
+            languageTranslate(item["language_name"], 0, 3) == mainLangISO
+        ):
           self.Download_Subtitles(itemCount, True, gui)
           __addon__.setSetting("auto_download_file",
                                os.path.basename( self.file_original_path ))
