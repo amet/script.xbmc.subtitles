@@ -101,7 +101,6 @@ class LegendasTV:
                 self.Log( u" Login Failed. Check your data at the addon configuration.")
                 return 0
             else: 
-                self.Log( u" Login Ok. Cookie: %s" % self.cookie)
                 return self.cookie
 
     def chomp(self, s):
