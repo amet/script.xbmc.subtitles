@@ -7,7 +7,7 @@
 from operator import itemgetter
 from threading import Thread
 from BeautifulSoup import *
-from utilities import log, languageTranslate
+from utilities import log, languageTranslate, getShowId
 import cookielib
 import math
 import os
@@ -37,31 +37,16 @@ __scriptname__ = sys.modules[ "__main__" ].__scriptname__
 __addon__ = sys.modules[ "__main__" ].__addon__
 
 def XBMC_OriginalTitle(OriginalTitle):
-    json_query = xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Player.GetItem", "params": { "playerid": 1} ,"id":1}' )
-    json_player_getitem = simplejson.loads(unicode(json_query, 'utf-8', errors='ignore'))
-#        self.Log("JSON_RPC: %s" % (json_player_getitem))
-    if json_player_getitem.has_key('result') and json_player_getitem['result'].has_key('item') and json_player_getitem['result']['item'].has_key('id') and json_player_getitem['result']['item'].has_key('type'):
-        if json_player_getitem['result']['item']['type'] == "movie":
-            json_query = xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"VideoLibrary.GetMovieDetails", "params": { "movieid": %s, "properties": ["originaltitle"]} ,"id":1}' % (json_player_getitem['result']['item']['id']) )
-            json_getmoviedetails = simplejson.loads(unicode(json_query, 'utf-8', errors='ignore'))
-#                self.Log("JSON_RPC: %s" % (json_getmoviedetails))
-            if json_getmoviedetails.has_key('result') and json_getmoviedetails['result'].has_key('moviedetails') and json_getmoviedetails['result']['moviedetails'].has_key('originaltitle'):
-                OriginalTitle = json_getmoviedetails['result']['moviedetails']['originaltitle']
-        elif json_player_getitem['result']['item']['type'] == "episode":
-            json_query = xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"VideoLibrary.GetEpisodeDetails", "params": { "episodeid": %s, "properties": ["originaltitle", "tvshowid"]} ,"id":1}' % (json_player_getitem['result']['item']['id']) )
-            json_getepisodedetails = simplejson.loads(unicode(json_query, 'utf-8', errors='ignore'))
-#                self.Log("JSON_RPC: %s" % (json_getepisodedetails))
-            if json_getepisodedetails.has_key('result') and json_getepisodedetails['result'].has_key('episodedetails') and json_getepisodedetails['result']['episodedetails'].has_key('tvshowid'):
-                json_query = xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"VideoLibrary.GetTVShowDetails", "params": { "tvshowid": %s, "properties": ["originaltitle", "imdbnumber"]} ,"id":1}' % (json_getepisodedetails['result']['episodedetails']['tvshowid']) )
-                json_gettvshowdetails = simplejson.loads(unicode(json_query, 'utf-8', errors='ignore'))
-#                    self.Log("JSON_RPC: %s" % (json_gettvshowdetails))
-                if json_gettvshowdetails.has_key('result') and json_gettvshowdetails['result'].has_key('tvshowdetails') and json_gettvshowdetails['result']['tvshowdetails'].has_key('imdbnumber'):
-                    thetvdb = json_gettvshowdetails['result']['tvshowdetails']['imdbnumber']
-                    HTTPResponse = urllib2.urlopen("http://www.thetvdb.com//data/series/"+str(thetvdb)+"/").read()
-                    if re.findall("<SeriesName>(.*?)</SeriesName>", HTTPResponse, re.IGNORECASE | re.DOTALL):
-                        OriginalTitle = re.findall("<SeriesName>(.*?)</SeriesName>", HTTPResponse, re.IGNORECASE | re.DOTALL)[0]
-    OriginalTitle = OriginalTitle.encode('ascii', 'replace')
-    return OriginalTitle
+    MovieName =  xbmc.getInfoLabel("VideoPlayer.OriginalTitle")
+    if MovieName:
+        OriginalTitle = MovieName
+    else:
+        ShowID = getShowId()
+        if ShowID:
+            HTTPResponse = urllib2.urlopen("http://www.thetvdb.com//data/series/%s/" % str(ShowID)).read()
+            if re.findall("<SeriesName>(.*?)</SeriesName>", HTTPResponse, re.IGNORECASE | re.DOTALL):
+                OriginalTitle = re.findall("<SeriesName>(.*?)</SeriesName>", HTTPResponse, re.IGNORECASE | re.DOTALL)[0]
+    return OriginalTitle.encode('ascii', 'replace')
 
 class LTVThread(Thread):
     def __init__ (self, obj, count, main_id, page):
@@ -149,7 +134,6 @@ class LegendasTV:
                 Ratio = "%.2f" % float(0)
         return Ratio
                 
-
     def _log_List_dict(self, obj, keys="", maxsize=100):
         Content = ""
         if not len(obj):
@@ -188,10 +172,10 @@ class LegendasTV:
         self.Log("Message: Searching for movie/tvshow list with term(s): [%s]" % SearchString)
         for R in Response:
             if R.has_key('Filme') and R['Filme'].has_key('dsc_nome'):
-                LTVTitle = R['Filme']['dsc_nome']
+                LTVTitle = self.CleanLTVTitle(R['Filme']['dsc_nome'])
                 TitleBR = R['Filme']['dsc_nome_br']
-                if re.findall(".*? - (\d{1,2}).*", TitleBR):
-                    LTVSeason = re.findall(".*? - (\d{1,2}).*", TitleBR)[0]
+                if re.findall(".*? - (\d{1,2}).*?emporada", TitleBR):
+                    LTVSeason = re.findall(".*? - (\d{1,2}).*?emporada", TitleBR)[0]
                 ContentID = R['Filme']['id_filme']
                 # Calculate the probability ratio and append the result
                 Ratio = self.CalculateRatio(LTVTitle, SearchTitle)
@@ -205,7 +189,7 @@ class LegendasTV:
             allResults = sorted(allResults, key=lambda k: k["ratio"], reverse=True)
             for Result in allResults:
                 if TVShow:
-                    if int(Season) == int(Result["season"]):
+                    if int(Season) == int(Result["season"]) or (not Result["season"] and Result["ratio"] == "1.00"):
                         if len(filteredResults):
                             if Result["ratio"] == filteredResults[0]["ratio"]:
                                 filteredResults.append(Result)
@@ -303,16 +287,18 @@ class LegendasTV:
         if Movie: SearchTitle = Movie
         else: SearchTitle = TVShow
         discardedResults, filteredResults = "", ""
-        # Searching for movie titles/tvshow ids using the lengthiest words
-        if len(SearchTitle.split(" ")):
-            for SearchString in sorted(SearchTitle.split(" "), key=len, reverse=True):
-                if SearchString in [ 'The', 'O', 'A', 'Os', 'As', 'El', 'La', 'Los', 'Las', 'Les', 'Le' ] or len(SearchString) < 2:
-                    continue
-                discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, SearchTitle, SearchString)
-                if filteredResults: 
-                    break
-        else:
-            discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, SearchTitle, SearchTitle)
+        discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, SearchTitle, SearchTitle)
+        if not filteredResults:
+            # Searching for movie titles/tvshow ids using the lengthiest words
+            if len(SearchTitle.split(" ")):
+                for SearchString in sorted(SearchTitle.split(" "), key=len, reverse=True):
+                    if SearchString in [ 'The', 'O', 'A', 'Os', 'As', 'El', 'La', 'Los', 'Las', 'Les', 'Le' ] or len(SearchString) < 2:
+                        continue
+                    discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, SearchTitle, SearchString)
+                    if filteredResults: 
+                        break
+            else:
+                discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, SearchTitle, SearchTitle)
         if not filteredResults and len(discardedResults):
             filteredResults = []
             for Result in discardedResults[0:4]:
