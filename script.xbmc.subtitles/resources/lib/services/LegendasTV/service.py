@@ -243,11 +243,11 @@ class LegendasTV:
                 release = self._UNICODE(content[1])
                 rating =  content[2]
                 lang = self._UNICODE(content[3])
-                if lang == u"Português-BR": LanguageId = "pb" 
-                elif lang == u"Português-PT": LanguageId = "pt" 
-                elif lang == u"Inglês": LanguageId = "en" 
-                elif lang == u"Espanhol": LanguageId = "es"
-                elif lang == u"Francês": LanguageId = "fr"
+                if re.search("Portugu.s-BR", lang):   LanguageId = "pb" 
+                elif re.search("Portugu.s-PT", lang): LanguageId = "pt"
+                elif re.search("Ingl.s", lang):       LanguageId = "en" 
+                elif re.search("Espanhol", lang):     LanguageId = "es"
+                elif re.search("Franc.s", lang):      LanguageId = "fr"
                 else: continue
                 for Preference, LangName in self.Languages:
                     if LangName == languageTranslate(LanguageId, 2, 0):
