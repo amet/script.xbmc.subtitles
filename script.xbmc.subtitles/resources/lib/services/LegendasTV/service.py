@@ -69,6 +69,12 @@ class LegendasTV:
     def Log(self, message):
 #        print "####  %s" % message.encode("utf-8")
         log(__name__, message)
+        
+    def _urlopen(self, request):
+        try:
+            return urllib2.urlopen(request).read()
+        except urllib2.HTTPError:
+            return ""
 
     def login(self, username, password):
         if self.cookie:
@@ -107,7 +113,7 @@ class LegendasTV:
     
     def _UNICODE(self,text):
         if text:
-            return unicode(BeautifulSoup(text, smartQuotesTo=None))
+            return unicode(BeautifulSoup(text, fromEncoding="utf-8",  smartQuotesTo=None))
         else:
             return text
         
@@ -165,12 +171,13 @@ class LegendasTV:
 
     def findID(self, Movie, TVShow, Year, Season, SearchTitle, SearchString):
         allResults, discardedResults, filteredResults, LTVSeason, LTVYear = [], [], [], 0, 0
-        Response = urllib2.urlopen("http://minister.legendas.tv/util/busca_titulo/" + urllib.quote_plus(SearchString)).read()
+        Response = self._urlopen("http://minister.legendas.tv/util/busca_titulo/" + urllib.quote_plus(SearchString))
         Response =  simplejson.loads(unicode(Response, 'utf-8', errors='ignore'))
         # Load the results
         # Parse and filter the results
         self.Log("Message: Searching for movie/tvshow list with term(s): [%s]" % SearchString)
         for R in Response:
+            LTVSeason = 0
             if R.has_key('Filme') and R['Filme'].has_key('dsc_nome'):
                 LTVTitle = self.CleanLTVTitle(R['Filme']['dsc_nome'])
                 TitleBR = R['Filme']['dsc_nome_br']
@@ -224,7 +231,7 @@ class LegendasTV:
         # Log the page download attempt.
         self.Log("Message: Retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
         
-        Response = urllib2.urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % (Page, MainID["id"])).read()
+        Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % (Page, MainID["id"]))
 
         if not re.findall(regex_1, Response, re.IGNORECASE | re.DOTALL):
             self.Log("Error: Failed retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
@@ -236,11 +243,11 @@ class LegendasTV:
                 release = self._UNICODE(content[1])
                 rating =  content[2]
                 lang = self._UNICODE(content[3])
-                if lang == u"Portugu√™s-BR": LanguageId = "pb" 
-                elif lang == u"Portugu√™s-PT": LanguageId = "pt" 
-                elif lang == u"Ingl√™s": LanguageId = "en" 
+                if lang == u"Português-BR": LanguageId = "pb" 
+                elif lang == u"Português-PT": LanguageId = "pt" 
+                elif lang == u"Inglês": LanguageId = "en" 
                 elif lang == u"Espanhol": LanguageId = "es"
-                elif lang == u"Franc√™s": LanguageId = "fr"
+                elif lang == u"Francês": LanguageId = "fr"
                 else: continue
                 for Preference, LangName in self.Languages:
                     if LangName == languageTranslate(LanguageId, 2, 0):
@@ -312,9 +319,10 @@ class LegendasTV:
         for MainID in filteredResults[0:4]:
             # Find how much pages are to download
             self.Log("Message: Retrieving results to id[%s]" % (MainID["id"]))
-            Response = urllib2.urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % ("1", MainID["id"])).read()
+            Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % ("1", MainID["id"]))
             regResponse = re.findall(regex_2, Response)
             TotalPages = len(regResponse) +1
+            print TotalPages
             # Form and execute threaded downloads
             for Page in range(TotalPages):
                 Page += 1
