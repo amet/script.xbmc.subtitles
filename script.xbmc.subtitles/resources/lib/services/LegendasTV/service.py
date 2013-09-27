@@ -2,7 +2,7 @@
 # Copyright, 2010, Guilherme Jardim.
 # This program is distributed under the terms of the GNU General Public License, version 3.
 # http://www.gnu.org/licenses/gpl.txt
-# Rev. 2.1.0
+# Rev. 2.1.1
 
 from operator import itemgetter
 from threading import Thread
@@ -322,7 +322,6 @@ class LegendasTV:
             Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % ("1", MainID["id"]))
             regResponse = re.findall(regex_2, Response)
             TotalPages = len(regResponse) +1
-            print TotalPages
             # Form and execute threaded downloads
             for Page in range(TotalPages):
                 Page += 1
