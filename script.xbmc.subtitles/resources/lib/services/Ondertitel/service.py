@@ -38,7 +38,7 @@ subtitle_pattern = "<a href=\"(/ondertitels/info/.+?)\".+?<i class=\"i_font\">(.
 """
 <a href="/getdownload.php?id=45071&userfile=94 Avatar (2009) PROPER TS XviD-MAXSPEED.zip"><b>Download</b></a>
 """
-downloadlink_pattern = "<a href=\"/(getdownload\.php\?id=\d{1,10}&userfile=[^\n\r\t]*\.\w{3})\"><b>Download</b></a>"
+downloadlink_pattern = "a href=\"(http://[a-zA-Z0-9\-\.]+/getdownload.php\?id=\d{1,10}&userfile=.*?\.\w{3})\""
 # group(1) = downloadlink
 
 #====================================================================================================================
@@ -139,7 +139,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 	downloadlink = getdownloadlink(content)
 	if downloadlink is not None:
 		try:
-			url = main_url + downloadlink
+			url = downloadlink
 			url = string.replace(url," ","+")
 			log( __name__ ,"%s Fetching subtitles using url %s - and cookie: %s" % (debug_pretext, url, cookie.cookies))
 			content = geturl(url, FETCH_SUBTITLE, cookie.cookies)
