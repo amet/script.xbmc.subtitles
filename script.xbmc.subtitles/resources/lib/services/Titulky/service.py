@@ -64,6 +64,7 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 			control_img2 = client.get_control_image(content)
 			if not control_img2 == None:
 				log(__name__,'Invalid control text')
+				xbmc.executebuiltin("XBMC.Notification(%s,%s,1000,%s)" % (__scriptname__,"Invalid control text",os.path.join(__cwd__,'icon.png')))
 				return True,subtitles_list[pos]['language_name'], ""
 		else:
 			log(__name__,'Dialog was canceled')
@@ -80,10 +81,9 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
 	link = client.get_link(content)
 	log(__name__,'Got the link, wait %i seconds before download' % (wait_time))
 	delay = wait_time
-	icon =  os.path.join(__cwd__,'icon.png')
 	for i in range(wait_time+1):
 		line2 = 'Download will start in %i seconds' % (delay,)
-		xbmc.executebuiltin("XBMC.Notification(%s,%s,1000,%s)" % (__scriptname__,line2,icon))
+		xbmc.executebuiltin("XBMC.Notification(%s,%s,1000,%s)" % (__scriptname__,line2,os.path.join(__cwd__,'icon.png')))
 		delay -= 1
 		time.sleep(1)
 
