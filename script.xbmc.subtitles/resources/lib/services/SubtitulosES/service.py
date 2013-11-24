@@ -27,11 +27,11 @@ def getallsubs(languageshort, langlong, file_original_path, subtitles_list, tvsh
     if re.search(r'\([^)]*\)', tvshow):
         for level in range(4):
             searchstring, tvshow, season, episode = getsearchstring(tvshow, season, episode, level)
-            url = main_url + searchstring
+            url = main_url + searchstring.lower()
             getallsubsforurl(url, languageshort, langlong, file_original_path, subtitles_list, tvshow, season, episode)
     else:
         searchstring, tvshow, season, episode = getsearchstring(tvshow, season, episode, 0)
-        url = main_url + searchstring
+        url = main_url + searchstring.lower()
         getallsubsforurl(url, languageshort, langlong, file_original_path, subtitles_list, tvshow, season, episode)
 
 def getallsubsforurl(url, languageshort, langlong, file_original_path, subtitles_list, tvshow, season, episode):
@@ -89,7 +89,7 @@ def getallsubsforurl(url, languageshort, langlong, file_original_path, subtitles
                         id = id[44:62]
                         id = re.sub(r'"', '', id)
 
-                        if estado == "green'>Completado" and languagelong == langlong:
+                        if estado.strip() == "green'>Completado".strip() and languagelong == langlong:
                                 subtitles_list.append({'rating': "0", 'no_files': 1, 'filename': filename, 'server': server, 'sync': False, 'id' : id, 'language_flag': 'flags/' + languageshort + '.gif', 'language_name': languagelong})
 
                         filename = backup
