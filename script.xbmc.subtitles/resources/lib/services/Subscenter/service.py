@@ -16,16 +16,16 @@
 #       Added sync icon added to files with rating>8
 #       Added sorted subtitlelist by rating
 # 2.0.1 - Bug fix
-# 2.5 - support for Subscenter new website + workaround (10x to CaTz)
+
 #
 # Created by: Ori Varon
 # Changed by: MeatHook (1.5)
-# Changed by: Maor Tal 21/01/2014 (1.5.5, 2.0, 2.5)
+# Changed by: Maor Tal 17/03/2013 (1.5.5, 2.0)
 #===============================================================================
 import os, re, xbmc, xbmcgui, string, time, urllib2
 from utilities import languageTranslate, log
 
-BASE_URL = "http://subscenter.cinemast.com"
+BASE_URL = "http://www.subscenter.org"
 USER_AGENT = "Mozilla%2F4.0%20(compatible%3B%20MSIE%207.0%3B%20Windows%20NT%206.0)"
 debug_pretext = ""
 
@@ -251,14 +251,16 @@ def search_subtitles( file_original_path, title, tvshow, year, season, episode, 
     # Uniqify the list
     subtitleIDs=list(set(subtitleIDs))
     # If looking for tvshos try to append season and episode to url
-    if tvshow:
-        for i in range(len(subtitleIDs)):
-            subtitleIDs[i] = subtitleIDs[i].replace("/subtitle/","/cinemast/data/")
-            if (tvshow):
-                subtitleIDs[i]=subtitleIDs[i].replace("/series/","/series/sb/")
-            else:
-                subtitleIDs[i]=subtitleIDs[i].replace("/movies/","/movies/sb/")
-            subtitleIDs[i] += season+"/"+episode+"/" 
+
+    for i in range(len(subtitleIDs)):
+        subtitleIDs[i] = subtitleIDs[i].replace("/subtitle/","/cinemast/data/")
+        if (tvshow):
+            subtitleIDs[i]=subtitleIDs[i].replace("/series/","/series/sb/")
+            subtitleIDs[i] += season+"/"+episode+"/"
+        else:
+            subtitleIDs[i]=subtitleIDs[i].replace("/movie/","/movie/sb/")
+             
+
     for sid in subtitleIDs:
         tmp = getAllSubtitles(sid,languageList,os.path.basename(file_original_path))
         subtitlesList=subtitlesList + ((tmp) if tmp else [])
