@@ -16,11 +16,11 @@
 #       Added sync icon added to files with rating>8
 #       Added sorted subtitlelist by rating
 # 2.0.1 - Bug fix
-
+# 2.5 - support for Subscenter new website + workaround (10x to CaTz)
 #
 # Created by: Ori Varon
 # Changed by: MeatHook (1.5)
-# Changed by: Maor Tal 17/03/2013 (1.5.5, 2.0)
+# Changed by: Maor Tal 21/01/2014 (1.5.5, 2.0, 2.5)
 #===============================================================================
 import os, re, xbmc, xbmcgui, string, time, urllib2
 from utilities import languageTranslate, log
