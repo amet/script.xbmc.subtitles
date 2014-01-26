@@ -7,7 +7,7 @@
 # mrto
 
 import urllib2, re, string, xbmc, sys, os
-from utilities import log, languageTranslate
+from utilities import log, languageTranslate, hashFile
 from BeautifulSoup import BeautifulSoup
 from cookielib import CookieJar
 from urllib import urlencode
@@ -33,12 +33,13 @@ def getallsubs(content, title, subtitles_list, file_original_path, stack, lang1,
     subs = soup("tr")
     sub_str = str(subs[1:])
     first_row = True
+    languages_map = {'Polski': 'pl', 'Angielski': 'en', 'Niemiecki': 'de'}
     for row in subs[1:]:
         sub_number_re = 'a href=\"/download/(\d+)/\"><strong>'
         title_re = '<a href="/download/\d+?/"><strong>(.+?)</strong></a>'
         release_re = '<td>(.+?)<br />|<td.+?>(.+?)<br />'
         rating_re = 'rednia ocena: (\d\,\d\d)<br />'
-        lang_re = '<img src="images/ico_flag_(..)_2.png" alt="'
+        lang_re = 'zyk:.+?alt="(.+?)"'
         disc_amount_re = '<td.+?style="text-align: center;">[\r\n\t ]+?(\d)[\r\n\t ]+?</td>'
         video_file_size_re = 'Rozmiar pliku: <strong>(\d+?)</strong>'
         video_file_size_re_multi = 'Rozmiar pliku:<br />- CD1: <strong>(\d+?)</strong>'
@@ -53,7 +54,7 @@ def getallsubs(content, title, subtitles_list, file_original_path, stack, lang1,
                 disc_amount = re.findall(disc_amount_re, row_str)
                 first_row = False
             else:
-                file_size, SubHash = xbmc.subHashAndFileSize(file_original_path)
+                file_size, SubHash = hashFile(file_original_path, False)
                 if disc_amount[0] > '1':
                     video_file_size = re.findall(video_file_size_re_multi, row_str)
                 else:
@@ -72,7 +73,12 @@ def getallsubs(content, title, subtitles_list, file_original_path, stack, lang1,
 
                 rating = re.findall(rating_re, row_str)
                 language = re.findall(lang_re, row_str)
-                
+
+                if language[0] in languages_map:
+                    language = [languages_map[language[0]]]
+                else:
+                    language = []
+
                 if len(language) > 0:
                     first_row = True
                     link = "%s%s/" % (down_url, sub_number[0])
