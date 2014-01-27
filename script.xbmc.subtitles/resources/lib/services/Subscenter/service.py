@@ -34,8 +34,8 @@ debug_pretext = ""
 #===============================================================================
 
 MULTI_RESULTS_PAGE_PATTERN = u"עמוד (?P<curr_page>\d*) \( סך הכל: (?P<total_pages>\d*) \)"
-MOVIES_SEARCH_RESULTS_PATTERN = "<div class=\"generalWindowRight\">.*?<a href=\"(?P<sid>/he/subtitle/movie/.*?)\">.*?<div class=\"generalWindowBottom\">"
-TV_SEARCH_RESULTS_PATTERN = "<div class=\"generalWindowRight\">.*?<a href=\"(?P<sid>/he/subtitle/series/.*?)\">.*?<div class=\"generalWindowBottom\">"
+MOVIES_SEARCH_RESULTS_PATTERN = '<div class="generalWindowRight">.*?<a href="[^"]+(/he/subtitle/movie/.*?)">.*?<div class="generalWindowBottom">'
+TV_SEARCH_RESULTS_PATTERN = '<div class="generalWindowRight">.*?<a href="[^"]+(/he/subtitle/series/.*?)">.*?<div class="generalWindowBottom">'
 releases_types   = ['2011','2009','2012','2010','2013','2014','web-dl', 'webrip', '480p', '720p', '1080p', 'h264', 'x264', 'xvid', 'ac3', 'aac', 'hdtv', 'dvdscr' ,'dvdrip', 'ac3', 'brrip', 'bluray', 'dd51', 'divx', 'proper', 'repack', 'pdtv', 'rerip', 'dts']
 
 #===============================================================================
