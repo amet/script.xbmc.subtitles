@@ -1,8 +1,7 @@
 # -*- coding: UTF-8 -*-
-
 #===============================================================================
 # Subtitle.co.il subtitles service.
-# Version: 3.0.3
+# Version: 3.0.4
 #
 # Change log:
 # 1.1 - Fixed bug with movie search: forgot to replace spaces with + signs.
@@ -20,6 +19,7 @@
 # 3.0.1 - Bug fix
 # 3.0.2 - Added free user & password.
 # 3.0.3 - Added email & password settings.
+# 3.0.4 - Get ajax urls instead of load the whole file (saves KB)
 #
 # Created by: Ori Varon
 # Changed by: MeatHook (2.3)
@@ -27,6 +27,7 @@
 # Changed By: Maor Tal (3.0) 17/03/2013
 # Changed By: thisisbbln (3.0.2) 12/08/2013
 # Changed By: thisisbbln (3.0.3) 12/08/2013
+# Changed By: CaTz (3.0.4) 29/01/2014
 #===============================================================================
 import sys, os, re, xbmc, xbmcgui, string, time, urllib, urllib2, cookielib
 
@@ -135,7 +136,7 @@ def getURL(url):
 def getAllSubtitles(fname,subtitlePageID,languageList):
     # Retrieve the subtitles page (html)
     subs= []
-    subtitlePage = getURL(BASE_URL + "view.php?id=" + subtitlePageID + "&m=subtitles#")
+    subtitlePage = getURL(BASE_URL + "getajax.php?moviedetailssubtitles=" + subtitlePageID[1:] )
     # Create a list of all subtitles found on page
     foundSubtitles = re.findall(COMBINED, subtitlePage)
     for (fid,language,title,fid2,language2,title2) in foundSubtitles:
@@ -167,11 +168,11 @@ def getAllTVSubtitles(fname,subtitlePageID,languageList,season,episode):
     for (season_link,season_num) in foundSeasons:
         if (season_num == season):
             # Retrieve the requested episode
-            subtitlePage = getURL(BASE_URL + "viewseries.php?id=" + subtitlePageID + "&m=subtitles&s="+str(season_link))
+            subtitlePage = getURL(BASE_URL + "getajax.php?seasonid="+str(season_link))
             foundEpisodes = re.findall(TV_EPISODE_PATTERN, subtitlePage)
             for (episode_link,episode_num) in foundEpisodes:
                 if (episode_num == episode):
-                    subtitlePage = getURL(BASE_URL + "viewseries.php?id=" + subtitlePageID + "&m=subtitles&s="+str(season_link)+"&e="+str(episode_link))
+                    subtitlePage = getURL(BASE_URL + "getajax.php?episodedetails="+str(episode_link))
                     # Create a list of all subtitles found on page
                     foundSubtitles = re.findall(COMBINED, subtitlePage)
                     for (fid,language,title,fid2,language2,title2) in foundSubtitles:
