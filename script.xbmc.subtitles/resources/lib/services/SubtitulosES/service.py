@@ -3,9 +3,11 @@
 # based on argenteam.net subtitles, based on a mod of Subdivx.com subtitles, based on a mod of Undertext subtitles
 # developed by quillo86 and infinito for Subtitulos.es and XBMC.org
 # little fixes and updates by tux_os
+
 import os, sys, re, xbmc, xbmcgui, string, time, urllib, urllib2
-from utilities import log
-_ = sys.modules[ "__main__" ].__language__
+from utilities import log, languageTranslate
+
+_ = sys.modules["__main__"].__language__
 
 
 main_url = "http://www.subtitulos.es/"
@@ -14,7 +16,6 @@ debug_pretext = "subtitulos.es"
 #====================================================================================================================
 # Regular expression patterns
 #====================================================================================================================
-
 
 subtitle_pattern1 = "<div id=\"version\" class=\"ssdiv\">(.+?)Versi&oacute;n(.+?)<span class=\"right traduccion\">(.+?)</div>(.+?)</div>"
 subtitle_pattern2 = "<li class='li-idioma'>(.+?)<strong>(.+?)</strong>(.+?)<li class='li-estado (.+?)</li>(.+?)<span class='descargar (.+?)</span>"
@@ -49,7 +50,7 @@ def getallsubsforurl(url, languageshort, langlong, file_original_path, subtitles
                 subs = matches.group(4)
 
                 for matches in re.finditer(subtitle_pattern2, subs, re.IGNORECASE | re.DOTALL | re.MULTILINE | re.UNICODE):
-                        #log( __name__ ,"Descargas: %s" % (matches.group(2)))
+                        #log(__name__, "Descargas: %s" % (matches.group(2)))
 
                         idioma = matches.group(2)
                         idioma = re.sub(r'\xc3\xb1', 'n', idioma)
@@ -112,10 +113,10 @@ def geturl(url):
         urllib._urlopener.add_referrer("http://www.subtitulos.es/")
         try:
                 response = urllib._urlopener.open(url)
-                content    = response.read()
+                content = response.read()
         except:
-                #log( __name__ ,"%s Failed to get url:%s" % (debug_pretext, url))
-                content    = None
+                #log(__name__, "%s Failed to get url:%s" % (debug_pretext, url))
+                content = None
         return content
 
 def getsearchstring(tvshow, season, episode, level):
@@ -142,7 +143,7 @@ def getsearchstring(tvshow, season, episode, level):
     # Replace spaces with dashes
     searchstring = re.sub(r'\s', '-', searchstring)
 
-    #log( __name__ ,"%s Search string = %s" % (debug_pretext, searchstring))
+    #log(__name__, "%s Search string = %s" % (debug_pretext, searchstring))
     return searchstring, tvshow, season, episode
 
 def clean_subtitles_list(subtitles_list):
@@ -156,63 +157,43 @@ def clean_subtitles_list(subtitles_list):
             seen.add(filename)
     return subs
 
-def search_subtitles( file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack ): #standard input
+def unique(seq):
+    seen = set()
+    for item in seq:
+        if item not in seen:
+            seen.add(item)
+            yield item
+
+def search_subtitles(file_original_path, title, tvshow, year, season, episode, set_temp, rar, lang1, lang2, lang3, stack): #standard input
+    
+    service_languages = ['Spanish', 'English', 'Catalan']
+    config_languages = [lang1, lang2, lang3]
     subtitles_list = []
     msg = ""
+    
+    # Check if searching for tv show or movie
+    if tvshow:
+        if ((lang1 in service_languages) or (lang2 in service_languages) or (lang3 in service_languages)):
+            
+            config_languages[:] = unique(config_languages)
+            
+            for language in config_languages:
+                getallsubs(languageTranslate(language, 0, 2), language, file_original_path, subtitles_list, tvshow, season, episode)
+            
+            subtitles_list = clean_subtitles_list(subtitles_list)
+            
+        else:
+            msg = "Won't work, subtitulos.es is only for Spanish, English and Catalan subtitles!"
+    else:
+        msg = "Subtitulos.es is only for TV Shows subtitles!"
 
-    if len(tvshow) == 0:
-            msg = "Subtitulos.es is only for TV Shows subtitles!"
-
-    if lang1 == "Spanish":
-            languagelong = "Spanish"
-            languageshort = "es"
-            getallsubs("es", "Spanish", file_original_path, subtitles_list, tvshow, season, episode)
-    elif lang1 == "English":
-            languagelong = "English"
-            languageshort = "en"
-            getallsubs("en", "English", file_original_path, subtitles_list, tvshow, season, episode)
-    elif lang1 == "Catalan":
-            languagelong = "Catalan"
-            languageshort = "ca"
-            getallsubs("ca", "Catalan", file_original_path, subtitles_list, tvshow, season, episode)
-
-    if lang2 == "Spanish" and lang1 != "Spanish":
-            languagelong = "Spanish"
-            languageshort = "es"
-            getallsubs("es", "Spanish", file_original_path, subtitles_list, tvshow, season, episode)
-    elif lang2 == "English" and lang1 != "English":
-            languagelong = "English"
-            languageshort = "en"
-            getallsubs("en", "English", file_original_path, subtitles_list, tvshow, season, episode)
-    elif lang2 == "Catalan" and lang1 != "Catalan":
-            languagelong = "Catalan"
-            languageshort = "ca"
-            getallsubs("ca", "Catalan", file_original_path, subtitles_list, tvshow, season, episode)
-
-    if lang3 == "Spanish" and lang1 != "Spanish" and lang2 != "Spanish":
-            languagelong = "Spanish"
-            languageshort = "es"
-            getallsubs("es", "Spanish", file_original_path, subtitles_list, tvshow, season, episode)
-    elif lang3 == "English" and lang1 != "English" and lang2 != "English":
-            languagelong = "English"
-            languageshort = "en"
-            getallsubs("en", "English", file_original_path, subtitles_list, tvshow, season, episode)
-    elif lang3 == "Catalan" and lang1 != "Catalan" and lang2 != "Catalan":
-            languagelong = "Catalan"
-            languageshort = "ca"
-            getallsubs("ca", "Catalan", file_original_path, subtitles_list, tvshow, season, episode)
-
-    if ((lang1 != "Spanish") and (lang2 != "English") and (lang3 != "Catalan")):
-        msg = "Won't work, subtitulos.es is only for Spanish, English and Catalan subtitles!"
-
-    subtitles_list = clean_subtitles_list(subtitles_list)
     return subtitles_list, "", msg #standard output
 
 
-def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
-    id = subtitles_list[pos][ "id" ]
-    server = subtitles_list[pos][ "server" ]
-    language = subtitles_list[pos][ "language_name" ]
+def download_subtitles(subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, session_id): #standard input
+    id = subtitles_list[pos]["id"]
+    server = subtitles_list[pos]["server"]
+    language = subtitles_list[pos]["language_name"]
 
     url = "http://www.subtitulos.es/" + id
 
@@ -220,60 +201,60 @@ def download_subtitles (subtitles_list, pos, zip_subs, tmp_sub_dir, sub_folder, 
     if content is not None:
         header = content[:4]
         if header == 'Rar!':
-            #log( __name__ ,"%s argenteam: el contenido es RAR" % (debug_pretext)) #EGO
-            local_tmp_file = os.path.join(tmp_sub_dir, "argenteam.rar")
-            #log( __name__ ,"%s argenteam: local_tmp_file %s" % (debug_pretext, local_tmp_file)) #EGO
+            #log(__name__, "%s subtitulos.es: el contenido es RAR" % (debug_pretext)) #EGO
+            local_tmp_file = os.path.join(tmp_sub_dir, "subtituloses.rar")
+            #log(__name__, "%s subtitulos.es: local_tmp_file %s" % (debug_pretext, local_tmp_file)) #EGO
             packed = True
         elif header == 'PK':
-            local_tmp_file = os.path.join(tmp_sub_dir, "argenteam.zip")
+            local_tmp_file = os.path.join(tmp_sub_dir, "subtituloses.zip")
             packed = True
         else: # never found/downloaded an unpacked subtitles file, but just to be sure ...
-            local_tmp_file = os.path.join(tmp_sub_dir, "subdivx.srt") # assume unpacked sub file is an '.srt'
+            local_tmp_file = os.path.join(tmp_sub_dir, "subtituloses.srt") # assume unpacked sub file is an '.srt'
             subs_file = local_tmp_file
             packed = False
-        log( __name__ ,"%s Saving subtitles to '%s'" % (debug_pretext, local_tmp_file))
+        log(__name__, "%s Saving subtitles to '%s'" % (debug_pretext, local_tmp_file))
         try:
-            #log( __name__ ,"%s argenteam: escribo en %s" % (debug_pretext, local_tmp_file)) #EGO
+            #log(__name__, "%s subtitulos.es: escribo en %s" % (debug_pretext, local_tmp_file)) #EGO
             local_file_handle = open(local_tmp_file, "wb")
             local_file_handle.write(content)
             local_file_handle.close()
         except:
             pass
-            #log( __name__ ,"%s Failed to save subtitles to '%s'" % (debug_pretext, local_tmp_file))
+            #log(__name__, "%s Failed to save subtitles to '%s'" % (debug_pretext, local_tmp_file))
         if packed:
             files = os.listdir(tmp_sub_dir)
             init_filecount = len(files)
-            #log( __name__ ,"%s argenteam: nÃºmero de init_filecount %s" % (debug_pretext, init_filecount)) #EGO
+            #log(__name__, "%s subtitulos.es: número de init_filecount %s" % (debug_pretext, init_filecount)) #EGO
             filecount = init_filecount
             max_mtime = 0
             # determine the newest file from tmp_sub_dir
             for file in files:
-                if (string.split(file,'.')[-1] in ['srt','sub','txt']):
+                if (string.split(file, '.')[-1] in ['srt', 'sub', 'txt']):
                     mtime = os.stat(os.path.join(tmp_sub_dir, file)).st_mtime
                     if mtime > max_mtime:
-                        max_mtime =  mtime
+                        max_mtime = mtime
             init_max_mtime = max_mtime
             time.sleep(2)  # wait 2 seconds so that the unpacked files are at least 1 second newer
-            xbmc.executebuiltin("XBMC.Extract(" + local_tmp_file + "," + tmp_sub_dir +")")
-            waittime  = 0
+            xbmc.executebuiltin("XBMC.Extract(" + local_tmp_file + "," + tmp_sub_dir + ")")
+            waittime = 0
             while (filecount == init_filecount) and (waittime < 20) and (init_max_mtime == max_mtime): # nothing yet extracted
                 time.sleep(1)  # wait 1 second to let the builtin function 'XBMC.extract' unpack
                 files = os.listdir(tmp_sub_dir)
                 filecount = len(files)
                 # determine if there is a newer file created in tmp_sub_dir (marks that the extraction had completed)
                 for file in files:
-                    if (string.split(file,'.')[-1] in ['srt','sub','txt']):
+                    if (string.split(file, '.')[-1] in ['srt', 'sub', 'txt']):
                         mtime = os.stat(os.path.join(tmp_sub_dir, file)).st_mtime
                         if (mtime > max_mtime):
-                            max_mtime =  mtime
-                waittime  = waittime + 1
+                            max_mtime = mtime
+                waittime = waittime + 1
             if waittime == 20:
-                log( __name__ ,"%s Failed to unpack subtitles in '%s'" % (debug_pretext, tmp_sub_dir))
+                log(__name__, "%s Failed to unpack subtitles in '%s'" % (debug_pretext, tmp_sub_dir))
             else:
-                log( __name__ ,"%s Unpacked files in '%s'" % (debug_pretext, tmp_sub_dir))
+                log(__name__, "%s Unpacked files in '%s'" % (debug_pretext, tmp_sub_dir))
                 for file in files:
                     # there could be more subtitle files in tmp_sub_dir, so make sure we get the newly created subtitle file
                     if (string.split(file, '.')[-1] in ['srt', 'sub', 'txt']) and (os.stat(os.path.join(tmp_sub_dir, file)).st_mtime > init_max_mtime): # unpacked file is a newly created subtitle file
-                        log( __name__ ,"%s Unpacked subtitles file '%s'" % (debug_pretext, file))
+                        log(__name__, "%s Unpacked subtitles file '%s'" % (debug_pretext, file))
                         subs_file = os.path.join(tmp_sub_dir, file)
         return False, language, subs_file #standard output
