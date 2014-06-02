@@ -135,7 +135,7 @@ class TorecSubtitlesDownloader:
         
     def _requestSubtitle(self, subID, subURL):
         params = {"sub_id"  : subID, 
-                  "s"       : 1760}
+                  "s"       : 1280}
                   
         return self.urlHandler.request("%s/ajax/sub/guest_time.asp" % self.BASE_URL, params, 
                                         ajax=True, referer=subURL, cookie=self._buildDefaultCookie(subID)).data
